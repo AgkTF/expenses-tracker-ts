@@ -1,8 +1,13 @@
 import { MonthIcon } from 'components/UIElements';
+import useFetchOpeningBalance from 'hooks/useFetchOpeningBalance';
 
 type Props = {};
 
 const MonthSummaryPage = (props: Props) => {
+  const { isLoading, isError, data, error } = useFetchOpeningBalance(
+    new Date('11/11/2021')
+  );
+
   return (
     <>
       <div className="flex flex-col items-center justify-center">

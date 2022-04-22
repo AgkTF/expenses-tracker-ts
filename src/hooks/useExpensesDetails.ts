@@ -3,12 +3,13 @@ import parseISO from 'date-fns/parseISO';
 import startOfMonth from 'date-fns/startOfMonth';
 import { useQuery } from 'react-query';
 import { supabase } from 'supabaseClient';
+import { definitions } from 'types/supabase';
 
 const fetchExpensesDetails = async (date: Date) => {
   const isoDate = date.toISOString();
 
   const { data: expenses, error } = await supabase
-    .from('money_category')
+    .from<definitions['money_category']>('money_category')
     .select('id, name, planned_amount')
     .eq('type', '1')
     .gte('created_at', startOfMonth(parseISO(isoDate)).toISOString())
@@ -22,7 +23,15 @@ const fetchExpensesDetails = async (date: Date) => {
     throw new Error('No expenses details available for this month!');
   }
 
-  return expenses;
+  const totalExpenses = expenses
+    .map(category => category.planned_amount)
+    .reduce((prevValue, currValue) => {
+      if (prevValue && currValue) {
+        return prevValue + currValue;
+      }
+    }, 0);
+
+  return { totalExpenses, categories: expenses };
 };
 
 export default function useExpensesDetails(date = new Date()) {

@@ -1,13 +1,20 @@
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { useStore } from 'store/useStore';
+import { ProgressBar } from 'components/UIElements';
 
 type Props = {
   availableBalance: number;
   totalSpent: number;
   budget: number;
+  percentage: number;
 };
 
-const BalanceCard = ({ availableBalance, budget, totalSpent }: Props) => {
+const BalanceCard = ({
+  availableBalance,
+  budget,
+  totalSpent,
+  percentage,
+}: Props) => {
   const defaultCurrency = useStore(state => state.currency);
 
   return (
@@ -34,6 +41,10 @@ const BalanceCard = ({ availableBalance, budget, totalSpent }: Props) => {
             {moneyFormatter(budget, defaultCurrency)}
           </span>
         </p>
+      </div>
+
+      <div className="mt-1">
+        <ProgressBar percentage={percentage} height={8} />
       </div>
     </div>
   );

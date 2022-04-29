@@ -45,6 +45,9 @@ const MonthSummaryPage = (props: Props) => {
               availableBalance={openingBalance - monthTrans?.totalSpent}
               totalSpent={monthTrans?.totalSpent}
               budget={expensesData?.totalExpenses}
+              percentage={
+                (monthTrans?.totalSpent / expensesData?.totalExpenses) * 100
+              }
             />
           )}
         </div>

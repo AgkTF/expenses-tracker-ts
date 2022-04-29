@@ -1,4 +1,5 @@
 import MonthIcon from './MonthIcon/MonthIcon';
 import BalanceCard from './BalanceCard/BalanceCard';
+import ProgressBar from './ProgressBar/ProgressBar';
 
-export { MonthIcon, BalanceCard };
+export { MonthIcon, BalanceCard, ProgressBar };

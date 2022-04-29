@@ -1,3 +1,4 @@
 import MonthIcon from './MonthIcon/MonthIcon';
+import BalanceCard from './BalanceCard/BalanceCard';
 
-export { MonthIcon };
+export { MonthIcon, BalanceCard };

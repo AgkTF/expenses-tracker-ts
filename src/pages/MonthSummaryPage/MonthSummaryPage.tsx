@@ -1,4 +1,4 @@
-import { MonthIcon } from 'components/UIElements';
+import { BalanceCard, MonthIcon } from 'components/UIElements';
 import useFetchOpeningBalance from 'hooks/useFetchOpeningBalance';
 import useExpensesDetails from 'hooks/useExpensesDetails';
 import useMonthTrans from 'hooks/useMonthTrans';
@@ -37,6 +37,16 @@ const MonthSummaryPage = (props: Props) => {
           <h1 className="ml-3 font-bold text-xl text-slate-600">
             Month Summary
           </h1>
+        </div>
+
+        <div className="mt-8">
+          {openingBalance && expensesData && monthTrans && (
+            <BalanceCard
+              availableBalance={openingBalance - monthTrans?.totalSpent}
+              totalSpent={monthTrans?.totalSpent}
+              budget={expensesData?.totalExpenses}
+            />
+          )}
         </div>
       </div>
     </>

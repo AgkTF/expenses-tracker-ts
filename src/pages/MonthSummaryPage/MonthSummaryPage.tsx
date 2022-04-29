@@ -1,20 +1,33 @@
 import { MonthIcon } from 'components/UIElements';
 import useFetchOpeningBalance from 'hooks/useFetchOpeningBalance';
 import useExpensesDetails from 'hooks/useExpensesDetails';
+import useMonthTrans from 'hooks/useMonthTrans';
 
 type Props = {};
 
+const testDate = new Date('11/11/2021');
+
 const MonthSummaryPage = (props: Props) => {
-  const { isLoading, isError, error, data } = useFetchOpeningBalance(
-    new Date('11/11/2021')
-  );
+  const {
+    isLoading: isOpeningBalanceLoading,
+    isError: isOpeningBalanceError,
+    error: openingBalanceError,
+    data: openingBalance,
+  } = useFetchOpeningBalance(testDate);
 
   const {
     isLoading: isExpensesLoading,
     isError: isExpensesError,
     error: expensesError,
     data: expensesData,
-  } = useExpensesDetails(new Date('11/11/2021'));
+  } = useExpensesDetails(testDate);
+
+  const {
+    isLoading: isMonthTransLoading,
+    isError: isMonthTransError,
+    error: monthTransError,
+    data: monthTrans,
+  } = useMonthTrans(testDate);
 
   return (
     <>

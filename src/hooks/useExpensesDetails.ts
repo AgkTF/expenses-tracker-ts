@@ -24,12 +24,8 @@ const fetchExpensesDetails = async (date: Date) => {
   }
 
   const totalExpenses = expenses
-    .map(category => category.planned_amount)
-    .reduce((prevValue, currValue) => {
-      if (prevValue && currValue) {
-        return prevValue + currValue;
-      }
-    }, 0);
+    .map(category => category.planned_amount || 0)
+    .reduce((a, b) => a + b, 0);
 
   return { totalExpenses, categories: expenses };
 };

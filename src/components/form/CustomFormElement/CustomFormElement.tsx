@@ -7,6 +7,7 @@ type Props = {
   input: FieldInputProps<any, HTMLElement>;
   meta: FieldMetaState<any>;
   children: ReactNode;
+  isCheckbox?: boolean;
 };
 
 const CustomFormElement = ({
@@ -15,19 +16,37 @@ const CustomFormElement = ({
   input,
   meta,
   children,
+  isCheckbox,
 }: Props) => {
   return (
     <div className={`relative ${containerClasses}`}>
-      {label && (
-        <label
-          className="inline-block mb-1 text-slate-500 font-medium text-sm"
-          htmlFor={input.name}
-        >
-          {label}
-        </label>
-      )}
+      {isCheckbox ? (
+        <>
+          {children}
 
-      {children}
+          {label && (
+            <label
+              className="inline-block ml-2 text-slate-500 font-medium text-sm"
+              htmlFor={input.name}
+            >
+              {label}
+            </label>
+          )}
+        </>
+      ) : (
+        <>
+          {label && (
+            <label
+              className="inline-block mb-1 text-slate-500 font-medium text-sm"
+              htmlFor={input.name}
+            >
+              {label}
+            </label>
+          )}
+
+          {children}
+        </>
+      )}
 
       <p className="text-red-400 font-normal text-xs">
         {meta.touched ? meta.error : ''}

@@ -6,6 +6,7 @@ import { Field, Form } from 'react-final-form';
 import { CustomFormElement, InputField, SelectField } from 'components/form';
 import { errorClasses, regularClasses } from 'utils/constants/form.constants';
 import useExpensesDetails from 'hooks/useExpensesDetails';
+import Checkbox from 'components/form/Checkbox/Checkbox';
 
 Modal.setAppElement('#root');
 
@@ -101,6 +102,19 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                   options={expensesData?.categories}
                   displayNameProperty="name"
                   isLoading={isExpensesLoading}
+                />
+              )}
+            />
+
+            <Field
+              name="isCardTrans"
+              type="checkbox"
+              render={({ input, meta }) => (
+                <Checkbox
+                  input={input}
+                  meta={meta}
+                  containerClasses="mb-2"
+                  label="Card Transaction?"
                 />
               )}
             />

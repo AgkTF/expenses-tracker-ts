@@ -1,9 +1,9 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/solid';
 import { InputField } from 'components/form';
 import { Button } from 'components/UIElements';
-import React from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
+// import { definitions } from 'types/supabase';
 
 type Props = {};
 
@@ -63,6 +63,7 @@ function MonthPlanForm({}: Props) {
                     rhs="currency"
                   />
                 )}
+                parse={value => value && +value}
               />
 
               {index >= 1 ? (

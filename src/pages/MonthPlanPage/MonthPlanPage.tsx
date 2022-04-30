@@ -2,12 +2,19 @@ import { MonthIcon } from 'components/UIElements';
 import arrayMutators from 'final-form-arrays';
 import { Field, Form } from 'react-final-form';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
-import { MonthPlanForm } from './components';
+import { MonthPlanForm, TotalCards } from './components';
+import { definitions } from 'types/supabase';
 
 type Props = {};
 
+interface FormValues {
+  openingBalance: string;
+  expensesCategories: definitions['money_category'][];
+  incomeCategories: definitions['money_category'][];
+}
+
 const MonthPlanPage = (props: Props) => {
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: FormValues) => {
     console.log(values);
   };
   return (
@@ -60,6 +67,11 @@ const MonthPlanPage = (props: Props) => {
                     />
                   </div>
                 </div>
+
+                <TotalCards
+                  expensesCategories={values.expensesCategories}
+                  incomeCategories={values.incomeCategories}
+                />
 
                 <MonthPlanForm />
               </form>

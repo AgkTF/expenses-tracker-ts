@@ -7,6 +7,7 @@ import { CustomFormElement, InputField, SelectField } from 'components/form';
 import { errorClasses, regularClasses } from 'utils/constants/form.constants';
 import useExpensesDetails from 'hooks/useExpensesDetails';
 import Checkbox from 'components/form/Checkbox/Checkbox';
+import Button from '../Button/Button';
 
 Modal.setAppElement('#root');
 
@@ -120,23 +121,20 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
             />
 
             <div className="w-3/4 pt-2 mx-auto flex items-center justify-between">
-              <button
+              <Button
                 type="button"
                 className="bg-slate-400 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-5"
-                onClick={toggleModal}
-              >
-                Cancel
-              </button>
+                onClickHandler={toggleModal}
+                label="Cancel"
+              />
 
-              <button
+              <Button
                 type="submit"
-                className={`bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px] ${
-                  submitting ? 'cursor-not-allowed' : ''
-                }`}
-                disabled={submitting}
-              >
-                Save
-              </button>
+                label="Save"
+                className="bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px]"
+                isDisabled={submitting}
+                isLoading={submitting}
+              />
             </div>
           </form>
         )}

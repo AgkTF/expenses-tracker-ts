@@ -36,3 +36,9 @@
   font-weight: 300;
   font-display: swap;
 }
+
+@layer components {
+  .btn-grey {
+    @apply rounded-md flex items-center justify-center font-semibold text-sm bg-gray-100 text-gray-500 shadow focus:outline-none focus:ring-2 ring-gray-300;
+  }
+}

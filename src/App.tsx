@@ -1,10 +1,11 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { PageLayout } from 'components/layout';
-import MonthSummaryPage from 'pages/MonthSummaryPage/MonthSummaryPage';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Toaster } from 'react-hot-toast';
+import MonthSummaryPage from 'pages/MonthSummaryPage/MonthSummaryPage';
+import MonthPlanPage from 'pages/MonthPlanPage/MonthPlanPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +25,7 @@ function App() {
 
           <Route path="/" element={<PageLayout />}>
             <Route path="month-summary" element={<MonthSummaryPage />} />
+            <Route path="month-plan" element={<MonthPlanPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

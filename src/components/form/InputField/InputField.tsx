@@ -1,6 +1,7 @@
 import CustomFormElement from '../CustomFormElement/CustomFormElement';
 import { FieldInputProps, FieldMetaState } from 'react-final-form';
 import { errorClasses, regularClasses } from 'utils/constants/form.constants';
+import { useStore } from 'store/useStore';
 
 type Props = {
   containerClasses?: string;
@@ -9,6 +10,8 @@ type Props = {
   meta: FieldMetaState<any>;
   type: 'text' | 'datetime-local' | 'date' | 'number' | 'time';
   placeholder?: string;
+  rhs?: 'length' | 'currency';
+  inputLength?: string;
 };
 
 const InputField = ({
@@ -18,7 +21,11 @@ const InputField = ({
   meta,
   type,
   placeholder,
+  rhs,
+  inputLength,
 }: Props) => {
+  const defaultCurrency = useStore(state => state.currency);
+
   return (
     <CustomFormElement
       containerClasses={containerClasses}
@@ -35,6 +42,16 @@ const InputField = ({
           meta.touched && meta.error ? errorClasses : regularClasses
         }`}
       />
+
+      <span
+        className={`absolute right-[12px] leading-[38px] font-light text-xs ${
+          meta.touched && meta.error ? 'text-red-300' : 'text-slate-400'
+        }`}
+      >
+        {rhs && rhs === 'length' && `${input.value.length}/${inputLength}`}
+
+        {rhs && rhs === 'currency' && defaultCurrency}
+      </span>
     </CustomFormElement>
   );
 };

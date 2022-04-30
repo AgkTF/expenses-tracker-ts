@@ -68,6 +68,7 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                   containerClasses="mb-2"
                   label="Amount"
                   placeholder="Amount"
+                  rhs="currency"
                 />
               )}
             />
@@ -82,6 +83,8 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                   containerClasses="mb-2"
                   label="Description"
                   placeholder="Description"
+                  rhs="length"
+                  inputLength="50"
                 />
               )}
             />

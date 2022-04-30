@@ -5,8 +5,11 @@ import Modal from 'react-modal';
 import { Field, Form } from 'react-final-form';
 import { CustomFormElement, InputField, SelectField } from 'components/form';
 import { errorClasses, regularClasses } from 'utils/constants/form.constants';
+import useExpensesDetails from 'hooks/useExpensesDetails';
 
 Modal.setAppElement('#root');
+
+const testDate = new Date('11/11/2021');
 
 type Props = {
   isOpen: boolean;
@@ -17,6 +20,12 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
   const onSubmit = (values: any) => {
     console.log(values);
   };
+  const {
+    isLoading: isExpensesLoading,
+    isError: isExpensesError,
+    error: expensesError,
+    data: expensesData,
+  } = useExpensesDetails(testDate);
 
   return (
     <Modal
@@ -36,47 +45,6 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
-            {/* <Field name="date">
-              {({ input, meta }) => (
-                <CustomFormElement
-                  input={input}
-                  meta={meta}
-                  containerClasses="mb-2"
-                  label="Date"
-                >
-                  <input
-                    {...input}
-                    type="datetime-local"
-                    id={input.name}
-                    className={`mb-1 w-full rounded-md focus:ring-2 ph-12-light text-sm font-medium ${
-                      meta.touched && meta.error ? errorClasses : regularClasses
-                    }`}
-                  />
-                </CustomFormElement>
-              )}
-            </Field>
-
-            <Field
-              name="date"
-              render={({ input, meta }) => (
-                <CustomFormElement
-                  input={input}
-                  meta={meta}
-                  containerClasses="mb-2"
-                  label="Date"
-                >
-                  <input
-                    {...input}
-                    type="datetime-local"
-                    id={input.name}
-                    className={`mb-1 w-full rounded-md focus:ring-2 ph-12-light text-sm font-medium ${
-                      meta.touched && meta.error ? errorClasses : regularClasses
-                    }`}
-                  />
-                </CustomFormElement>
-              )}
-            /> */}
-
             <Field
               name="date"
               render={({ input, meta }) => (
@@ -127,7 +95,9 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                   containerClasses="mb-2"
                   label="Description"
                   firstOption="Select category"
-                  options={[{ id: '1', displayName: 'car' }]}
+                  options={expensesData?.categories}
+                  displayNameProperty="name"
+                  isLoading={isExpensesLoading}
                 />
               )}
             />

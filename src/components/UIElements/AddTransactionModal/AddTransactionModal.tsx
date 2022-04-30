@@ -118,6 +118,26 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                 />
               )}
             />
+
+            <div className="w-3/4 pt-2 mx-auto flex items-center justify-between">
+              <button
+                type="button"
+                className="bg-slate-400 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-5"
+                onClick={toggleModal}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                className={`bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px] ${
+                  submitting ? 'cursor-not-allowed' : ''
+                }`}
+                disabled={submitting}
+              >
+                Save
+              </button>
+            </div>
           </form>
         )}
       />

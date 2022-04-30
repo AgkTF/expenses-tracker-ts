@@ -1,13 +1,13 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/solid';
 import { InputField } from 'components/form';
-import { Button } from 'components/UIElements';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-// import { definitions } from 'types/supabase';
 
-type Props = {};
+type Props = {
+  push: (...args: any[]) => any;
+};
 
-function MonthPlanForm({}: Props) {
+function MonthPlanForm({ push }: Props) {
   return (
     <section>
       <div className="px-8 mt-8">
@@ -16,7 +16,7 @@ function MonthPlanForm({}: Props) {
 
           <button
             className="p-1 btn-grey"
-            // onClick={() => push('expensesCategories', undefined)}
+            onClick={() => push('expensesCategories', undefined)}
           >
             <PlusIcon className="h-5 w-5" />
           </button>
@@ -88,7 +88,7 @@ function MonthPlanForm({}: Props) {
           <h3 className="font-semibold text-lg text-slate-600">💰 Income</h3>
           <button
             className="p-1 btn-grey"
-            // onClick={() => push('incomeCategories', undefined)}
+            onClick={() => push('incomeCategories', undefined)}
           >
             <PlusIcon className="h-5 w-5" />
           </button>
@@ -153,23 +153,6 @@ function MonthPlanForm({}: Props) {
           ))
         }
       </FieldArray>
-
-      <div className="mt-5 pb-6 mx-auto flex items-center justify-center gap-x-16">
-        <Button
-          type="button"
-          className="bg-slate-400 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-5"
-          label="Cancel"
-          // isDisabled={submitting}
-        />
-
-        <Button
-          type="submit"
-          label="Save"
-          className="bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px]"
-          // isDisabled={submitting || pristine}
-          // isLoading={submitting}
-        />
-      </div>
     </section>
   );
 }

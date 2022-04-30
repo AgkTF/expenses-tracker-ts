@@ -1,4 +1,4 @@
-import { MonthIcon } from 'components/UIElements';
+import { Button, MonthIcon } from 'components/UIElements';
 import arrayMutators from 'final-form-arrays';
 import { Field, Form } from 'react-final-form';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
@@ -55,14 +55,17 @@ const MonthPlanPage = (props: Props) => {
 
                   <div className="flex text-slate-600 font-semibold text-2xl">
                     <Field
-                      formatOnBlur
                       name="openingBalance"
                       component="input"
                       className="mt-1 w-full bg-transparent focus:bg-slate-50 focus:border-none focus:outline-none text-2xl text-center text-slate-600 font-semibold rounded-md"
                       format={value =>
                         value && !isNaN(value)
-                          ? moneyFormatter(+value, 'USD')
+                          ? moneyFormatter(+value, 'EGP')
                           : value
+                      }
+                      parse={value =>
+                        value &&
+                        +value.replace('EGP', '').replaceAll(',', '').trim()
                       }
                     />
                   </div>
@@ -73,7 +76,24 @@ const MonthPlanPage = (props: Props) => {
                   incomeCategories={values.incomeCategories}
                 />
 
-                <MonthPlanForm />
+                <MonthPlanForm push={push} />
+
+                <div className="mt-5 pb-6 mx-auto flex items-center justify-center gap-x-16">
+                  <Button
+                    type="button"
+                    className="bg-slate-400 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-5"
+                    label="Cancel"
+                    isDisabled={submitting}
+                  />
+
+                  <Button
+                    type="submit"
+                    label="Save"
+                    className="bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px]"
+                    isDisabled={submitting || pristine}
+                    isLoading={submitting}
+                  />
+                </div>
               </form>
             </div>
           );

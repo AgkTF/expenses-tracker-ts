@@ -4,6 +4,7 @@ import { PageLayout } from 'components/layout';
 import MonthSummaryPage from 'pages/MonthSummaryPage/MonthSummaryPage';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { Toaster } from 'react-hot-toast';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,7 @@ function App() {
       </BrowserRouter>
 
       <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster />
     </QueryClientProvider>
   );
 }

@@ -1,13 +1,12 @@
-// TODO: try invalid: in tailwind
-
 import { XIcon } from '@heroicons/react/solid';
 import Modal from 'react-modal';
 import { Field, Form } from 'react-final-form';
-import { CustomFormElement, InputField, SelectField } from 'components/form';
-import { errorClasses, regularClasses } from 'utils/constants/form.constants';
+import { Checkbox, InputField, SelectField } from 'components/form';
 import useExpensesDetails from 'hooks/useExpensesDetails';
-import Checkbox from 'components/form/Checkbox/Checkbox';
 import Button from '../Button/Button';
+import useAddTransaction from 'hooks/useAddTransaction';
+import { definitions } from 'types/supabase';
+import toast from 'react-hot-toast';
 
 Modal.setAppElement('#root');
 
@@ -19,9 +18,22 @@ type Props = {
 };
 
 const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const onSuccessHandler = () => {
+    toast.success('Transaction added successfully');
+    toggleModal();
   };
+
+  const onErrorHandler = () => {
+    toast.error('Failed to add transaction');
+  };
+
+  const addTransMutation = useAddTransaction(onSuccessHandler, onErrorHandler);
+
+  const onSubmit = (values: definitions['transaction']): void => {
+    console.log(values);
+    addTransMutation.mutate(values);
+  };
+
   const {
     isLoading: isExpensesLoading,
     isError: isExpensesError,
@@ -42,7 +54,6 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
           <XIcon className="h-4 w-4" />
         </button>
       </div>
-
       <Form
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -92,7 +103,7 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
             />
 
             <Field
-              name="category"
+              name="category_id"
               render={({ input, meta }) => (
                 <SelectField
                   input={input}
@@ -132,8 +143,8 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                 type="submit"
                 label="Save"
                 className="bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px]"
-                isDisabled={submitting}
-                isLoading={submitting}
+                isDisabled={addTransMutation.isLoading}
+                isLoading={addTransMutation.isLoading}
               />
             </div>
           </form>

@@ -5,3 +5,7 @@ export function moneyFormatter(amount: number, currency: string) {
     minimumFractionDigits: 0,
   }).format(amount);
 }
+
+export default function numberFormatter(amount: number) {
+  return new Intl.NumberFormat('en-us').format(amount);
+}

@@ -3,20 +3,33 @@ import arrayMutators from 'final-form-arrays';
 import { Field, Form } from 'react-final-form';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { MonthPlanForm, TotalCards } from './components';
-import { definitions } from 'types/supabase';
+import { IMonthPlanForm } from 'types/forms';
+import useCreateMonthPlan from 'hooks/useCreateMonthPlan';
+import { useStore } from 'store/useStore';
+import toast from 'react-hot-toast';
 
 type Props = {};
 
-interface FormValues {
-  openingBalance: string;
-  expensesCategories: definitions['money_category'][];
-  incomeCategories: definitions['money_category'][];
-}
-
 const MonthPlanPage = (props: Props) => {
-  const onSubmit = (values: FormValues) => {
-    console.log(values);
+  const defaultCurrency = useStore(state => state.currency);
+  const onSuccessHandler = () => {
+    toast.success('Plan created successfully');
   };
+
+  const onErrorHandler = () => {
+    toast.error('Failed to add month plan');
+  };
+
+  const { mutate, isLoading } = useCreateMonthPlan(
+    onSuccessHandler,
+    onErrorHandler
+  );
+
+  const onSubmit = async (values: IMonthPlanForm) => {
+    console.log(values);
+    // mutate(values);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="mt-8 flex items-center justify-center">
@@ -30,8 +43,12 @@ const MonthPlanPage = (props: Props) => {
         onSubmit={onSubmit}
         mutators={{ ...arrayMutators }}
         initialValues={{
-          expensesCategories: [{}, {}],
-          incomeCategories: [{}, {}, {}],
+          expensesCategories: [
+            { planned_amount: '' },
+            { planned_amount: '' },
+            { planned_amount: '' },
+          ],
+          incomeCategories: [{ planned_amount: '' }, { planned_amount: '' }],
           openingBalance: '',
         }}
         validateOnBlur={true}
@@ -60,12 +77,15 @@ const MonthPlanPage = (props: Props) => {
                       className="mt-1 w-full bg-transparent focus:bg-slate-50 focus:border-none focus:outline-none text-2xl text-center text-slate-600 font-semibold rounded-md"
                       format={value =>
                         value && !isNaN(value)
-                          ? moneyFormatter(+value, 'EGP')
+                          ? moneyFormatter(+value, defaultCurrency)
                           : value
                       }
                       parse={value =>
                         value &&
-                        +value.replace('EGP', '').replaceAll(',', '').trim()
+                        +value
+                          .replace(defaultCurrency, '')
+                          .replaceAll(',', '')
+                          .trim()
                       }
                     />
                   </div>
@@ -83,15 +103,15 @@ const MonthPlanPage = (props: Props) => {
                     type="button"
                     className="bg-slate-400 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-5"
                     label="Cancel"
-                    isDisabled={submitting}
+                    isDisabled={isLoading}
                   />
 
                   <Button
                     type="submit"
                     label="Save"
                     className="bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px]"
-                    isDisabled={submitting || pristine}
-                    isLoading={submitting}
+                    isDisabled={submitting || pristine || isLoading}
+                    isLoading={isLoading}
                   />
                 </div>
               </form>

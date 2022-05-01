@@ -7,6 +7,6 @@ interface AppConfig {
 
 export const useStore = create<AppConfig>()(
   devtools(set => ({
-    currency: 'USD',
+    currency: 'EGP',
   }))
 );

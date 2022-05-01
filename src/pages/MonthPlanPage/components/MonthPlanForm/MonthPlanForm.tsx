@@ -2,6 +2,8 @@ import { MinusIcon, PlusIcon } from '@heroicons/react/solid';
 import { InputField } from 'components/form';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
+import { upperFirst } from 'lodash';
+import numberFormatter from 'utils/helpers/numbers.helpers';
 
 type Props = {
   push: (...args: any[]) => any;
@@ -15,8 +17,9 @@ function MonthPlanForm({ push }: Props) {
           <h3 className="font-semibold text-lg text-slate-600">💸 Expenses</h3>
 
           <button
+            type="button"
             className="p-1 btn-grey"
-            onClick={() => push('expensesCategories', undefined)}
+            onClick={() => push('expensesCategories', { planned_amount: '' })}
           >
             <PlusIcon className="h-5 w-5" />
           </button>
@@ -49,6 +52,7 @@ function MonthPlanForm({ push }: Props) {
                     inputLength="50"
                   />
                 )}
+                parse={value => value && upperFirst(value)}
               />
 
               <Field
@@ -57,17 +61,21 @@ function MonthPlanForm({ push }: Props) {
                   <InputField
                     input={input}
                     meta={meta}
-                    type="number"
+                    type="text"
                     containerClasses="mb-4"
                     placeholder="Amount"
                     rhs="currency"
                   />
                 )}
-                parse={value => value && +value}
+                format={value =>
+                  value && !isNaN(value) ? numberFormatter(+value) : value
+                }
+                parse={value => value && +value.replaceAll(',', '')}
               />
 
               {index >= 1 ? (
                 <button
+                  type="button"
                   className="p-1 btn-grey"
                   onClick={() => fields.remove(index)}
                 >
@@ -87,8 +95,9 @@ function MonthPlanForm({ push }: Props) {
         <section className="mb-5 w-full flex items-center justify-between">
           <h3 className="font-semibold text-lg text-slate-600">💰 Income</h3>
           <button
+            type="button"
             className="p-1 btn-grey"
-            onClick={() => push('incomeCategories', undefined)}
+            onClick={() => push('incomeCategories', { planned_amount: '' })}
           >
             <PlusIcon className="h-5 w-5" />
           </button>
@@ -121,6 +130,7 @@ function MonthPlanForm({ push }: Props) {
                     inputLength="50"
                   />
                 )}
+                parse={value => value && upperFirst(value)}
               />
 
               <Field
@@ -129,16 +139,21 @@ function MonthPlanForm({ push }: Props) {
                   <InputField
                     input={input}
                     meta={meta}
-                    type="number"
+                    type="text"
                     containerClasses="mb-4"
                     placeholder="Amount"
                     rhs="currency"
                   />
                 )}
+                format={value =>
+                  value && !isNaN(value) ? numberFormatter(+value) : value
+                }
+                parse={value => value && +value.replaceAll(',', '')}
               />
 
               {index >= 1 ? (
                 <button
+                  type="button"
                   className="p-1 btn-grey"
                   onClick={() => fields.remove(index)}
                 >

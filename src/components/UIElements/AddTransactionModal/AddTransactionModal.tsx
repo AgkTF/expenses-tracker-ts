@@ -7,6 +7,7 @@ import Button from '../Button/Button';
 import useAddTransaction from 'hooks/useAddTransaction';
 import { definitions } from 'types/supabase';
 import toast from 'react-hot-toast';
+import useCategoryTypes from 'hooks/useCategoryTypes';
 
 Modal.setAppElement('#root');
 
@@ -40,6 +41,13 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
     error: expensesError,
     data: expensesData,
   } = useExpensesDetails(testDate);
+
+  const {
+    isLoading: isTypesLoading,
+    isError: isTypesError,
+    error: typesError,
+    data: typesData,
+  } = useCategoryTypes();
 
   return (
     <Modal
@@ -87,6 +95,39 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
             />
 
             <Field
+              name="transType"
+              render={({ input, meta }) => (
+                <SelectField
+                  input={input}
+                  meta={meta}
+                  containerClasses="mb-2"
+                  label="Transaction Type"
+                  firstOption="Select Type"
+                  options={typesData}
+                  displayNameProperty="name"
+                  isLoading={isTypesLoading}
+                />
+              )}
+            />
+
+            {/* //! two naming conventions are used here. I know it's not ideal but it's saving me from changing the key later when I submit the form */}
+            <Field
+              name="category_id"
+              render={({ input, meta }) => (
+                <SelectField
+                  input={input}
+                  meta={meta}
+                  containerClasses="mb-2"
+                  label="Expense Category"
+                  firstOption="Select category"
+                  options={expensesData?.categories}
+                  displayNameProperty="name"
+                  isLoading={isExpensesLoading}
+                />
+              )}
+            />
+
+            <Field
               name="description"
               render={({ input, meta }) => (
                 <InputField
@@ -98,22 +139,6 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                   placeholder="Description"
                   rhs="length"
                   inputLength="50"
-                />
-              )}
-            />
-
-            <Field
-              name="category_id"
-              render={({ input, meta }) => (
-                <SelectField
-                  input={input}
-                  meta={meta}
-                  containerClasses="mb-2"
-                  label="Description"
-                  firstOption="Select category"
-                  options={expensesData?.categories}
-                  displayNameProperty="name"
-                  isLoading={isExpensesLoading}
                 />
               )}
             />

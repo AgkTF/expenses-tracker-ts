@@ -18,7 +18,7 @@ const BalanceCard = ({
   const defaultCurrency = useStore(state => state.currency);
 
   return (
-    <div className="p-4 w-72 bg-gray-100 rounded-md shadow-air77">
+    <div className="p-4 w-80 bg-gray-100 rounded-md shadow-sm">
       <p className="text-slate-400 font-medium text-sm tracking-wider">
         Available Balance
       </p>

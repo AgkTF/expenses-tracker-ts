@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PlusIcon, DotsVerticalIcon, HomeIcon } from '@heroicons/react/solid';
 import { AddTransactionModal } from 'components/UIElements';
+import BottomNavMenu from './BottomNavMenu/BottomNavMenu';
 
 type Props = {};
 
 const BottomNavbar = (props: Props) => {
+  const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -14,29 +16,34 @@ const BottomNavbar = (props: Props) => {
 
   return (
     <>
-      <div className="px-3 h-11 flex items-center justify-between bg-gray-600 rounded-lg">
-        <Link
-          to="/"
-          className="p-2 rounded-full text-gray-200 hover:bg-gray-50 hover:text-gray-500"
-        >
-          <HomeIcon className="h-5 w-5" />
-        </Link>
+      {isNavMenuOpen ? (
+        <BottomNavMenu setIsNavMenuOpen={setIsNavMenuOpen} />
+      ) : (
+        <div className="px-3 h-11 flex items-center justify-between bg-gray-600 rounded-lg">
+          <Link
+            to="/month-summary"
+            className="p-2 rounded-full text-gray-200 hover:bg-gray-50 hover:text-gray-500"
+          >
+            <HomeIcon className="h-5 w-5" />
+          </Link>
 
-        <button
-          type="button"
-          className="p-2 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 shadow-md"
-          onClick={toggleModal}
-        >
-          <PlusIcon className="h-5 w-5" />
-        </button>
+          <button
+            type="button"
+            className="p-2 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 shadow-md"
+            onClick={toggleModal}
+          >
+            <PlusIcon className="h-5 w-5" />
+          </button>
 
-        <button
-          type="button"
-          className="p-2 rounded-full text-gray-200 hover:bg-gray-50 hover:text-gray-500"
-        >
-          <DotsVerticalIcon className="h-5 w-5" />
-        </button>
-      </div>
+          <button
+            type="button"
+            className="p-2 rounded-full text-gray-200 hover:bg-gray-50 hover:text-gray-500"
+            onClick={() => setIsNavMenuOpen(prevState => !prevState)}
+          >
+            <DotsVerticalIcon className="h-5 w-5" />
+          </button>
+        </div>
+      )}
 
       <AddTransactionModal toggleModal={toggleModal} isOpen={isModalOpen} />
     </>

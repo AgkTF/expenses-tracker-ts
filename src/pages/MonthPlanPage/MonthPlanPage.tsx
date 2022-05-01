@@ -7,6 +7,8 @@ import { IMonthPlanForm } from 'types/forms';
 import useCreateMonthPlan from 'hooks/useCreateMonthPlan';
 import { useStore } from 'store/useStore';
 import toast from 'react-hot-toast';
+import { InputField } from 'components/form';
+import { required } from 'utils/helpers/validation.helpers';
 
 type Props = {};
 
@@ -27,7 +29,7 @@ const MonthPlanPage = (props: Props) => {
 
   const onSubmit = async (values: IMonthPlanForm) => {
     console.log(values);
-    // mutate(values);
+    mutate(values);
   };
 
   return (
@@ -40,6 +42,7 @@ const MonthPlanPage = (props: Props) => {
       </div>
 
       <Form
+        keepDirtyOnReinitialize
         onSubmit={onSubmit}
         mutators={{ ...arrayMutators }}
         initialValues={{
@@ -73,8 +76,15 @@ const MonthPlanPage = (props: Props) => {
                   <div className="flex text-slate-600 font-semibold text-2xl">
                     <Field
                       name="openingBalance"
-                      component="input"
-                      className="mt-1 w-full bg-transparent focus:bg-slate-50 focus:border-none focus:outline-none text-2xl text-center text-slate-600 font-semibold rounded-md"
+                      validate={required}
+                      render={({ input, meta }) => (
+                        <InputField
+                          input={input}
+                          meta={meta}
+                          type="text"
+                          inputClassNames="mt-2 w-full bg-transparent focus:bg-slate-50 focus:border-none focus:outline-none text-2xl text-center text-slate-600 font-semibold rounded-md"
+                        />
+                      )}
                       format={value =>
                         value && !isNaN(value)
                           ? moneyFormatter(+value, defaultCurrency)

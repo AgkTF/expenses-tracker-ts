@@ -14,6 +14,7 @@ type Props = {
   placeholder?: string;
   rhs?: 'length' | 'currency';
   inputLength?: string;
+  inputClassNames?: string;
 };
 
 const InputField = ({
@@ -25,6 +26,7 @@ const InputField = ({
   placeholder,
   rhs,
   inputLength,
+  inputClassNames = 'mb-1 w-full rounded-md focus:ring-2 placeholder:font-light placeholder:text-xs text-sm font-medium',
 }: Props) => {
   const defaultCurrency = useStore(state => state.currency);
 
@@ -40,14 +42,14 @@ const InputField = ({
         type={type}
         id={input.name}
         placeholder={placeholder}
-        className={`mb-1 w-full rounded-md focus:ring-2 placeholder:font-light text-sm font-medium ${
+        className={`${inputClassNames} ${
           meta.touched && meta.error ? errorClasses : regularClasses
         }`}
       />
 
       <span
         className={`absolute right-[12px] leading-[38px] font-light text-xs ${
-          meta.touched && meta.error ? 'text-red-300' : 'text-slate-400'
+          meta.touched && meta.error ? 'text-red-300' : 'text-slate-500'
         }`}
       >
         {rhs && rhs === 'length' && `${input.value.length}/${inputLength}`}

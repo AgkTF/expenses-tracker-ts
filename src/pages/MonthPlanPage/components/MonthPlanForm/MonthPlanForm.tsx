@@ -4,6 +4,7 @@ import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { upperFirst } from 'lodash';
 import numberFormatter from 'utils/helpers/numbers.helpers';
+import { required } from 'utils/helpers/validation.helpers';
 
 type Props = {
   push: (...args: any[]) => any;
@@ -48,11 +49,10 @@ function MonthPlanForm({ push }: Props) {
                     type="text"
                     containerClasses="mb-4"
                     placeholder="Category Name"
-                    rhs="length"
-                    inputLength="50"
                   />
                 )}
                 parse={value => value && upperFirst(value)}
+                validate={required}
               />
 
               <Field
@@ -71,6 +71,7 @@ function MonthPlanForm({ push }: Props) {
                   value && !isNaN(value) ? numberFormatter(+value) : value
                 }
                 parse={value => value && +value.replaceAll(',', '')}
+                validate={required}
               />
 
               {index >= 1 ? (
@@ -126,11 +127,10 @@ function MonthPlanForm({ push }: Props) {
                     type="text"
                     containerClasses="mb-4"
                     placeholder="Category Name"
-                    rhs="length"
-                    inputLength="50"
                   />
                 )}
                 parse={value => value && upperFirst(value)}
+                validate={required}
               />
 
               <Field
@@ -149,6 +149,7 @@ function MonthPlanForm({ push }: Props) {
                   value && !isNaN(value) ? numberFormatter(+value) : value
                 }
                 parse={value => value && +value.replaceAll(',', '')}
+                validate={required}
               />
 
               {index >= 1 ? (

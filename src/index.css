@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .transactions__container {
+    max-height: calc(100vh - 23rem);
+  }
+  .w-fit {
+    width: fit-content;
+  }
+  .tab--active::after {
+    content: '.';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    font-size: 24px;
+  }
+}
+
 @font-face {
   font-family: 'Inter';
   src: url(./assets/fonts/Inter/Inter-Bold.ttf) format('truetype');

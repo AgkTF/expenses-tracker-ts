@@ -5,6 +5,8 @@ import AddTransactionModal from './AddTransactionModal/AddTransactionModal';
 import Spinner from './Spinner/Spinner';
 import Button from './Button/Button';
 import DayIcon from './DayIcon/DayIcon';
+import ExpenseCard from './ExpenseCard/ExpenseCard';
+import IncomeCard from './IncomeCard/IncomeCard';
 
 export {
   MonthIcon,
@@ -14,4 +16,6 @@ export {
   Spinner,
   Button,
   DayIcon,
+  ExpenseCard,
+  IncomeCard,
 };

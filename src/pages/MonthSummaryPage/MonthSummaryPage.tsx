@@ -1,7 +1,13 @@
-import { BalanceCard, MonthIcon } from 'components/UIElements';
+import {
+  BalanceCard,
+  ExpenseCard,
+  IncomeCard,
+  MonthIcon,
+} from 'components/UIElements';
 import useFetchOpeningBalance from 'hooks/useFetchOpeningBalance';
 import useExpensesDetails from 'hooks/useExpensesDetails';
 import useMonthTrans from 'hooks/useMonthTrans';
+import useIncomeDetails from 'hooks/useIncomeDetails';
 
 type Props = {};
 
@@ -21,6 +27,13 @@ const MonthSummaryPage = (props: Props) => {
     error: expensesError,
     data: expensesData,
   } = useExpensesDetails(testDate);
+
+  const {
+    isLoading: isIncomeLoading,
+    isError: isIncomeError,
+    error: incomeError,
+    data: incomeData,
+  } = useIncomeDetails(testDate);
 
   const {
     isLoading: isMonthTransLoading,
@@ -51,6 +64,53 @@ const MonthSummaryPage = (props: Props) => {
             />
           )}
         </div>
+
+        <h2 className="mt-9 font-semibold text-xl text-slate-600 text-center">
+          My Budget
+        </h2>
+
+        <section className="pb-1 w-full relative overflow-y-auto transactions__container">
+          <div className="py-4 sticky top-0 z-40 bg-white w-full px-4 flex items-center justify-between">
+            <h3 className="font-medium text-lg text-slate-600">💸 Expenses</h3>
+          </div>
+
+          <div className="px-4 w-full flex flex-wrap items-center justify-between gap-2">
+            {expensesData?.categories.map(entry => (
+              <ExpenseCard
+                key={entry.id}
+                categoryId={entry.id}
+                category={entry.name || ''}
+                spent={entry.totalSpent}
+                transCount={entry.transCount}
+                budget={entry.plannedAmount || 0}
+                remaining={
+                  entry.plannedAmount
+                    ? entry.plannedAmount - entry.totalSpent
+                    : 0
+                }
+                percentage={entry.percentage}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-4 w-full relative overflow-y-auto transactions__container">
+          <div className="py-4 sticky top-0 z-40 bg-white w-full px-4 flex items-center justify-between">
+            <h3 className="font-medium text-lg text-slate-600">💰 Income</h3>
+          </div>
+
+          <div className="px-4 w-full flex flex-wrap items-center justify-between gap-2">
+            {incomeData?.categories.map(entry => (
+              <IncomeCard
+                key={entry.id}
+                categoryId={entry.id}
+                budget={entry.budget || 0}
+                category={entry.name || ''}
+                collected={entry.totalCollected}
+              />
+            ))}
+          </div>
+        </section>
       </div>
     </>
   );

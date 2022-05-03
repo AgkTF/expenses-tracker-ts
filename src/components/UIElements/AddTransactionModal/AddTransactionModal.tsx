@@ -8,6 +8,7 @@ import useAddTransaction from 'hooks/useAddTransaction';
 import { definitions } from 'types/supabase';
 import toast from 'react-hot-toast';
 import useCategoryTypes from 'hooks/useCategoryTypes';
+import useIncomeDetails from 'hooks/useIncomeDetails';
 
 Modal.setAppElement('#root');
 
@@ -30,9 +31,14 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
 
   const addTransMutation = useAddTransaction(onSuccessHandler, onErrorHandler);
 
-  const onSubmit = (values: definitions['transaction']): void => {
-    console.log(values);
-    addTransMutation.mutate(values);
+  const onSubmit = (
+    values: definitions['transaction'] & { transType: number }
+  ): void => {
+    // console.log(values);
+    const { transType, ...valuesToSubmit } = values;
+    // console.log(valuesToSubmit);
+
+    addTransMutation.mutate(valuesToSubmit);
   };
 
   const {
@@ -49,6 +55,13 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
     data: typesData,
   } = useCategoryTypes();
 
+  const {
+    isLoading: isIncomeLoading,
+    isError: isIncomeError,
+    error: incomeError,
+    data: incomeData,
+  } = useIncomeDetails(testDate);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -62,6 +75,7 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
           <XIcon className="h-4 w-4" />
         </button>
       </div>
+
       <Form
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -108,24 +122,45 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                   isLoading={isTypesLoading}
                 />
               )}
+              parse={value => +value}
             />
 
             {/* //! two naming conventions are used here. I know it's not ideal but it's saving me from changing the key later when I submit the form */}
-            <Field
-              name="category_id"
-              render={({ input, meta }) => (
-                <SelectField
-                  input={input}
-                  meta={meta}
-                  containerClasses="mb-2"
-                  label="Expense Category"
-                  firstOption="Select category"
-                  options={expensesData?.categories}
-                  displayNameProperty="name"
-                  isLoading={isExpensesLoading}
-                />
-              )}
-            />
+            {values.transType && values.transType === 1 && (
+              <Field
+                name="category_id"
+                render={({ input, meta }) => (
+                  <SelectField
+                    input={input}
+                    meta={meta}
+                    containerClasses="mb-2"
+                    label="Expense Category"
+                    firstOption="Select category"
+                    options={expensesData?.categories}
+                    displayNameProperty="name"
+                    isLoading={isExpensesLoading}
+                  />
+                )}
+              />
+            )}
+
+            {values.transType && values.transType === 2 && (
+              <Field
+                name="category_id"
+                render={({ input, meta }) => (
+                  <SelectField
+                    input={input}
+                    meta={meta}
+                    containerClasses="mb-2"
+                    label="Income Category"
+                    firstOption="Select category"
+                    options={incomeData?.categories}
+                    displayNameProperty="name"
+                    isLoading={isIncomeLoading}
+                  />
+                )}
+              />
+            )}
 
             <Field
               name="description"

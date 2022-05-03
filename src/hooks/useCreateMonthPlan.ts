@@ -1,3 +1,5 @@
+// TODO: update this type "IMonthPlanForm" below.
+
 import { supabase } from 'supabaseClient';
 import { definitions } from 'types/supabase';
 import { useMutation } from 'react-query';
@@ -59,7 +61,3 @@ export default function useCreateMonthPlan(
     }
   );
 }
-
-// export default function useCreateMonthPlan() {
-//   return useMutation((monthPlan: IMonthPlanForm) => createMonthPlan(monthPlan));
-// }

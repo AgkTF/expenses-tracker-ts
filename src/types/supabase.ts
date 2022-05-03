@@ -12,6 +12,105 @@ export interface paths {
       };
     };
   };
+  "/balance": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.balance.id"];
+          old_balance?: parameters["rowFilter.balance.old_balance"];
+          new_balance?: parameters["rowFilter.balance.new_balance"];
+          trans_id?: parameters["rowFilter.balance.trans_id"];
+          created_at?: parameters["rowFilter.balance.created_at"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["balance"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** balance */
+          balance?: definitions["balance"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.balance.id"];
+          old_balance?: parameters["rowFilter.balance.old_balance"];
+          new_balance?: parameters["rowFilter.balance.new_balance"];
+          trans_id?: parameters["rowFilter.balance.trans_id"];
+          created_at?: parameters["rowFilter.balance.created_at"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.balance.id"];
+          old_balance?: parameters["rowFilter.balance.old_balance"];
+          new_balance?: parameters["rowFilter.balance.new_balance"];
+          trans_id?: parameters["rowFilter.balance.trans_id"];
+          created_at?: parameters["rowFilter.balance.created_at"];
+        };
+        body: {
+          /** balance */
+          balance?: definitions["balance"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/card": {
     get: {
       parameters: {
@@ -507,6 +606,30 @@ export interface paths {
 }
 
 export interface definitions {
+  /** @description this table tracks the change happen to the available balance. */
+  balance: {
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /** Format: bigint */
+    old_balance?: number;
+    /** Format: bigint */
+    new_balance?: number;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `transaction.id`.<fk table='transaction' column='id'/>
+     */
+    trans_id?: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
+    created_at?: string;
+  };
   card: {
     /**
      * Format: bigint
@@ -651,6 +774,18 @@ export interface parameters {
   offset: string;
   /** @description Limiting and Pagination */
   limit: string;
+  /** @description balance */
+  "body.balance": definitions["balance"];
+  /** Format: bigint */
+  "rowFilter.balance.id": string;
+  /** Format: bigint */
+  "rowFilter.balance.old_balance": string;
+  /** Format: bigint */
+  "rowFilter.balance.new_balance": string;
+  /** Format: bigint */
+  "rowFilter.balance.trans_id": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.balance.created_at": string;
   /** @description card */
   "body.card": definitions["card"];
   /** Format: bigint */

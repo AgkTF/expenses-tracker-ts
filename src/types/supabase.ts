@@ -606,14 +606,15 @@ export interface paths {
 }
 
 export interface definitions {
-  /** @description this table tracks the change happen to the available balance. */
+  /** @description this table tracks the change happen to the available balance */
   balance: {
     /**
-     * Format: bigint
+     * Format: uuid
      * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
-    id: number;
+    id: string;
     /** Format: bigint */
     old_balance?: number;
     /** Format: bigint */
@@ -776,7 +777,7 @@ export interface parameters {
   limit: string;
   /** @description balance */
   "body.balance": definitions["balance"];
-  /** Format: bigint */
+  /** Format: uuid */
   "rowFilter.balance.id": string;
   /** Format: bigint */
   "rowFilter.balance.old_balance": string;

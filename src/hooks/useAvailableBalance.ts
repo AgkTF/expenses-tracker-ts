@@ -17,10 +17,12 @@ const fetchAvailableBalance = async () => {
   return data;
 };
 
-const addBalanceRecord = async (values: definitions['balance']) => {
-  const { data, error } = await supabase.from('balance').insert(values, {
-    returning: 'minimal',
-  });
+const addBalanceRecord = async (values: Partial<definitions['balance']>) => {
+  const { data, error } = await supabase
+    .from<definitions['balance']>('balance')
+    .insert(values, {
+      returning: 'minimal',
+    });
 
   if (error) {
     throw new Error(error.message);
@@ -29,14 +31,12 @@ const addBalanceRecord = async (values: definitions['balance']) => {
   return data;
 };
 
-export default function useAvailableBalance() {
-  return {
-    fetchAvailableBalanceQuery: useQuery('available_balance', () =>
-      fetchAvailableBalance()
-    ),
+export function useAddBalanceRecord() {
+  return useMutation((values: Partial<definitions['balance']>) =>
+    addBalanceRecord(values)
+  );
+}
 
-    addBalanceRecordMutation: useMutation((values: definitions['balance']) =>
-      addBalanceRecord(values)
-    ),
-  };
+export function useAvailableBalance() {
+  return useQuery('available_balance', () => fetchAvailableBalance());
 }

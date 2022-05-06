@@ -44,7 +44,7 @@ const createMonthPlan = async (values: IMonthPlanForm) => {
 };
 
 export default function useCreateMonthPlan(
-  onSuccessHandler: () => void,
+  onSuccessHandler: (data: definitions['money_category'][]) => void,
   onErrorHandler: () => void
 ) {
   return useMutation(
@@ -52,7 +52,7 @@ export default function useCreateMonthPlan(
     {
       onSuccess: data => {
         console.log(data);
-        onSuccessHandler();
+        onSuccessHandler(data);
       },
       onError: error => {
         console.log(error);

@@ -70,7 +70,7 @@ const MonthSummaryPage = (props: Props) => {
         </h2>
 
         <section className="pb-1 w-full relative overflow-y-auto transactions__container">
-          <div className="py-4 sticky top-0 z-40 bg-white w-full px-4 flex items-center justify-between">
+          <div className="py-4 sticky top-0 z-20 bg-white w-full px-4 flex items-center justify-between">
             <h3 className="font-medium text-lg text-slate-600">💸 Expenses</h3>
           </div>
 
@@ -95,7 +95,7 @@ const MonthSummaryPage = (props: Props) => {
         </section>
 
         <section className="mt-4 w-full relative overflow-y-auto transactions__container">
-          <div className="py-4 sticky top-0 z-40 bg-white w-full px-4 flex items-center justify-between">
+          <div className="py-4 sticky top-0 z-20 bg-white w-full px-4 flex items-center justify-between">
             <h3 className="font-medium text-lg text-slate-600">💰 Income</h3>
           </div>
 

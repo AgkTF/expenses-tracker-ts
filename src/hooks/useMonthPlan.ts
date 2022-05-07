@@ -2,8 +2,12 @@
 
 import { supabase } from 'supabaseClient';
 import { definitions } from 'types/supabase';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { IMonthPlanForm } from 'types/forms';
+import parseISO from 'date-fns/parseISO';
+import endOfMonth from 'date-fns/endOfMonth';
+import startOfMonth from 'date-fns/startOfMonth';
+import getMonth from 'date-fns/getMonth';
 
 const createMonthPlan = async (values: IMonthPlanForm) => {
   const { expensesCategories, incomeCategories, openingBalance } = values;
@@ -43,7 +47,44 @@ const createMonthPlan = async (values: IMonthPlanForm) => {
   return data;
 };
 
-export default function useCreateMonthPlan(
+const fetchMonthPlan = async (
+  date: Date
+): Promise<IMonthPlanForm | undefined> => {
+  const isoDate = date.toISOString();
+
+  const { data, error } = await supabase
+    .from<definitions['money_category']>('money_category')
+    .select()
+    .gte('created_at', startOfMonth(parseISO(isoDate)).toISOString())
+    .lte('created_at', endOfMonth(parseISO(isoDate)).toISOString());
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (!data) {
+    throw new Error('No plan found for this month!');
+  }
+
+  let dataToReturn: IMonthPlanForm | undefined;
+
+  if (data) {
+    const openingBalance =
+      data.find(trans => trans.type === 3)?.planned_amount || 0;
+    const expensesCategories = data.filter(trans => trans.type === 1);
+    const incomeCategories = data.filter(trans => trans.type === 2);
+
+    dataToReturn = {
+      openingBalance,
+      expensesCategories,
+      incomeCategories,
+    };
+  }
+
+  return dataToReturn;
+};
+
+export default function useMonthPlan(
   onSuccessHandler: (data: definitions['money_category'][]) => void,
   onErrorHandler: () => void
 ) {
@@ -60,4 +101,10 @@ export default function useCreateMonthPlan(
       },
     }
   );
+}
+
+export function useFetchMonthPlan(date: Date) {
+  const month = getMonth(date);
+
+  return useQuery(['month_plan', month], () => fetchMonthPlan(date));
 }

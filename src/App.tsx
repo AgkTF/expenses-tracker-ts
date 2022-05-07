@@ -5,8 +5,9 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Toaster } from 'react-hot-toast';
 import MonthSummaryPage from 'pages/MonthSummaryPage/MonthSummaryPage';
-import MonthPlanPage from 'pages/MonthPlanPage/MonthPlanPage';
+import CreateMonthPlanPage from 'pages/MonthPlan/CreateMonthPlanPage';
 import CategoryPage from 'pages/CategoryPage/CategoryPage';
+import ViewMonthPlanPage from 'pages/MonthPlan/ViewMonthPlanPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +27,8 @@ function App() {
 
           <Route path="/" element={<PageLayout />}>
             <Route path="month-summary" element={<MonthSummaryPage />} />
-            <Route path="month-plan" element={<MonthPlanPage />} />
+            <Route path="create-month-plan" element={<CreateMonthPlanPage />} />
+            <Route path="view-month-plan" element={<ViewMonthPlanPage />} />
             <Route
               path="categories/:categoryName/:categoryId"
               element={<CategoryPage />}

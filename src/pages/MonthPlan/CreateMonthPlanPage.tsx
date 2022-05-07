@@ -4,7 +4,7 @@ import { Field, Form } from 'react-final-form';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { MonthPlanForm, TotalCards } from './components';
 import { IMonthPlanForm } from 'types/forms';
-import useCreateMonthPlan from 'hooks/useCreateMonthPlan';
+import useMonthPlan from 'hooks/useMonthPlan';
 import { useStore } from 'store/useStore';
 import toast from 'react-hot-toast';
 import { InputField } from 'components/form';
@@ -14,7 +14,7 @@ import { definitions } from 'types/supabase';
 
 type Props = {};
 
-const MonthPlanPage = (props: Props) => {
+const CreateMonthPlanPage = (props: Props) => {
   const defaultCurrency = useStore(state => state.currency);
 
   const addBalanceRecordMutation = useAddBalanceRecord();
@@ -32,10 +32,7 @@ const MonthPlanPage = (props: Props) => {
     toast.error('Failed to add month plan');
   };
 
-  const { mutate, isLoading } = useCreateMonthPlan(
-    onSuccessHandler,
-    onErrorHandler
-  );
+  const { mutate, isLoading } = useMonthPlan(onSuccessHandler, onErrorHandler);
 
   const onSubmit = async (values: IMonthPlanForm) => {
     console.log(values);
@@ -143,4 +140,4 @@ const MonthPlanPage = (props: Props) => {
   );
 };
 
-export default MonthPlanPage;
+export default CreateMonthPlanPage;

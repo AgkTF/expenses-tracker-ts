@@ -4,7 +4,7 @@ import { Field, Form } from 'react-final-form';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { MonthPlanForm, TotalCards } from './components';
 import { IMonthPlanForm } from 'types/forms';
-import useMonthPlan, { useFetchMonthPlan } from 'hooks/useMonthPlan';
+import { useFetchMonthPlan, useUpdateMonthPlan } from 'hooks/useMonthPlan';
 import { useStore } from 'store/useStore';
 import toast from 'react-hot-toast';
 import { InputField } from 'components/form';
@@ -35,26 +35,35 @@ const ViewMonthPlanPage = (props: Props) => {
     isSuccess,
   } = useFetchMonthPlan(new Date());
 
-  const addBalanceRecordMutation = useAddBalanceRecord();
-
-  const onSuccessHandler = (data: definitions['money_category'][]) => {
-    toast.success('Plan created successfully');
-    const openingBalanceTrans = data.find(trans => trans.type === 3);
-    addBalanceRecordMutation.mutate({
-      old_balance: 0,
-      new_balance: openingBalanceTrans?.planned_amount || 0,
-    });
+  // const onSuccessHandler = (data: definitions['money_category'][]) => {
+  const onSuccessHandler = () => {
+    toast.success('Month plan updated successfully');
+    // const openingBalanceTrans = data.find(trans => trans.type === 3);
+    // addBalanceRecordMutation.mutate({
+    //   old_balance: 0,
+    //   new_balance: openingBalanceTrans?.planned_amount || 0,
+    // });
   };
 
   const onErrorHandler = () => {
     toast.error('Failed to add month plan');
   };
 
-  const { mutate, isLoading } = useMonthPlan(onSuccessHandler, onErrorHandler);
+  // const addBalanceRecordMutation = useAddBalanceRecord();
+  const updateMonthPlanMutation = useUpdateMonthPlan(
+    onSuccessHandler,
+    onErrorHandler
+  );
 
   const onSubmit = async (values: IMonthPlanForm) => {
-    console.log(values);
-    mutate(values);
+    // console.log(values);
+
+    if (monthPlan) {
+      updateMonthPlanMutation.mutate({
+        newValues: values,
+        oldValues: monthPlan,
+      });
+    }
   };
 
   return (
@@ -130,15 +139,16 @@ const ViewMonthPlanPage = (props: Props) => {
                     type="button"
                     className="bg-slate-400 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-5"
                     label="Cancel"
-                    isDisabled={isLoading}
+                    // isDisabled={isLoading}
                   />
 
                   <Button
                     type="submit"
                     label="Save"
                     className="bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px]"
-                    isDisabled={submitting || pristine || isLoading}
-                    isLoading={isLoading}
+                    isDisabled={submitting || pristine}
+                    // isDisabled={submitting || pristine || isLoading}
+                    // isLoading={isLoading}
                   />
                 </div>
               </form>

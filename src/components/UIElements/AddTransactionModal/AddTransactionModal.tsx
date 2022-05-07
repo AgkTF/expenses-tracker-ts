@@ -9,10 +9,17 @@ import { definitions } from 'types/supabase';
 import toast from 'react-hot-toast';
 import useCategoryTypes from 'hooks/useCategoryTypes';
 import useIncomeDetails from 'hooks/useIncomeDetails';
+import {
+  useAvailableBalance,
+  useAddBalanceRecord,
+} from 'hooks/useAvailableBalance';
+import numberFormatter from 'utils/helpers/numbers.helpers';
+import { required } from 'utils/helpers/validation.helpers';
 
 Modal.setAppElement('#root');
 
-const testDate = new Date('11/11/2021');
+// const testDate = new Date('11/11/2021');
+const testDate = new Date();
 
 type Props = {
   isOpen: boolean;
@@ -20,9 +27,31 @@ type Props = {
 };
 
 const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
-  const onSuccessHandler = () => {
+  const addBalanceRecordMutation = useAddBalanceRecord();
+
+  const {
+    isLoading: isBalanceLoading,
+    isError: isBalanceError,
+    error: balanceError,
+    data: availableBalance,
+  } = useAvailableBalance();
+
+  const onSuccessHandler = (data: definitions['transaction'][]) => {
     toast.success('Transaction added successfully');
     toggleModal();
+
+    const { id, amount, trans_type } = data[0];
+
+    if (availableBalance && availableBalance.new_balance && amount) {
+      addBalanceRecordMutation.mutate({
+        trans_id: id,
+        old_balance: availableBalance.new_balance,
+        new_balance:
+          trans_type === 1
+            ? availableBalance.new_balance - amount
+            : availableBalance.new_balance + amount,
+      });
+    }
   };
 
   const onErrorHandler = () => {
@@ -31,14 +60,8 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
 
   const addTransMutation = useAddTransaction(onSuccessHandler, onErrorHandler);
 
-  const onSubmit = (
-    values: definitions['transaction'] & { transType: number }
-  ): void => {
-    // console.log(values);
-    const { transType, ...valuesToSubmit } = values;
-    // console.log(valuesToSubmit);
-
-    addTransMutation.mutate(valuesToSubmit);
+  const onSubmit = (values: definitions['transaction']): void => {
+    addTransMutation.mutate(values);
   };
 
   const {
@@ -99,17 +122,22 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                 <InputField
                   input={input}
                   meta={meta}
-                  type="number"
+                  type="text"
                   containerClasses="mb-2"
                   label="Amount"
                   placeholder="Amount"
                   rhs="currency"
                 />
               )}
+              format={value =>
+                value && !isNaN(value) ? numberFormatter(+value) : value
+              }
+              parse={value => value && +value.replaceAll(',', '')}
+              validate={required}
             />
 
             <Field
-              name="transType"
+              name="trans_type"
               render={({ input, meta }) => (
                 <SelectField
                   input={input}
@@ -123,10 +151,11 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                 />
               )}
               parse={value => +value}
+              validate={required}
             />
 
             {/* //! two naming conventions are used here. I know it's not ideal but it's saving me from changing the key later when I submit the form */}
-            {values.transType && values.transType === 1 && (
+            {values.trans_type && values.trans_type === 1 && (
               <Field
                 name="category_id"
                 render={({ input, meta }) => (
@@ -141,10 +170,11 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                     isLoading={isExpensesLoading}
                   />
                 )}
+                validate={required}
               />
             )}
 
-            {values.transType && values.transType === 2 && (
+            {values.trans_type && values.trans_type === 2 && (
               <Field
                 name="category_id"
                 render={({ input, meta }) => (
@@ -159,6 +189,7 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                     isLoading={isIncomeLoading}
                   />
                 )}
+                validate={required}
               />
             )}
 

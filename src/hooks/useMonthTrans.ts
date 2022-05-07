@@ -11,6 +11,7 @@ const fetchMonthTransactions = async (date: Date) => {
   const { data, error } = await supabase
     .from<definitions['transaction']>('transaction')
     .select()
+    .eq('trans_type', 1)
     .gte('date', startOfMonth(parseISO(isoDate)).toISOString())
     .lte('date', endOfMonth(parseISO(isoDate)).toISOString());
 

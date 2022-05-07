@@ -15,7 +15,7 @@ const addTransaction = async (values: definitions['transaction']) => {
 };
 
 export default function useAddTransaction(
-  onSuccessHandler: () => void,
+  onSuccessHandler: (data: definitions['transaction'][]) => void,
   onErrorHandler: () => void
 ) {
   return useMutation(
@@ -23,7 +23,7 @@ export default function useAddTransaction(
     {
       onSuccess: data => {
         console.log(data);
-        onSuccessHandler();
+        onSuccessHandler(data);
       },
       onError: error => {
         console.log(error);

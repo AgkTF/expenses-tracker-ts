@@ -8,10 +8,12 @@ import useFetchOpeningBalance from 'hooks/useFetchOpeningBalance';
 import useExpensesDetails from 'hooks/useExpensesDetails';
 import useMonthTrans from 'hooks/useMonthTrans';
 import useIncomeDetails from 'hooks/useIncomeDetails';
+import { useAvailableBalance } from 'hooks/useAvailableBalance';
 
 type Props = {};
 
-const testDate = new Date('11/11/2021');
+// const testDate = new Date('11/11/2021');
+const testDate = new Date();
 
 const MonthSummaryPage = (props: Props) => {
   const {
@@ -42,6 +44,13 @@ const MonthSummaryPage = (props: Props) => {
     data: monthTrans,
   } = useMonthTrans(testDate);
 
+  const {
+    isLoading: isBalanceLoading,
+    isError: isBalanceError,
+    error: balanceError,
+    data: availableBalance,
+  } = useAvailableBalance();
+
   return (
     <>
       <div className="flex flex-col items-center justify-center">
@@ -53,9 +62,9 @@ const MonthSummaryPage = (props: Props) => {
         </div>
 
         <div className="mt-8">
-          {openingBalance && expensesData && monthTrans && (
+          {availableBalance && expensesData && monthTrans && (
             <BalanceCard
-              availableBalance={openingBalance - monthTrans?.totalSpent}
+              availableBalance={availableBalance.new_balance || 0}
               totalSpent={monthTrans?.totalSpent}
               budget={expensesData?.totalExpenses}
               percentage={

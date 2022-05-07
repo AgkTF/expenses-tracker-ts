@@ -507,6 +507,7 @@ export interface paths {
           created_at?: parameters["rowFilter.transaction.created_at"];
           date?: parameters["rowFilter.transaction.date"];
           description?: parameters["rowFilter.transaction.description"];
+          trans_type?: parameters["rowFilter.transaction.trans_type"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -565,6 +566,7 @@ export interface paths {
           created_at?: parameters["rowFilter.transaction.created_at"];
           date?: parameters["rowFilter.transaction.date"];
           description?: parameters["rowFilter.transaction.description"];
+          trans_type?: parameters["rowFilter.transaction.trans_type"];
         };
         header: {
           /** Preference */
@@ -587,6 +589,7 @@ export interface paths {
           created_at?: parameters["rowFilter.transaction.created_at"];
           date?: parameters["rowFilter.transaction.date"];
           description?: parameters["rowFilter.transaction.description"];
+          trans_type?: parameters["rowFilter.transaction.trans_type"];
         };
         body: {
           /** transaction */
@@ -739,6 +742,12 @@ export interface definitions {
     date?: string;
     /** Format: character varying */
     description?: string;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `category_type.id`.<fk table='category_type' column='id'/>
+     */
+    trans_type?: number;
   };
 }
 
@@ -845,6 +854,8 @@ export interface parameters {
   "rowFilter.transaction.date": string;
   /** Format: character varying */
   "rowFilter.transaction.description": string;
+  /** Format: bigint */
+  "rowFilter.transaction.trans_type": string;
 }
 
 export interface operations {}

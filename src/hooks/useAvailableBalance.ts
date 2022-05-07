@@ -1,6 +1,6 @@
 import { supabase } from 'supabaseClient';
 import { definitions } from 'types/supabase';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 const fetchAvailableBalance = async () => {
   const { data, error } = await supabase
@@ -32,8 +32,17 @@ const addBalanceRecord = async (values: Partial<definitions['balance']>) => {
 };
 
 export function useAddBalanceRecord() {
-  return useMutation((values: Partial<definitions['balance']>) =>
-    addBalanceRecord(values)
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (values: Partial<definitions['balance']>) => addBalanceRecord(values),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('available_balance');
+        queryClient.invalidateQueries('month_trans');
+        queryClient.invalidateQueries('expenses_details');
+      },
+    }
   );
 }
 

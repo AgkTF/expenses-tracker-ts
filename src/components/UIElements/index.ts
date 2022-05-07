@@ -7,6 +7,7 @@ import Button from './Button/Button';
 import DayIcon from './DayIcon/DayIcon';
 import ExpenseCard from './ExpenseCard/ExpenseCard';
 import IncomeCard from './IncomeCard/IncomeCard';
+import TransCard from './TransCard/TransCard';
 
 export {
   MonthIcon,
@@ -18,4 +19,5 @@ export {
   DayIcon,
   ExpenseCard,
   IncomeCard,
+  TransCard,
 };

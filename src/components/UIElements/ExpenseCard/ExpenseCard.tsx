@@ -27,7 +27,7 @@ const ExpenseCard = ({
   return (
     <div className="p-3 w-full bg-gray-100 rounded-xl shadow">
       <div className="flex items-center justify-between">
-        <Link to={`categories/${encodeURIComponent(category)}-${categoryId}`}>
+        <Link to={`/categories/${encodeURIComponent(category)}/${categoryId}`}>
           <p className="font-medium text-base text-slate-500">{category}</p>
         </Link>
         <p className="font-semibold text-slate-600 text-xl">

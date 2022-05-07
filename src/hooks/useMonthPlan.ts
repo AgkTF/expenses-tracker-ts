@@ -32,15 +32,7 @@ function categoriesCreator(values: IMonthPlanForm) {
     created_at: entry.created_at,
   }));
 
-  const valuesToInsert = [
-    ...expensesArray,
-    ...incomeArray,
-    {
-      type: 3,
-      name: 'Opening Balance',
-      planned_amount: openingBalance,
-    },
-  ];
+  const valuesToInsert = [...expensesArray, ...incomeArray];
 
   return valuesToInsert;
 }

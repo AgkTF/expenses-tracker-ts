@@ -105,6 +105,7 @@ const ViewMonthPlanPage = (props: Props) => {
                       validate={required}
                       render={({ input, meta }) => (
                         <InputField
+                          isDisabled
                           input={input}
                           meta={meta}
                           type="text"

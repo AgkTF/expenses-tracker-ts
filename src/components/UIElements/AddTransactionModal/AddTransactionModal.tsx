@@ -101,6 +101,7 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
 
       <Form
         onSubmit={onSubmit}
+        initialValues={{ amount: '' }}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
             <Field

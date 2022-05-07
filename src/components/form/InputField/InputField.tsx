@@ -15,6 +15,7 @@ type Props = {
   rhs?: 'length' | 'currency';
   inputLength?: string;
   inputClassNames?: string;
+  isDisabled?: boolean;
 };
 
 const InputField = ({
@@ -27,6 +28,7 @@ const InputField = ({
   rhs,
   inputLength,
   inputClassNames = 'mb-1 w-full rounded-md focus:ring-2 placeholder:font-light placeholder:text-xs text-sm font-medium',
+  isDisabled,
 }: Props) => {
   const defaultCurrency = useStore(state => state.currency);
 
@@ -45,6 +47,7 @@ const InputField = ({
         className={`${inputClassNames} ${
           meta.touched && meta.error ? errorClasses : regularClasses
         }`}
+        disabled={isDisabled}
       />
 
       <span

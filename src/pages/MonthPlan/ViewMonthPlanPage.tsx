@@ -11,6 +11,9 @@ import { InputField } from 'components/form';
 import { required } from 'utils/helpers/validation.helpers';
 import { useAddBalanceRecord } from 'hooks/useAvailableBalance';
 import { definitions } from 'types/supabase';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 
 type Props = {};
 
@@ -26,6 +29,7 @@ const INIT_VALUES = {
 
 const ViewMonthPlanPage = (props: Props) => {
   const defaultCurrency = useStore(state => state.currency);
+  const navigate = useNavigate();
 
   const {
     isLoading: isPlanLoading,
@@ -34,6 +38,17 @@ const ViewMonthPlanPage = (props: Props) => {
     data: monthPlan,
     isSuccess,
   } = useFetchMonthPlan(new Date());
+
+  useEffect(() => {
+    if (
+      isSuccess &&
+      isEmpty(monthPlan?.expensesCategories) &&
+      isEmpty(monthPlan?.incomeCategories)
+    ) {
+      console.log(' ㊙️ ');
+      navigate('/create-month-plan');
+    }
+  }, [isSuccess, monthPlan, navigate]);
 
   // const onSuccessHandler = (data: definitions['money_category'][]) => {
   const onSuccessHandler = () => {

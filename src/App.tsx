@@ -38,7 +38,12 @@ function App() {
       </BrowserRouter>
 
       <ReactQueryDevtools initialIsOpen={false} />
-      <Toaster />
+
+      <Toaster
+        toastOptions={{
+          className: 'text-sm font-bold',
+        }}
+      />
     </QueryClientProvider>
   );
 }

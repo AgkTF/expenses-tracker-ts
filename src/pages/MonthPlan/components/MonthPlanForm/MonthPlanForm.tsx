@@ -92,27 +92,21 @@ function MonthPlanForm({ push }: Props) {
                 validate={required}
               />
 
-              {index >= 1 ? (
-                <button
-                  type="button"
-                  className="p-1 btn-grey"
-                  onClick={() => {
-                    const currentLine = fields.value[index];
-                    console.log(currentLine);
-                    if (currentLine.id) {
-                      deleteCategoryMutation.mutate(currentLine.id);
-                    } else {
-                      fields.remove(index);
-                    }
-                  }}
-                >
-                  <MinusIcon className="h-5 w-5" />
-                </button>
-              ) : (
-                <div className="p-1">
-                  <div className="h-5 w-5"></div>
-                </div>
-              )}
+              <button
+                type="button"
+                className="p-1 btn-grey"
+                onClick={() => {
+                  const currentLine = fields.value[index];
+                  console.log(currentLine);
+                  if (currentLine.id) {
+                    deleteCategoryMutation.mutate(currentLine.id);
+                  } else {
+                    fields.remove(index);
+                  }
+                }}
+              >
+                <MinusIcon className="h-5 w-5" />
+              </button>
             </div>
           ))
         }
@@ -174,19 +168,13 @@ function MonthPlanForm({ push }: Props) {
                 validate={required}
               />
 
-              {index >= 1 ? (
-                <button
-                  type="button"
-                  className="p-1 btn-grey"
-                  onClick={() => fields.remove(index)}
-                >
-                  <MinusIcon className="h-5 w-5" />
-                </button>
-              ) : (
-                <div className="p-1">
-                  <div className="h-5 w-5"></div>
-                </div>
-              )}
+              <button
+                type="button"
+                className="p-1 btn-grey"
+                onClick={() => fields.remove(index)}
+              >
+                <MinusIcon className="h-5 w-5" />
+              </button>
             </div>
           ))
         }

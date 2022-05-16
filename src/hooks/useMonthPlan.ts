@@ -114,18 +114,18 @@ const fetchMonthPlan = async (
 
 const updateMonthPlan = async ({ newValues, oldValues }: Params) => {
   const valuesToInsert = categoriesCreator(newValues);
-  const modifiedOldValues = categoriesCreator(oldValues);
-  const diff = differenceWith(valuesToInsert, modifiedOldValues, isEqual);
+  // const modifiedOldValues = categoriesCreator(oldValues);
+  // const diff = differenceWith(valuesToInsert, modifiedOldValues, isEqual);
 
-  console.log({ modifiedOldValues });
-  console.log({ valuesToInsert });
-  console.log({
-    diff,
-  });
+  // console.log({ modifiedOldValues });
+  // console.log({ valuesToInsert });
+  // console.log({
+  //   diff,
+  // });
 
   const { data, error } = await supabase
     .from<definitions['money_category']>('money_category')
-    .upsert(diff);
+    .upsert(valuesToInsert);
 
   if (error) {
     throw new Error(error.message);

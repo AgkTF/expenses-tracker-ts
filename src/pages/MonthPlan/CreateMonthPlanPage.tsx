@@ -1,3 +1,5 @@
+// ! later on when we give the user the ability to select a month to view its plan, we have to redirect the user to the create month plan only if the selected month is the current month otherwise we should display a message saying that there's no plan for that month.
+
 import { Button, MonthIcon } from 'components/UIElements';
 import arrayMutators from 'final-form-arrays';
 import { Field, Form } from 'react-final-form';

@@ -15,6 +15,7 @@ import {
 } from 'hooks/useAvailableBalance';
 import numberFormatter from 'utils/helpers/numbers.helpers';
 import { required } from 'utils/helpers/validation.helpers';
+import { useQueryClient } from 'react-query';
 
 Modal.setAppElement('#root');
 
@@ -28,6 +29,7 @@ type Props = {
 
 const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
   const addBalanceRecordMutation = useAddBalanceRecord();
+  const queryClient = useQueryClient();
 
   const {
     isLoading: isBalanceLoading,
@@ -37,10 +39,10 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
   } = useAvailableBalance();
 
   const onSuccessHandler = (data: definitions['transaction'][]) => {
+    const { id, amount, trans_type, category_id } = data[0];
     toast.success('Transaction added successfully');
+    queryClient.invalidateQueries(['category_trans', `${category_id}`]);
     toggleModal();
-
-    const { id, amount, trans_type } = data[0];
 
     if (availableBalance && availableBalance.new_balance && amount) {
       addBalanceRecordMutation.mutate({

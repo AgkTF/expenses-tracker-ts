@@ -5,12 +5,27 @@ import { FieldArray } from 'react-final-form-arrays';
 import { upperFirst } from 'lodash';
 import numberFormatter from 'utils/helpers/numbers.helpers';
 import { required } from 'utils/helpers/validation.helpers';
+import { useDeleteCategory } from 'hooks/useMonthPlan';
+import toast from 'react-hot-toast';
 
 type Props = {
   push: (...args: any[]) => any;
 };
 
+const onSuccessHandler = () => {
+  toast.success('Category deleted successfully');
+};
+
+const onErrorHandler = () => {
+  toast.error('Failed to delete category!');
+};
+
 function MonthPlanForm({ push }: Props) {
+  const deleteCategoryMutation = useDeleteCategory(
+    onSuccessHandler,
+    onErrorHandler
+  );
+
   return (
     <section>
       <div className="px-8 mt-8">
@@ -78,7 +93,15 @@ function MonthPlanForm({ push }: Props) {
                 <button
                   type="button"
                   className="p-1 btn-grey"
-                  onClick={() => fields.remove(index)}
+                  onClick={() => {
+                    const currentLine = fields.value[index];
+                    console.log(currentLine);
+                    if (currentLine.id) {
+                      deleteCategoryMutation.mutate(currentLine.id);
+                    } else {
+                      fields.remove(index);
+                    }
+                  }}
                 >
                   <MinusIcon className="h-5 w-5" />
                 </button>

@@ -118,7 +118,7 @@ const updateMonthPlan = async ({ newValues, oldValues }: Params) => {
   // const diff = differenceWith(valuesToInsert, modifiedOldValues, isEqual);
 
   // console.log({ modifiedOldValues });
-  // console.log({ valuesToInsert });
+  console.log({ valuesToInsert });
   // console.log({
   //   diff,
   // });
@@ -126,6 +126,19 @@ const updateMonthPlan = async ({ newValues, oldValues }: Params) => {
   const { data, error } = await supabase
     .from<definitions['money_category']>('money_category')
     .upsert(valuesToInsert);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+const deleteCategory = async (id: number) => {
+  const { data, error } = await supabase
+    .from<definitions['money_category']>('money_category')
+    .delete()
+    .eq('id', id);
 
   if (error) {
     throw new Error(error.message);
@@ -164,6 +177,22 @@ export function useUpdateMonthPlan(
   onErrorHandler: () => void
 ) {
   return useMutation((params: Params) => updateMonthPlan(params), {
+    onSuccess: data => {
+      console.log(data);
+      onSuccessHandler();
+    },
+    onError: error => {
+      console.log(error);
+      onErrorHandler();
+    },
+  });
+}
+
+export function useDeleteCategory(
+  onSuccessHandler: () => void,
+  onErrorHandler: () => void
+) {
+  return useMutation((id: number) => deleteCategory(id), {
     onSuccess: data => {
       console.log(data);
       onSuccessHandler();

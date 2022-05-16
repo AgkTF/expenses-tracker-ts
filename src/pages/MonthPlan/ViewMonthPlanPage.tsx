@@ -9,8 +9,6 @@ import { useStore } from 'store/useStore';
 import toast from 'react-hot-toast';
 import { InputField } from 'components/form';
 import { required } from 'utils/helpers/validation.helpers';
-import { useAddBalanceRecord } from 'hooks/useAvailableBalance';
-import { definitions } from 'types/supabase';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
@@ -50,21 +48,14 @@ const ViewMonthPlanPage = (props: Props) => {
     }
   }, [isSuccess, monthPlan, navigate]);
 
-  // const onSuccessHandler = (data: definitions['money_category'][]) => {
   const onSuccessHandler = () => {
     toast.success('Month plan updated successfully');
-    // const openingBalanceTrans = data.find(trans => trans.type === 3);
-    // addBalanceRecordMutation.mutate({
-    //   old_balance: 0,
-    //   new_balance: openingBalanceTrans?.planned_amount || 0,
-    // });
   };
 
   const onErrorHandler = () => {
     toast.error('Failed to add month plan');
   };
 
-  // const addBalanceRecordMutation = useAddBalanceRecord();
   const updateMonthPlanMutation = useUpdateMonthPlan(
     onSuccessHandler,
     onErrorHandler

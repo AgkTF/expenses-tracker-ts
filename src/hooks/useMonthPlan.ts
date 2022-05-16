@@ -147,6 +147,19 @@ const deleteCategory = async (id: number) => {
   return data;
 };
 
+const addCategory = async (values: Partial<definitions['money_category']>) => {
+  const { data, error } = await supabase
+    .from<definitions['money_category']>('money_category')
+    .insert([values]);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+// ---------- hooks🪝---------- //
 export default function useMonthPlan(
   onSuccessHandler: (data: definitions['money_category'][]) => void,
   onErrorHandler: () => void
@@ -202,4 +215,23 @@ export function useDeleteCategory(
       onErrorHandler();
     },
   });
+}
+
+export function useAddCategory(
+  onSuccessHandler: () => void,
+  onErrorHandler: () => void
+) {
+  return useMutation(
+    (values: Partial<definitions['money_category']>) => addCategory(values),
+    {
+      onSuccess: data => {
+        console.log(data);
+        onSuccessHandler();
+      },
+      onError: error => {
+        console.log(error);
+        onErrorHandler();
+      },
+    }
+  );
 }

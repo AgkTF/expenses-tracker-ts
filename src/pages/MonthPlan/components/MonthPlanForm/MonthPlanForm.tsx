@@ -7,6 +7,8 @@ import numberFormatter from 'utils/helpers/numbers.helpers';
 import { required } from 'utils/helpers/validation.helpers';
 import { useDeleteCategory } from 'hooks/useMonthPlan';
 import toast from 'react-hot-toast';
+import { NewCategoryModal } from 'components/UIElements';
+import { useState } from 'react';
 
 type Props = {
   push: (...args: any[]) => any;
@@ -25,6 +27,11 @@ function MonthPlanForm({ push }: Props) {
     onSuccessHandler,
     onErrorHandler
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(prevState => !prevState);
+  };
 
   return (
     <section>
@@ -32,11 +39,7 @@ function MonthPlanForm({ push }: Props) {
         <section className="mb-5 w-full flex items-center justify-between">
           <h3 className="font-semibold text-lg text-slate-600">💸 Expenses</h3>
 
-          <button
-            type="button"
-            className="p-1 btn-grey"
-            onClick={() => push('expensesCategories', { planned_amount: '' })}
-          >
+          <button type="button" className="p-1 btn-grey" onClick={toggleModal}>
             <PlusIcon className="h-5 w-5" />
           </button>
         </section>
@@ -118,11 +121,7 @@ function MonthPlanForm({ push }: Props) {
       <div className="px-8 mt-8">
         <section className="mb-5 w-full flex items-center justify-between">
           <h3 className="font-semibold text-lg text-slate-600">💰 Income</h3>
-          <button
-            type="button"
-            className="p-1 btn-grey"
-            onClick={() => push('incomeCategories', { planned_amount: '' })}
-          >
+          <button type="button" className="p-1 btn-grey" onClick={toggleModal}>
             <PlusIcon className="h-5 w-5" />
           </button>
         </section>
@@ -192,6 +191,8 @@ function MonthPlanForm({ push }: Props) {
           ))
         }
       </FieldArray>
+
+      <NewCategoryModal isOpen={isModalOpen} toggleModal={toggleModal} />
     </section>
   );
 }

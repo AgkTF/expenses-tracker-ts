@@ -8,6 +8,7 @@ import DayIcon from './DayIcon/DayIcon';
 import ExpenseCard from './ExpenseCard/ExpenseCard';
 import IncomeCard from './IncomeCard/IncomeCard';
 import TransCard from './TransCard/TransCard';
+import NewCategoryModal from './NewCategoryModal/NewCategoryModal';
 
 export {
   MonthIcon,
@@ -20,4 +21,5 @@ export {
   ExpenseCard,
   IncomeCard,
   TransCard,
+  NewCategoryModal,
 };

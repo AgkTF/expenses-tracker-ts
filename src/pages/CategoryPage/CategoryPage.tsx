@@ -2,6 +2,9 @@ import { ArrowLeftIcon } from '@heroicons/react/solid';
 import { useNavigate, useParams } from 'react-router-dom';
 import useCategoryTrans from 'hooks/useCategoryTrans';
 import { TransCard } from 'components/UIElements';
+import { Field, Form } from 'react-final-form';
+import { SelectField } from 'components/form';
+import { useMonthInterval } from 'hooks/useMonthInterval';
 
 const testDate = new Date();
 
@@ -10,11 +13,14 @@ type Props = {};
 const CategoryPage = (props: Props) => {
   let navigate = useNavigate();
   const { categoryName, categoryId } = useParams();
+  const intervals = useMonthInterval(new Date());
 
   const { isLoading, isError, error, data } = useCategoryTrans(
     testDate,
     categoryId
   );
+
+  const onSubmit = () => {};
 
   return (
     <>
@@ -32,6 +38,29 @@ const CategoryPage = (props: Props) => {
           </h1>
         </section>
       </div>
+
+      <section className="px-4 mt-10 w-full">
+        <Form
+          onSubmit={onSubmit}
+          render={({ handleSubmit, form, submitting, pristine, values }) => (
+            <form onSubmit={handleSubmit}>
+              <Field
+                name="type"
+                render={({ input, meta }) => (
+                  <SelectField
+                    input={input}
+                    meta={meta}
+                    label="Interval"
+                    firstOption="Select Interval"
+                    options={intervals?.options}
+                    displayNameProperty="name"
+                  />
+                )}
+              />
+            </form>
+          )}
+        />
+      </section>
 
       <section className="px-4 mt-10 w-full space-y-3">
         {data?.map(trans => (

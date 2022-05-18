@@ -653,7 +653,7 @@ export interface definitions {
     number?: number;
     /**
      * Format: timestamp with time zone
-     * @default now()
+     * @default (now() AT TIME ZONE 'utc'::text)
      */
     created_at?: string;
   };
@@ -668,7 +668,7 @@ export interface definitions {
     name?: string;
     /**
      * Format: timestamp with time zone
-     * @default now()
+     * @default (now() AT TIME ZONE 'utc'::text)
      */
     created_at?: string;
   };
@@ -683,7 +683,7 @@ export interface definitions {
     name?: string;
     /**
      * Format: timestamp with time zone
-     * @default now()
+     * @default (now() AT TIME ZONE 'utc'::text)
      */
     created_at?: string;
   };
@@ -700,7 +700,7 @@ export interface definitions {
     planned_amount?: number;
     /**
      * Format: timestamp with time zone
-     * @default now()
+     * @default (now() AT TIME ZONE 'utc'::text)
      */
     created_at?: string;
     /**
@@ -735,11 +735,11 @@ export interface definitions {
     is_deleted?: boolean;
     /**
      * Format: timestamp with time zone
-     * @default now()
+     * @default (now() AT TIME ZONE 'utc'::text)
      */
     created_at?: string;
     /** Format: timestamp without time zone */
-    date?: string;
+    date: string;
     /** Format: character varying */
     description?: string;
     /**

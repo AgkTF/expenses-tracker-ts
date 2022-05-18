@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@heroicons/react/solid';
 import { useNavigate, useParams } from 'react-router-dom';
 import useCategoryTrans from 'hooks/useCategoryTrans';
-import { TransCard } from 'components/UIElements';
+import { BarChart, TransCard } from 'components/UIElements';
 import { Field, Form } from 'react-final-form';
 import { SelectField } from 'components/form';
 import { useMonthInterval } from 'hooks/useMonthInterval';
@@ -28,7 +28,7 @@ const CategoryPage = (props: Props) => {
         <section className="px-4 mt-8 w-full flex items-center">
           <button
             type="button"
-            className="p-1 text-slate-700 bg-slate-100 rounded"
+            className="p-2 text-slate-700 bg-slate-100 rounded-md shadow"
             onClick={() => navigate(-1)}
           >
             <ArrowLeftIcon className="h-4 w-4" />
@@ -62,16 +62,31 @@ const CategoryPage = (props: Props) => {
         />
       </section>
 
-      <section className="px-4 mt-10 w-full space-y-3">
-        {data?.map(trans => (
-          <TransCard
-            key={trans.id}
-            amount={trans.amount || 0}
-            categoryName={categoryName || 'Category'}
-            date={trans.date ? new Date(trans.date) : new Date()}
-            description={trans.description || `Transaction ${trans.id}`}
-          />
-        ))}
+      <section className="h-56">
+        {/* <BarChart data={data?.chartData || []} /> */}
+        {!isLoading && data && data.chartData ? (
+          <BarChart data={data.chartData} />
+        ) : (
+          <p>Loading...</p>
+        )}
+      </section>
+
+      <section className="px-4 mt-10 w-full">
+        <h3 className="text-sm font-medium text-slate-500">
+          Tuesday, 06 July 2021
+        </h3>
+
+        {/* <div className="mt-3 space-y-3">
+          {data?.map(trans => (
+            <TransCard
+              key={trans.id}
+              amount={trans.amount || 0}
+              categoryName={categoryName || 'Category'}
+              date={trans.date ? new Date(trans.date) : new Date()}
+              description={trans.description || `Transaction ${trans.id}`}
+            />
+          ))}
+        </div> */}
       </section>
     </>
   );

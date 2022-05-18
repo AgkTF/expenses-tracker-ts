@@ -9,6 +9,7 @@ import ExpenseCard from './ExpenseCard/ExpenseCard';
 import IncomeCard from './IncomeCard/IncomeCard';
 import TransCard from './TransCard/TransCard';
 import NewCategoryModal from './NewCategoryModal/NewCategoryModal';
+import BarChart from './BarChart/BarChart';
 
 export {
   MonthIcon,
@@ -22,4 +23,5 @@ export {
   IncomeCard,
   TransCard,
   NewCategoryModal,
+  BarChart,
 };

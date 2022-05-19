@@ -5,7 +5,7 @@ import {
   MonthIcon,
 } from 'components/UIElements';
 import useFetchOpeningBalance from 'hooks/useFetchOpeningBalance';
-import useExpensesDetails from 'hooks/useExpensesDetails';
+import useExpensesCategoriesDetails from 'hooks/useExpensesCategoriesDetails';
 import useMonthTrans from 'hooks/useMonthTrans';
 import useIncomeDetails from 'hooks/useIncomeDetails';
 import { useAvailableBalance } from 'hooks/useAvailableBalance';
@@ -28,7 +28,7 @@ const MonthSummaryPage = (props: Props) => {
     isError: isExpensesError,
     error: expensesError,
     data: expensesData,
-  } = useExpensesDetails(testDate);
+  } = useExpensesCategoriesDetails(testDate);
 
   const {
     isLoading: isIncomeLoading,

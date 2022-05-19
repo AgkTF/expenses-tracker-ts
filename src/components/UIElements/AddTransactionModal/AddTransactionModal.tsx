@@ -2,7 +2,7 @@ import { XIcon } from '@heroicons/react/solid';
 import Modal from 'react-modal';
 import { Field, Form } from 'react-final-form';
 import { Checkbox, InputField, SelectField } from 'components/form';
-import useExpensesDetails from 'hooks/useExpensesDetails';
+import useExpensesCategoriesDetails from 'hooks/useExpensesCategoriesDetails';
 import Button from '../Button/Button';
 import useAddTransaction from 'hooks/useAddTransaction';
 import { definitions } from 'types/supabase';
@@ -71,7 +71,7 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
     isError: isExpensesError,
     error: expensesError,
     data: expensesData,
-  } = useExpensesDetails(testDate);
+  } = useExpensesCategoriesDetails(testDate);
 
   const {
     isLoading: isTypesLoading,

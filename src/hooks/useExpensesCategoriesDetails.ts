@@ -59,6 +59,8 @@ const fetchExpensesDetails = async (date: Date) => {
   return { totalExpenses, categories };
 };
 
-export default function useExpensesDetails(date = new Date()) {
-  return useQuery('expenses_details', () => fetchExpensesDetails(date));
+export default function useExpensesCategoriesDetails(date = new Date()) {
+  return useQuery('expenses_categories_details', () =>
+    fetchExpensesDetails(date)
+  );
 }

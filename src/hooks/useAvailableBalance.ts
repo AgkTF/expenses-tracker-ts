@@ -40,7 +40,7 @@ export function useAddBalanceRecord() {
       onSuccess: () => {
         queryClient.invalidateQueries('available_balance');
         queryClient.invalidateQueries('month_trans');
-        queryClient.invalidateQueries('expenses_details');
+        queryClient.invalidateQueries('expenses_categories_details');
         queryClient.invalidateQueries('income_details');
       },
     }

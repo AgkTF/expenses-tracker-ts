@@ -5,7 +5,8 @@ import { useQuery } from 'react-query';
 import { supabase } from 'supabaseClient';
 import { definitions } from 'types/supabase';
 import format from 'date-fns/format';
-import { groupBy } from 'lodash';
+import { chunk, groupBy, merge } from 'lodash';
+import { createDaysWithExpenses } from 'utils/helpers/date.helpers';
 
 type TransWithFormattedDate = {
   [key: string]: {
@@ -15,10 +16,18 @@ type TransWithFormattedDate = {
   };
 };
 
+type GroupedWithExpenses = {
+  [key: string]: {
+    expenses: number;
+    day: string;
+  };
+};
+
 const fetchCategoryTrans = async (
   date: Date,
   categoryId: string | undefined
 ) => {
+  const daysObj = createDaysWithExpenses(date);
   const isoDate = date.toISOString();
 
   const { data, error } = await supabase
@@ -40,9 +49,14 @@ const fetchCategoryTrans = async (
     ...e,
     formattedDate: format(parseISO(e.date), 'yyyy-MM-dd'),
   }));
+
   const grouped = groupBy(mapped, 'formattedDate');
+
   const entries = Object.entries(grouped);
-  const groupedWithSum = {} as TransWithFormattedDate;
+
+  const groupedWithSum: TransWithFormattedDate = {};
+  const groupedWithoutTrans: GroupedWithExpenses = {};
+
   const chartData = [] as {
     expenses: number;
     day: string;
@@ -62,11 +76,24 @@ const fetchCategoryTrans = async (
       day: format(new Date(_key), 'eee dd'),
       trans: _value,
     };
+    groupedWithoutTrans[_key] = {
+      expenses,
+      day: _key,
+    };
 
-    chartData.push({ day: _key, expenses });
+    // chartData.push({ day: _key, expenses });
   });
 
-  return { groupedWithSum, chartData };
+  const merged = merge(daysObj, groupedWithoutTrans);
+  const mergedEntries = Object.entries(merged);
+  mergedEntries.forEach(ent => {
+    const _values = ent[1];
+    chartData.push(_values);
+  });
+  const chartDataChunks = chunk(chartData.flat(), 7);
+  console.log(chartDataChunks);
+
+  return { groupedWithSum, chartData: chartDataChunks };
 };
 
 export default function useCategoryTrans(

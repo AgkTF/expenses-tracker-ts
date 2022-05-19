@@ -5,12 +5,15 @@ import { BarChart, TransCard } from 'components/UIElements';
 import { Field, Form } from 'react-final-form';
 import { SelectField } from 'components/form';
 import { useMonthInterval } from 'hooks/useMonthInterval';
+import { OnChange } from 'react-final-form-listeners';
+import { useState } from 'react';
 
 const testDate = new Date();
 
 type Props = {};
 
 const CategoryPage = (props: Props) => {
+  const [chunkIndex, setChunkIndex] = useState('');
   let navigate = useNavigate();
   const { categoryName, categoryId } = useParams();
   const intervals = useMonthInterval(new Date());
@@ -57,6 +60,14 @@ const CategoryPage = (props: Props) => {
                   />
                 )}
               />
+
+              <OnChange name="type">
+                {(value: string, previous: string) => {
+                  // do something
+                  console.log({ value, previous });
+                  setChunkIndex(value);
+                }}
+              </OnChange>
             </form>
           )}
         />
@@ -65,7 +76,7 @@ const CategoryPage = (props: Props) => {
       <section className="h-56">
         {/* <BarChart data={data?.chartData || []} /> */}
         {!isLoading && data && data.chartData ? (
-          <BarChart data={data.chartData} />
+          <BarChart data={chunkIndex ? data.chartData[+chunkIndex] : []} />
         ) : (
           <p>Loading...</p>
         )}

@@ -8,6 +8,7 @@ import MonthSummaryPage from 'pages/MonthSummaryPage/MonthSummaryPage';
 import CreateMonthPlanPage from 'pages/MonthPlan/CreateMonthPlanPage';
 import CategoryPage from 'pages/CategoryPage/CategoryPage';
 import ViewMonthPlanPage from 'pages/MonthPlan/ViewMonthPlanPage';
+import MonthBreakdown from 'pages/MonthBreakdown/MonthBreakdown';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +34,7 @@ function App() {
               path="categories/:categoryName/:categoryId"
               element={<CategoryPage />}
             />
+            <Route path="month-breakdown/:month" element={<MonthBreakdown />} />
           </Route>
         </Routes>
       </BrowserRouter>

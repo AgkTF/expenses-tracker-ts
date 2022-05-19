@@ -1,4 +1,4 @@
-import { DayIcon } from 'components/UIElements';
+import { DayIcon, MonthIcon } from 'components/UIElements';
 
 import { Link } from 'react-router-dom';
 import { XIcon, PencilIcon } from '@heroicons/react/solid';
@@ -19,6 +19,14 @@ const BottomNavMenu = ({ setIsNavMenuOpen }: Props) => {
       </Link>
 
       <hr className="my-2 text-gray-400" />
+
+      <Link
+        to="/month-breakdown/2022-05-01"
+        className="group py-1 px-3 rounded-full text-gray-200 hover:bg-gray-50 hover:text-gray-600 font-medium text-sm flex gap-x-2 items-center"
+      >
+        <MonthIcon />
+        <span>Month Breakdown</span>
+      </Link>
 
       <button
         type="button"

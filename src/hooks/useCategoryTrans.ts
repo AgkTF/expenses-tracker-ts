@@ -80,8 +80,6 @@ const fetchCategoryTrans = async (
       expenses,
       day: _key,
     };
-
-    // chartData.push({ day: _key, expenses });
   });
 
   const merged = merge(daysObj, groupedWithoutTrans);
@@ -91,9 +89,8 @@ const fetchCategoryTrans = async (
     chartData.push(_values);
   });
   const chartDataChunks = chunk(chartData.flat(), 7);
-  console.log(chartDataChunks);
 
-  return { groupedWithSum, chartData: chartDataChunks };
+  return { allTransactions: data, groupedWithSum, chartData: chartDataChunks };
 };
 
 export default function useCategoryTrans(

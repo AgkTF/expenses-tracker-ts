@@ -1,29 +1,23 @@
 import { ArrowLeftIcon } from '@heroicons/react/solid';
 import { useNavigate, useParams } from 'react-router-dom';
 import useCategoryTrans from 'hooks/useCategoryTrans';
-import { BarChart, TransCard } from 'components/UIElements';
-import { Field, Form } from 'react-final-form';
-import { SelectField } from 'components/form';
-import { useMonthInterval } from 'hooks/useMonthInterval';
-import { OnChange } from 'react-final-form-listeners';
-import { useState } from 'react';
+import format from 'date-fns/format';
+import { TransCard } from 'components/UIElements';
 
 const testDate = new Date();
 
 type Props = {};
 
 const CategoryPage = (props: Props) => {
-  const [chunkIndex, setChunkIndex] = useState('');
   let navigate = useNavigate();
   const { categoryName, categoryId } = useParams();
-  const intervals = useMonthInterval(new Date());
 
   const { isLoading, isError, error, data } = useCategoryTrans(
     testDate,
     categoryId
   );
 
-  const onSubmit = () => {};
+  // const onSubmit = () => {};
 
   return (
     <>
@@ -43,52 +37,12 @@ const CategoryPage = (props: Props) => {
       </div>
 
       <section className="px-4 mt-10 w-full">
-        <Form
-          onSubmit={onSubmit}
-          render={({ handleSubmit, form, submitting, pristine, values }) => (
-            <form onSubmit={handleSubmit}>
-              <Field
-                name="type"
-                render={({ input, meta }) => (
-                  <SelectField
-                    input={input}
-                    meta={meta}
-                    label="Interval"
-                    firstOption="Select Interval"
-                    options={intervals?.options}
-                    displayNameProperty="name"
-                  />
-                )}
-              />
-
-              <OnChange name="type">
-                {(value: string, previous: string) => {
-                  // do something
-                  console.log({ value, previous });
-                  setChunkIndex(value);
-                }}
-              </OnChange>
-            </form>
-          )}
-        />
-      </section>
-
-      <section className="h-56">
-        {/* <BarChart data={data?.chartData || []} /> */}
-        {!isLoading && data && data.chartData ? (
-          <BarChart data={chunkIndex ? data.chartData[+chunkIndex] : []} />
-        ) : (
-          <p>Loading...</p>
-        )}
-      </section>
-
-      <section className="px-4 mt-10 w-full">
-        <h3 className="text-sm font-medium text-slate-500">
-          Tuesday, 06 July 2021
+        <h3 className="font-semibold text-slate-500">
+          {format(testDate, 'LLLL yyyy')}
         </h3>
 
-        {/* <div className="mt-3 space-y-3">
-          {data?.map(trans => (
+        <div className="mt-3 space-y-3">
+          {data?.allTransactions?.map(trans => (
             <TransCard
               key={trans.id}
               amount={trans.amount || 0}
@@ -97,7 +51,7 @@ const CategoryPage = (props: Props) => {
               description={trans.description || `Transaction ${trans.id}`}
             />
           ))}
-        </div> */}
+        </div>
       </section>
     </>
   );

@@ -60,7 +60,10 @@ const fetchAllMonthTransactions = async (date: Date) => {
     throw new Error('No transactions recorded this month!');
   }
 
-  return data;
+  const expenseTransactions = data.filter(tr => tr.trans_type === 1);
+  const incomeTransactions = data.filter(tr => tr.trans_type === 2);
+
+  return { expenseTransactions, incomeTransactions };
 };
 
 export default function useMonthTrans(date = new Date()) {

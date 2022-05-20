@@ -718,7 +718,7 @@ export interface definitions {
      */
     id: number;
     /** Format: double precision */
-    amount?: number;
+    amount: number;
     /**
      * Format: bigint
      * @description Note:

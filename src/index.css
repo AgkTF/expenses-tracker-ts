@@ -6,6 +6,11 @@
   .transactions__container {
     max-height: calc(100vh - 23rem);
   }
+  @media (orientation: landscape) {
+    .transactions__container {
+      max-height: calc(100vh - 10rem);
+    }
+  }
   .w-fit {
     width: fit-content;
   }

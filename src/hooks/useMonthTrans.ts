@@ -1,4 +1,5 @@
 import endOfMonth from 'date-fns/endOfMonth';
+import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import startOfMonth from 'date-fns/startOfMonth';
 import { useQuery } from 'react-query';
@@ -30,6 +31,45 @@ const fetchMonthTransactions = async (date: Date) => {
   return { monthTrans: data, totalSpent };
 };
 
+const fetchAllMonthTransactions = async (date: Date) => {
+  const isoDate = date.toISOString();
+
+  const { data, error } = await supabase
+    .from<
+      definitions['transaction'] & {
+        money_category: Partial<definitions['money_category']>;
+      }
+    >('transaction')
+    .select(
+      `
+    *,
+    money_category (
+      name
+    )
+    `
+    )
+    .gte('date', startOfMonth(parseISO(isoDate)).toISOString())
+    .lte('date', endOfMonth(parseISO(isoDate)).toISOString())
+    .order('date');
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (!data) {
+    throw new Error('No transactions recorded this month!');
+  }
+
+  return data;
+};
+
 export default function useMonthTrans(date = new Date()) {
   return useQuery('month_trans', () => fetchMonthTransactions(date));
+}
+
+export function useAllMonthTransactions(date = new Date()) {
+  const formatted = format(date, 'yyyy-MM-dd');
+  return useQuery(['all_month_transactions', formatted], () =>
+    fetchAllMonthTransactions(date)
+  );
 }

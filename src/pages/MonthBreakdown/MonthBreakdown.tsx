@@ -1,9 +1,8 @@
 import { ArrowLeftIcon } from '@heroicons/react/solid';
 import { useNavigate, useParams } from 'react-router-dom';
-import useCategoryTrans from 'hooks/useCategoryTrans';
 import format from 'date-fns/format';
 import { TransCard } from 'components/UIElements';
-import useMonthTrans from 'hooks/useMonthTrans';
+import { useAllMonthTransactions } from 'hooks/useMonthTrans';
 
 type Props = {};
 
@@ -11,12 +10,9 @@ const MonthBreakdown = (props: Props) => {
   let navigate = useNavigate();
   const { month } = useParams();
 
-  const {
-    data,
-    isLoading: isMonthTransLoading,
-    isError: isMonthTransError,
-    error: monthTransError,
-  } = useMonthTrans(month ? new Date(month) : new Date());
+  const { data, isLoading, isError, error } = useAllMonthTransactions(
+    month ? new Date(month) : new Date()
+  );
 
   return (
     <>
@@ -42,10 +38,16 @@ const MonthBreakdown = (props: Props) => {
             : format(new Date(), 'LLLL yyyy')}
         </h3>
 
-        <div className="mt-3 space-y-3">
-          {/* {data?.monthTrans.map(trans => (
-           
-          ))} */}
+        <div className="mt-3 space-y-2">
+          {data?.map(trans => (
+            <TransCard
+              key={trans.id}
+              amount={trans.amount || 0}
+              categoryName={trans.money_category.name || 'Category'}
+              date={trans.date ? new Date(trans.date) : new Date()}
+              description={trans.description || `Transaction ${trans.id}`}
+            />
+          ))}
         </div>
       </section>
     </>

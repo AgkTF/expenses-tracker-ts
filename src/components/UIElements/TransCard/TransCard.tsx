@@ -1,15 +1,23 @@
 import { DayIcon } from 'components/UIElements';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { useStore } from 'store/useStore';
+import { Link } from 'react-router-dom';
 
 type Props = {
   date: Date;
   description: string;
   categoryName: string;
   amount: number;
+  categoryId: number;
 };
 
-const TransCard = ({ date, description, categoryName, amount }: Props) => {
+const TransCard = ({
+  date,
+  description,
+  categoryName,
+  amount,
+  categoryId,
+}: Props) => {
   const defaultCurrency = useStore(state => state.currency);
 
   return (
@@ -21,9 +29,14 @@ const TransCard = ({ date, description, categoryName, amount }: Props) => {
 
         <div>
           <p className="text-slate-500 font-medium text-base">{description}</p>
-          <div className="px-1 mt-1 w-fit bg-white text-slate-400 font-light text-xs shadow rounded text-center">
-            {categoryName}
-          </div>
+
+          <Link
+            to={`/categories/${encodeURIComponent(categoryName)}/${categoryId}`}
+          >
+            <p className="px-1 mt-1 w-fit bg-white text-slate-400 font-light text-xs shadow rounded text-center">
+              {categoryName}
+            </p>
+          </Link>
         </div>
       </div>
 

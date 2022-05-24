@@ -51,6 +51,7 @@ const MonthBreakdown = (props: Props) => {
                 categoryName={trans.money_category.name || 'Category'}
                 date={trans.date ? new Date(trans.date) : new Date()}
                 description={trans.description || `Transaction ${trans.id}`}
+                categoryId={trans.category_id || 0}
               />
             ))}
           </div>
@@ -69,6 +70,7 @@ const MonthBreakdown = (props: Props) => {
                 categoryName={trans.money_category.name || 'Category'}
                 date={trans.date ? new Date(trans.date) : new Date()}
                 description={trans.description || `Transaction ${trans.id}`}
+                categoryId={trans.category_id || 0}
               />
             ))}
           </div>

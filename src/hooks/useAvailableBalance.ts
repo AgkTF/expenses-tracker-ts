@@ -42,6 +42,7 @@ export function useAddBalanceRecord() {
         queryClient.invalidateQueries('month_trans');
         queryClient.invalidateQueries('expenses_categories_details');
         queryClient.invalidateQueries('income_details');
+        queryClient.invalidateQueries('all_month_transactions');
       },
     }
   );

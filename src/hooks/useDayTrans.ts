@@ -1,13 +1,11 @@
 import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
 import { useQuery } from 'react-query';
 import { supabase } from 'supabaseClient';
 import { definitions } from 'types/supabase';
-import startOfDay from 'date-fns/startOfDay';
-import endOfDay from 'date-fns/endOfDay';
 
 const fetchDayTransactions = async (date: Date) => {
-  const isoDate = date.toISOString();
+  const dayStart = format(date, 'yyyy-LL-dd') + 'T00:00';
+  const dayEnd = format(date, 'yyyy-LL-dd') + 'T23:59';
 
   const { data, error } = await supabase
     .from<
@@ -23,8 +21,8 @@ const fetchDayTransactions = async (date: Date) => {
     )
     `
     )
-    .gte('date', startOfDay(parseISO(isoDate)).toISOString())
-    .lte('date', endOfDay(parseISO(isoDate)).toISOString())
+    .gte('date', dayStart)
+    .lte('date', dayEnd)
     .order('date');
 
   if (error) {

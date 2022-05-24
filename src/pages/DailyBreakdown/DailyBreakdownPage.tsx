@@ -1,14 +1,37 @@
+import { useEffect, useState } from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/solid';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import { useNavigate, useParams } from 'react-router-dom';
 import format from 'date-fns/format';
 import { TransCard } from 'components/UIElements';
 import { useFetchDayTransactions } from 'hooks/useDayTrans';
+import addDays from 'date-fns/addDays';
+import subDays from 'date-fns/subDays';
 
 type Props = {};
 
 const DailyBreakdownPage = (props: Props) => {
+  const [currentDay, setCurrentDay] = useState('');
   let navigate = useNavigate();
   const { day } = useParams();
+
+  useEffect(() => {
+    if (day) {
+      setCurrentDay(day);
+    } else {
+      setCurrentDay(format(new Date(), 'yyyy-LL-dd'));
+    }
+  }, [day]);
+
+  const getPrevDay = () => {
+    const prevDay = subDays(currentDay ? new Date(currentDay) : new Date(), 1);
+    return format(prevDay, 'yyyy-LL-dd');
+  };
+
+  const getNextDay = () => {
+    const nextDay = addDays(currentDay ? new Date(currentDay) : new Date(), 1);
+    return format(nextDay, 'yyyy-LL-dd');
+  };
 
   const { data, isLoading, isError, error } = useFetchDayTransactions(
     day ? new Date(day) : new Date()
@@ -31,14 +54,36 @@ const DailyBreakdownPage = (props: Props) => {
         </section>
       </div>
 
-      <section className="px-4 mt-10 w-full">
+      <div className="p-4 mt-8 mb-4 w-full bg-slate-100 shadow flex items-center justify-between">
+        <button
+          type="button"
+          className="p-1 bg-white rounded-full shadow-sm"
+          onClick={() => {
+            const prevDay = getPrevDay();
+            navigate(`/daily-breakdown/${prevDay}`);
+          }}
+        >
+          <ChevronLeftIcon className="h-5 w-5" />
+        </button>
         <h3 className="text-lg font-semibold text-slate-600">
-          {day
-            ? format(new Date(day), 'EEEE, d LLLL yyyy')
+          {currentDay
+            ? format(new Date(currentDay), 'EEEE, d LLLL yyyy')
             : format(new Date(), 'EEEE, d LLLL yyyy')}
         </h3>
+        <button
+          type="button"
+          className="p-1 bg-white rounded-full shadow-sm"
+          onClick={() => {
+            const nextDay = getNextDay();
+            navigate(`/daily-breakdown/${nextDay}`);
+          }}
+        >
+          <ChevronRightIcon className="h-5 w-5" />
+        </button>
+      </div>
 
-        <section className="mt-2 pb-1 w-full relative overflow-y-auto transactions__container">
+      <section className="px-4 w-full">
+        <section className="pb-1 w-full relative overflow-y-auto transactions__container">
           <div className="py-2 sticky top-0 z-20 bg-white w-full flex items-center justify-between">
             <h3 className="font-medium text-lg text-slate-600">💸 Expenses</h3>
           </div>

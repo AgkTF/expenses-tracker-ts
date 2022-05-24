@@ -59,7 +59,7 @@ const MonthBreakdown = (props: Props) => {
 
         <section className="mt-4 pb-1 w-full relative overflow-y-auto transactions__container">
           <div className="py-2 sticky top-0 z-20 bg-white w-full flex items-center justify-between">
-            <h3 className="font-medium text-lg text-slate-600">💸 Income</h3>
+            <h3 className="font-medium text-lg text-slate-600">💰 Income</h3>
           </div>
 
           <div className="w-full flex flex-wrap items-center justify-between gap-2">

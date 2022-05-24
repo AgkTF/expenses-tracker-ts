@@ -1,3 +1,5 @@
+// TODO: check the query keys below.
+
 import { supabase } from 'supabaseClient';
 import { definitions } from 'types/supabase';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -43,6 +45,7 @@ export function useAddBalanceRecord() {
         queryClient.invalidateQueries('expenses_categories_details');
         queryClient.invalidateQueries('income_details');
         queryClient.invalidateQueries('all_month_transactions');
+        queryClient.invalidateQueries('day_trans');
       },
     }
   );

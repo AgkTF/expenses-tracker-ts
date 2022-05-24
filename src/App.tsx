@@ -9,6 +9,7 @@ import CreateMonthPlanPage from 'pages/MonthPlan/CreateMonthPlanPage';
 import CategoryPage from 'pages/CategoryPage/CategoryPage';
 import ViewMonthPlanPage from 'pages/MonthPlan/ViewMonthPlanPage';
 import MonthBreakdown from 'pages/MonthBreakdown/MonthBreakdown';
+import DailyBreakdownPage from 'pages/DailyBreakdown/DailyBreakdownPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,6 +36,10 @@ function App() {
               element={<CategoryPage />}
             />
             <Route path="month-breakdown/:month" element={<MonthBreakdown />} />
+            <Route
+              path="daily-breakdown/:day"
+              element={<DailyBreakdownPage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -19,7 +19,7 @@ const BottomNavbar = (props: Props) => {
       {isNavMenuOpen ? (
         <BottomNavMenu setIsNavMenuOpen={setIsNavMenuOpen} />
       ) : (
-        <div className="px-3 h-11 flex items-center justify-between bg-gray-600 rounded-lg">
+        <div className="px-3 h-12 flex items-center justify-between bg-gray-600 rounded-lg">
           <Link
             to="/month-summary"
             className="p-2 rounded-full text-gray-200 hover:bg-gray-50 hover:text-gray-500"

@@ -7,6 +7,7 @@ import { TransCard } from 'components/UIElements';
 import { useFetchDayTransactions } from 'hooks/useDayTrans';
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
+import isToday from 'date-fns/isToday';
 
 type Props = {};
 
@@ -57,7 +58,7 @@ const DailyBreakdownPage = (props: Props) => {
       <div className="p-4 mt-8 mb-4 w-full bg-slate-100 shadow flex items-center justify-between">
         <button
           type="button"
-          className="p-1 bg-white rounded-full shadow-sm"
+          className="p-1 bg-white rounded-full shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
           onClick={() => {
             const prevDay = getPrevDay();
             navigate(`/daily-breakdown/${prevDay}`);
@@ -72,11 +73,12 @@ const DailyBreakdownPage = (props: Props) => {
         </h3>
         <button
           type="button"
-          className="p-1 bg-white rounded-full shadow-sm"
+          className="p-1 bg-white rounded-full shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
           onClick={() => {
             const nextDay = getNextDay();
             navigate(`/daily-breakdown/${nextDay}`);
           }}
+          disabled={isToday(new Date(currentDay))}
         >
           <ChevronRightIcon className="h-5 w-5" />
         </button>

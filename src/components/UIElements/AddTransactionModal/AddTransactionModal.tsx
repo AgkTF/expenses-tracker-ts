@@ -210,6 +210,7 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
                   inputLength="50"
                 />
               )}
+              validate={required}
             />
 
             <Field

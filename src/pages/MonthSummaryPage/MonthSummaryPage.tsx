@@ -4,7 +4,6 @@ import {
   IncomeCard,
   MonthIcon,
 } from 'components/UIElements';
-import useFetchOpeningBalance from 'hooks/useFetchOpeningBalance';
 import useExpensesCategoriesDetails from 'hooks/useExpensesCategoriesDetails';
 import useMonthTrans from 'hooks/useMonthTrans';
 import useIncomeDetails from 'hooks/useIncomeDetails';
@@ -12,17 +11,9 @@ import { useAvailableBalance } from 'hooks/useAvailableBalance';
 
 type Props = {};
 
-// const testDate = new Date('11/11/2021');
 const testDate = new Date();
 
 const MonthSummaryPage = (props: Props) => {
-  const {
-    isLoading: isOpeningBalanceLoading,
-    isError: isOpeningBalanceError,
-    error: openingBalanceError,
-    data: openingBalance,
-  } = useFetchOpeningBalance(testDate);
-
   const {
     isLoading: isExpensesLoading,
     isError: isExpensesError,

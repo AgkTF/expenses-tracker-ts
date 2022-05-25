@@ -2,6 +2,7 @@ import { DayIcon } from 'components/UIElements';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { useStore } from 'store/useStore';
 import { Link } from 'react-router-dom';
+import CN from 'classnames';
 
 type Props = {
   date: Date;
@@ -9,6 +10,7 @@ type Props = {
   categoryName: string;
   amount: number;
   categoryId: number;
+  transType: number;
 };
 
 const TransCard = ({
@@ -17,8 +19,13 @@ const TransCard = ({
   categoryName,
   amount,
   categoryId,
+  transType,
 }: Props) => {
   const defaultCurrency = useStore(state => state.currency);
+  const moneyClasses = CN('font-semibold text-xl', {
+    'text-red-500': transType === 1,
+    'text-green-600': transType === 2,
+  });
 
   return (
     <div className="px-3 py-4 w-full bg-gray-100 flex items-center justify-between gap-x-5 rounded-xl shadow">
@@ -40,7 +47,7 @@ const TransCard = ({
         </div>
       </div>
 
-      <div className="text-slate-600 font-semibold text-xl">
+      <div className={moneyClasses}>
         {moneyFormatter(amount, defaultCurrency)}
       </div>
     </div>

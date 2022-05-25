@@ -36,7 +36,7 @@ const fetchDayTransactions = async (date: Date) => {
   const expenseTransactions = data.filter(tr => tr.trans_type === 1);
   const incomeTransactions = data.filter(tr => tr.trans_type === 2);
 
-  return { expenseTransactions, incomeTransactions };
+  return { allTransactions: data, expenseTransactions, incomeTransactions };
 };
 
 export function useFetchDayTransactions(date: Date) {

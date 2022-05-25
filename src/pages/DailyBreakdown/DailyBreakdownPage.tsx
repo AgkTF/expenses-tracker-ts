@@ -99,6 +99,7 @@ const DailyBreakdownPage = (props: Props) => {
                 date={trans.date ? new Date(trans.date) : new Date()}
                 description={trans.description || `Transaction ${trans.id}`}
                 categoryId={trans.category_id || 0}
+                transType={trans.trans_type || 0}
               />
             ))}
           </div>
@@ -118,6 +119,7 @@ const DailyBreakdownPage = (props: Props) => {
                 date={trans.date ? new Date(trans.date) : new Date()}
                 description={trans.description || `Transaction ${trans.id}`}
                 categoryId={trans.category_id || 0}
+                transType={trans.trans_type || 0}
               />
             ))}
           </div>

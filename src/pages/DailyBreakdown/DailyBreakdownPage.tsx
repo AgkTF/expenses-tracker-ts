@@ -8,10 +8,12 @@ import { useFetchDayTransactions } from 'hooks/useDayTrans';
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
 import isToday from 'date-fns/isToday';
+import ViewOptionsMenu from './components/ViewOptionsMenu/ViewOptionsMenu';
 
 type Props = {};
 
 const DailyBreakdownPage = (props: Props) => {
+  const [viewOption, setViewOption] = useState('combined');
   const [currentDay, setCurrentDay] = useState('');
   let navigate = useNavigate();
   const { day } = useParams();
@@ -49,9 +51,15 @@ const DailyBreakdownPage = (props: Props) => {
           >
             <ArrowLeftIcon className="h-4 w-4" />
           </button>
+
           <h1 className="w-full font-bold text-xl text-slate-600 text-center">
             Daily Breakdown
           </h1>
+
+          <ViewOptionsMenu
+            viewOption={viewOption}
+            onValueChangeHandler={setViewOption}
+          />
         </section>
       </div>
 
@@ -85,13 +93,9 @@ const DailyBreakdownPage = (props: Props) => {
       </div>
 
       <section className="px-4 w-full">
-        <section className="pb-1 w-full relative overflow-y-auto transactions__container">
-          <div className="py-2 sticky top-0 z-20 bg-white w-full flex items-center justify-between">
-            <h3 className="font-medium text-lg text-slate-600">💸 Expenses</h3>
-          </div>
-
+        {viewOption === 'combined' ? (
           <div className="w-full flex flex-wrap items-center justify-between gap-2">
-            {data?.expenseTransactions.map(trans => (
+            {data?.allTransactions.map(trans => (
               <TransCard
                 key={trans.id}
                 amount={trans.amount || 0}
@@ -103,27 +107,53 @@ const DailyBreakdownPage = (props: Props) => {
               />
             ))}
           </div>
-        </section>
+        ) : (
+          <>
+            <section className="pb-1 w-full relative overflow-y-auto transactions__container">
+              <div className="py-2 sticky top-0 z-20 bg-white w-full flex items-center justify-between">
+                <h3 className="font-medium text-lg text-slate-600">
+                  💸 Expenses
+                </h3>
+              </div>
 
-        <section className="mt-4 pb-1 w-full relative overflow-y-auto transactions__container">
-          <div className="py-2 sticky top-0 z-20 bg-white w-full flex items-center justify-between">
-            <h3 className="font-medium text-lg text-slate-600">💰 Income</h3>
-          </div>
+              <div className="w-full flex flex-wrap items-center justify-between gap-2">
+                {data?.expenseTransactions.map(trans => (
+                  <TransCard
+                    key={trans.id}
+                    amount={trans.amount || 0}
+                    categoryName={trans.money_category.name || 'Category'}
+                    date={trans.date ? new Date(trans.date) : new Date()}
+                    description={trans.description || `Transaction ${trans.id}`}
+                    categoryId={trans.category_id || 0}
+                    transType={trans.trans_type || 0}
+                  />
+                ))}
+              </div>
+            </section>
 
-          <div className="w-full flex flex-wrap items-center justify-between gap-2">
-            {data?.incomeTransactions.map(trans => (
-              <TransCard
-                key={trans.id}
-                amount={trans.amount || 0}
-                categoryName={trans.money_category.name || 'Category'}
-                date={trans.date ? new Date(trans.date) : new Date()}
-                description={trans.description || `Transaction ${trans.id}`}
-                categoryId={trans.category_id || 0}
-                transType={trans.trans_type || 0}
-              />
-            ))}
-          </div>
-        </section>
+            <section className="mt-4 pb-1 w-full relative overflow-y-auto transactions__container">
+              <div className="py-2 sticky top-0 z-20 bg-white w-full flex items-center justify-between">
+                <h3 className="font-medium text-lg text-slate-600">
+                  💰 Income
+                </h3>
+              </div>
+
+              <div className="w-full flex flex-wrap items-center justify-between gap-2">
+                {data?.incomeTransactions.map(trans => (
+                  <TransCard
+                    key={trans.id}
+                    amount={trans.amount || 0}
+                    categoryName={trans.money_category.name || 'Category'}
+                    date={trans.date ? new Date(trans.date) : new Date()}
+                    description={trans.description || `Transaction ${trans.id}`}
+                    categoryId={trans.category_id || 0}
+                    transType={trans.trans_type || 0}
+                  />
+                ))}
+              </div>
+            </section>
+          </>
+        )}
       </section>
     </>
   );

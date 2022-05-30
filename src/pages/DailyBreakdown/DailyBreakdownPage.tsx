@@ -9,6 +9,7 @@ import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
 import isToday from 'date-fns/isToday';
 import ViewOptionsMenu from './components/ViewOptionsMenu/ViewOptionsMenu';
+import { LayersIconC } from 'components/Icons';
 
 type Props = {};
 
@@ -94,19 +95,26 @@ const DailyBreakdownPage = (props: Props) => {
 
       <section className="px-4 w-full">
         {viewOption === 'combined' ? (
-          <div className="w-full flex flex-wrap items-center justify-between gap-2">
-            {data?.allTransactions.map(trans => (
-              <TransCard
-                key={trans.id}
-                amount={trans.amount || 0}
-                categoryName={trans.money_category.name || 'Category'}
-                date={trans.date ? new Date(trans.date) : new Date()}
-                description={trans.description || `Transaction ${trans.id}`}
-                categoryId={trans.category_id || 0}
-                transType={trans.trans_type || 0}
-              />
-            ))}
-          </div>
+          <section className="w-full">
+            <h3 className="mt-8 mb-2 font-medium text-lg text-slate-600 flex items-center gap-2">
+              <LayersIconC className="w-5 h-5" />
+              Transaction Breakdown
+            </h3>
+
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              {data?.allTransactions.map(trans => (
+                <TransCard
+                  key={trans.id}
+                  amount={trans.amount || 0}
+                  categoryName={trans.money_category.name || 'Category'}
+                  date={trans.date ? new Date(trans.date) : new Date()}
+                  description={trans.description || `Transaction ${trans.id}`}
+                  categoryId={trans.category_id || 0}
+                  transType={trans.trans_type || 0}
+                />
+              ))}
+            </div>
+          </section>
         ) : (
           <>
             <section className="pb-1 w-full relative overflow-y-auto transactions__container">

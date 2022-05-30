@@ -1,6 +1,7 @@
 import { DotsHorizontalIcon } from '@heroicons/react/solid';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { DotFilledIcon } from '@radix-ui/react-icons';
+import RadioOptions from './RadioOptions/RadioOptions';
 
 type Props = {
   viewOption: string;
@@ -23,9 +24,13 @@ const ViewOptionsMenu = ({ onValueChangeHandler, viewOption }: Props) => {
         sideOffset={10}
         className="py-2 bg-slate-100 rounded-md text-slate-500 font-medium shadow-md min-w-[288px]"
       >
+        <div className="px-2 mb-2">
+          <RadioOptions />
+        </div>
+
         <hr className="bg-slate-300" />
 
-        <div className="relative px-6">
+        <div className="relative px-8">
           <DropdownMenu.Label className="py-2 text-xs text-slate-400">
             View Options
           </DropdownMenu.Label>
@@ -39,7 +44,7 @@ const ViewOptionsMenu = ({ onValueChangeHandler, viewOption }: Props) => {
               value="separate"
               className="flex items-center gap-2"
             >
-              <DropdownMenu.ItemIndicator className="w-6 justify-center absolute left-0 inline-flex">
+              <DropdownMenu.ItemIndicator className="w-4 justify-center absolute left-2 inline-flex">
                 <DotFilledIcon />
               </DropdownMenu.ItemIndicator>
               Expense vs Income
@@ -49,7 +54,7 @@ const ViewOptionsMenu = ({ onValueChangeHandler, viewOption }: Props) => {
               value="combined"
               className="flex items-center gap-2"
             >
-              <DropdownMenu.ItemIndicator className="w-6 justify-center absolute left-0 inline-flex">
+              <DropdownMenu.ItemIndicator className="w-4 justify-center absolute left-2 inline-flex">
                 <DotFilledIcon />
               </DropdownMenu.ItemIndicator>
               Transaction Breakdown

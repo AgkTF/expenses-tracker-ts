@@ -10,6 +10,8 @@ import IncomeCard from './IncomeCard/IncomeCard';
 import TransCard from './TransCard/TransCard';
 import NewCategoryModal from './NewCategoryModal/NewCategoryModal';
 import BarChart from './BarChart/BarChart';
+import ResultsContainer from './ResultsContainer/ResultsContainer';
+import EmptyContainer from './EmptyContainer/EmptyContainer';
 
 export {
   MonthIcon,
@@ -24,4 +26,6 @@ export {
   TransCard,
   NewCategoryModal,
   BarChart,
+  ResultsContainer,
+  EmptyContainer,
 };

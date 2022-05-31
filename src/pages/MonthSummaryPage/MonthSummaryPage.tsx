@@ -3,11 +3,13 @@ import {
   ExpenseCard,
   IncomeCard,
   MonthIcon,
+  ResultsContainer,
 } from 'components/UIElements';
 import useExpensesCategoriesDetails from 'hooks/useExpensesCategoriesDetails';
 import useMonthTrans from 'hooks/useMonthTrans';
 import useIncomeDetails from 'hooks/useIncomeDetails';
 import { useAvailableBalance } from 'hooks/useAvailableBalance';
+import { isEmpty } from 'lodash';
 
 type Props = {};
 
@@ -74,24 +76,32 @@ const MonthSummaryPage = (props: Props) => {
             <h3 className="font-medium text-lg text-slate-600">💸 Expenses</h3>
           </div>
 
-          <div className="px-4 w-full flex flex-wrap items-center justify-between gap-2">
-            {expensesData?.categories.map(entry => (
-              <ExpenseCard
-                key={entry.id}
-                categoryId={entry.id}
-                category={entry.name || ''}
-                spent={entry.totalSpent}
-                transCount={entry.transCount}
-                budget={entry.plannedAmount || 0}
-                remaining={
-                  entry.plannedAmount
-                    ? entry.plannedAmount - entry.totalSpent
-                    : 0
-                }
-                percentage={entry.percentage}
-              />
-            ))}
-          </div>
+          <ResultsContainer
+            error={expensesError}
+            isError={isExpensesError}
+            isLoading={isExpensesLoading}
+            isEmptyData={isEmpty(expensesData?.categories)}
+            emptyMessage="No categories found!"
+          >
+            <div className="px-4 w-full flex flex-wrap items-center justify-between gap-2">
+              {expensesData?.categories.map(entry => (
+                <ExpenseCard
+                  key={entry.id}
+                  categoryId={entry.id}
+                  category={entry.name || ''}
+                  spent={entry.totalSpent}
+                  transCount={entry.transCount}
+                  budget={entry.plannedAmount || 0}
+                  remaining={
+                    entry.plannedAmount
+                      ? entry.plannedAmount - entry.totalSpent
+                      : 0
+                  }
+                  percentage={entry.percentage}
+                />
+              ))}
+            </div>
+          </ResultsContainer>
         </section>
 
         <section className="mt-4 w-full relative overflow-y-auto transactions__container">
@@ -99,17 +109,25 @@ const MonthSummaryPage = (props: Props) => {
             <h3 className="font-medium text-lg text-slate-600">💰 Income</h3>
           </div>
 
-          <div className="px-4 w-full flex flex-wrap items-center justify-between gap-2">
-            {incomeData?.categories.map(entry => (
-              <IncomeCard
-                key={entry.id}
-                categoryId={entry.id}
-                budget={entry.budget || 0}
-                category={entry.name || ''}
-                collected={entry.totalCollected}
-              />
-            ))}
-          </div>
+          <ResultsContainer
+            error={incomeError}
+            isError={isIncomeError}
+            isLoading={isIncomeLoading}
+            isEmptyData={isEmpty(incomeData?.categories)}
+            emptyMessage="No categories found!"
+          >
+            <div className="px-4 w-full flex flex-wrap items-center justify-between gap-2">
+              {incomeData?.categories.map(entry => (
+                <IncomeCard
+                  key={entry.id}
+                  categoryId={entry.id}
+                  budget={entry.budget || 0}
+                  category={entry.name || ''}
+                  collected={entry.totalCollected}
+                />
+              ))}
+            </div>
+          </ResultsContainer>
         </section>
       </div>
     </>

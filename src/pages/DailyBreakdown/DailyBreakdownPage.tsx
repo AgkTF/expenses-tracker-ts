@@ -3,13 +3,14 @@ import { ArrowLeftIcon } from '@heroicons/react/solid';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import { useNavigate, useParams } from 'react-router-dom';
 import format from 'date-fns/format';
-import { TransCard } from 'components/UIElements';
+import { ResultsContainer, TransCard } from 'components/UIElements';
 import { useFetchDayTransactions } from 'hooks/useDayTrans';
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
 import isToday from 'date-fns/isToday';
 import ViewOptionsMenu from './components/ViewOptionsMenu/ViewOptionsMenu';
 import { LayersIconC } from 'components/Icons';
+import { isEmpty } from 'lodash';
 
 type Props = {};
 
@@ -101,19 +102,27 @@ const DailyBreakdownPage = (props: Props) => {
               Transaction Breakdown
             </h3>
 
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              {data?.allTransactions.map(trans => (
-                <TransCard
-                  key={trans.id}
-                  amount={trans.amount || 0}
-                  categoryName={trans.money_category.name || 'Category'}
-                  date={trans.date ? new Date(trans.date) : new Date()}
-                  description={trans.description || `Transaction ${trans.id}`}
-                  categoryId={trans.category_id || 0}
-                  transType={trans.trans_type || 0}
-                />
-              ))}
-            </div>
+            <ResultsContainer
+              error={error}
+              isError={isError}
+              isLoading={isLoading}
+              isEmptyData={isEmpty(data?.allTransactions)}
+              emptyMessage="No Transactions found!"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                {data?.allTransactions.map(trans => (
+                  <TransCard
+                    key={trans.id}
+                    amount={trans.amount || 0}
+                    categoryName={trans.money_category.name || 'Category'}
+                    date={trans.date ? new Date(trans.date) : new Date()}
+                    description={trans.description || `Transaction ${trans.id}`}
+                    categoryId={trans.category_id || 0}
+                    transType={trans.trans_type || 0}
+                  />
+                ))}
+              </div>
+            </ResultsContainer>
           </section>
         ) : (
           <>
@@ -124,19 +133,29 @@ const DailyBreakdownPage = (props: Props) => {
                 </h3>
               </div>
 
-              <div className="w-full flex flex-wrap items-center justify-between gap-2">
-                {data?.expenseTransactions.map(trans => (
-                  <TransCard
-                    key={trans.id}
-                    amount={trans.amount || 0}
-                    categoryName={trans.money_category.name || 'Category'}
-                    date={trans.date ? new Date(trans.date) : new Date()}
-                    description={trans.description || `Transaction ${trans.id}`}
-                    categoryId={trans.category_id || 0}
-                    transType={trans.trans_type || 0}
-                  />
-                ))}
-              </div>
+              <ResultsContainer
+                error={error}
+                isError={isError}
+                isLoading={isLoading}
+                isEmptyData={isEmpty(data?.expenseTransactions)}
+                emptyMessage="No Transactions found!"
+              >
+                <div className="w-full flex flex-wrap items-center justify-between gap-2">
+                  {data?.expenseTransactions.map(trans => (
+                    <TransCard
+                      key={trans.id}
+                      amount={trans.amount || 0}
+                      categoryName={trans.money_category.name || 'Category'}
+                      date={trans.date ? new Date(trans.date) : new Date()}
+                      description={
+                        trans.description || `Transaction ${trans.id}`
+                      }
+                      categoryId={trans.category_id || 0}
+                      transType={trans.trans_type || 0}
+                    />
+                  ))}
+                </div>
+              </ResultsContainer>
             </section>
 
             <section className="mt-4 pb-1 w-full relative overflow-y-auto transactions__container">
@@ -146,19 +165,29 @@ const DailyBreakdownPage = (props: Props) => {
                 </h3>
               </div>
 
-              <div className="w-full flex flex-wrap items-center justify-between gap-2">
-                {data?.incomeTransactions.map(trans => (
-                  <TransCard
-                    key={trans.id}
-                    amount={trans.amount || 0}
-                    categoryName={trans.money_category.name || 'Category'}
-                    date={trans.date ? new Date(trans.date) : new Date()}
-                    description={trans.description || `Transaction ${trans.id}`}
-                    categoryId={trans.category_id || 0}
-                    transType={trans.trans_type || 0}
-                  />
-                ))}
-              </div>
+              <ResultsContainer
+                error={error}
+                isError={isError}
+                isLoading={isLoading}
+                isEmptyData={isEmpty(data?.incomeTransactions)}
+                emptyMessage="No Transactions found!"
+              >
+                <div className="w-full flex flex-wrap items-center justify-between gap-2">
+                  {data?.incomeTransactions.map(trans => (
+                    <TransCard
+                      key={trans.id}
+                      amount={trans.amount || 0}
+                      categoryName={trans.money_category.name || 'Category'}
+                      date={trans.date ? new Date(trans.date) : new Date()}
+                      description={
+                        trans.description || `Transaction ${trans.id}`
+                      }
+                      categoryId={trans.category_id || 0}
+                      transType={trans.trans_type || 0}
+                    />
+                  ))}
+                </div>
+              </ResultsContainer>
             </section>
           </>
         )}

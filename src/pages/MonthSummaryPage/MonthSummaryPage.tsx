@@ -98,6 +98,7 @@ const MonthSummaryPage = (props: Props) => {
                       : 0
                   }
                   percentage={entry.percentage}
+                  date={testDate}
                 />
               ))}
             </div>
@@ -124,6 +125,7 @@ const MonthSummaryPage = (props: Props) => {
                   budget={entry.budget || 0}
                   category={entry.name || ''}
                   collected={entry.totalCollected}
+                  date={testDate}
                 />
               ))}
             </div>

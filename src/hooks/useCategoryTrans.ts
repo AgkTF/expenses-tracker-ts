@@ -97,11 +97,7 @@ export default function useCategoryTrans(
   date: Date,
   categoryId: string | undefined
 ) {
-  return useQuery(
-    ['category_trans', categoryId],
-    () => fetchCategoryTrans(date, categoryId),
-    {
-      enabled: !!categoryId,
-    }
+  return useQuery(['category_trans', format(date, 'LLLL'), categoryId], () =>
+    fetchCategoryTrans(date, categoryId)
   );
 }

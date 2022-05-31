@@ -32,7 +32,7 @@ function App() {
             <Route path="create-month-plan" element={<CreateMonthPlanPage />} />
             <Route path="view-month-plan" element={<ViewMonthPlanPage />} />
             <Route
-              path="categories/:categoryName/:categoryId"
+              path="categories/:categoryName/:categoryId/:month"
               element={<CategoryPage />}
             />
             <Route path="month-breakdown/:month" element={<MonthBreakdown />} />

@@ -3,6 +3,7 @@ import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { useStore } from 'store/useStore';
 import { Link } from 'react-router-dom';
 import CN from 'classnames';
+import format from 'date-fns/format';
 
 type Props = {
   date: Date;
@@ -38,7 +39,9 @@ const TransCard = ({
           <p className="text-slate-500 font-medium text-base">{description}</p>
 
           <Link
-            to={`/categories/${encodeURIComponent(categoryName)}/${categoryId}`}
+            to={`/categories/${encodeURIComponent(
+              categoryName
+            )}/${categoryId}/${format(date, 'yyyy-LL-dd')}`}
           >
             <p className="px-1 mt-1 w-fit bg-white text-slate-400 font-light text-xs shadow rounded text-center">
               {categoryName}

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { useStore } from 'store/useStore';
 import ProgressBar from '../ProgressBar/ProgressBar';
+import format from 'date-fns/format';
 
 type Props = {
   category: string;
@@ -11,6 +12,7 @@ type Props = {
   percentage: number;
   remaining: number;
   budget: number;
+  date: Date;
 };
 
 const ExpenseCard = ({
@@ -21,13 +23,18 @@ const ExpenseCard = ({
   percentage,
   remaining,
   budget,
+  date,
 }: Props) => {
   const defaultCurrency = useStore(state => state.currency);
 
   return (
     <div className="p-3 w-full bg-gray-100 rounded-xl shadow">
       <div className="flex items-center justify-between">
-        <Link to={`/categories/${encodeURIComponent(category)}/${categoryId}`}>
+        <Link
+          to={`/categories/${encodeURIComponent(
+            category
+          )}/${categoryId}/${format(date, 'yyyy-LL-dd')}`}
+        >
           <p className="font-medium text-base text-slate-500">{category}</p>
         </Link>
         <p className="font-semibold text-slate-600 text-xl">

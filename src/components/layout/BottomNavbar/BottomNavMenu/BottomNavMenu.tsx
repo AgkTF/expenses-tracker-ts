@@ -24,7 +24,7 @@ const BottomNavMenu = ({ setIsNavMenuOpen }: Props) => {
       <hr className="my-2 text-gray-400" />
       <div className="space-y-2">
         <Link
-          to="/month-breakdown/2022-05-01"
+          to={`/month-breakdown/${todaysDate}`}
           className="group py-1 px-3 rounded-full text-gray-200 hover:bg-gray-50 hover:text-gray-600 font-medium text-sm flex gap-x-2 items-center"
         >
           <MonthIcon />

@@ -10,6 +10,7 @@ import CategoryPage from 'pages/CategoryPage/CategoryPage';
 import ViewMonthPlanPage from 'pages/MonthPlan/ViewMonthPlanPage';
 import MonthBreakdown from 'pages/MonthBreakdown/MonthBreakdown';
 import DailyBreakdownPage from 'pages/DailyBreakdown/DailyBreakdownPage';
+import format from 'date-fns/format';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,12 +21,17 @@ const queryClient = new QueryClient({
   },
 });
 
+const todaysDate = format(new Date(), 'yyyy-LL-dd');
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/month-summary/:month" />} />
+          <Route
+            path="/"
+            element={<Navigate to={`/month-summary/${todaysDate}`} />}
+          />
 
           <Route path="/" element={<PageLayout />}>
             <Route path="month-summary/:month" element={<MonthSummaryPage />} />

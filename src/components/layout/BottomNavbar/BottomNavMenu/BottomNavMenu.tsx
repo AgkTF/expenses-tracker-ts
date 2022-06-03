@@ -7,10 +7,9 @@ import format from 'date-fns/format';
 type Props = {
   setIsNavMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+const todaysDate = format(new Date(), 'yyyy-LL-dd');
 
 const BottomNavMenu = ({ setIsNavMenuOpen }: Props) => {
-  const todaysDate = format(new Date(), 'yyyy-LL-dd');
-
   return (
     <div className="pt-2 py-1 px-3 flex flex-col bg-gray-600 rounded-lg">
       <Link

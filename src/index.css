@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .transactions__container {
+    max-height: calc(100vh - 23rem);
+  }
+  @media (orientation: landscape) {
+    .transactions__container {
+      max-height: calc(100vh - 10rem);
+    }
+  }
+  .w-fit {
+    width: fit-content;
+  }
+  .tab--active::after {
+    content: '.';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    font-size: 24px;
+  }
+}
+
 @font-face {
   font-family: 'Inter';
   src: url(./assets/fonts/Inter/Inter-Bold.ttf) format('truetype');
@@ -35,4 +56,10 @@
   src: url(./assets/fonts/Inter/Inter-Light.ttf) format('truetype');
   font-weight: 300;
   font-display: swap;
+}
+
+@layer components {
+  .btn-grey {
+    @apply rounded-md flex items-center justify-center font-semibold text-sm bg-gray-100 text-gray-500 shadow focus:outline-none focus:ring-2 ring-gray-300;
+  }
 }

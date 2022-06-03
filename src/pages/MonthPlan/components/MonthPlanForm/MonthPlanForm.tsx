@@ -12,6 +12,7 @@ import { useState } from 'react';
 
 type Props = {
   push: (...args: any[]) => any;
+  formPage: 'view' | 'create';
 };
 
 const onSuccessHandler = () => {
@@ -22,7 +23,7 @@ const onErrorHandler = () => {
   toast.error('Failed to delete category!');
 };
 
-function MonthPlanForm({ push }: Props) {
+function MonthPlanForm({ push, formPage }: Props) {
   const deleteCategoryMutation = useDeleteCategory(
     onSuccessHandler,
     onErrorHandler
@@ -33,13 +34,27 @@ function MonthPlanForm({ push }: Props) {
     setIsModalOpen(prevState => !prevState);
   };
 
+  const addLine = (categoryType: 'expensesCategories' | 'incomeCategories') => {
+    push(categoryType, { planned_amount: '' });
+  };
+
   return (
     <section>
       <div className="px-8 mt-8">
         <section className="mb-5 w-full flex items-center justify-between">
           <h3 className="font-semibold text-lg text-slate-600">💸 Expenses</h3>
 
-          <button type="button" className="p-1 btn-grey" onClick={toggleModal}>
+          <button
+            type="button"
+            className="p-1 btn-grey"
+            onClick={() => {
+              if (formPage === 'create') {
+                addLine('expensesCategories');
+              } else {
+                toggleModal();
+              }
+            }}
+          >
             <PlusIcon className="h-5 w-5" />
           </button>
         </section>
@@ -115,7 +130,17 @@ function MonthPlanForm({ push }: Props) {
       <div className="px-8 mt-8">
         <section className="mb-5 w-full flex items-center justify-between">
           <h3 className="font-semibold text-lg text-slate-600">💰 Income</h3>
-          <button type="button" className="p-1 btn-grey" onClick={toggleModal}>
+          <button
+            type="button"
+            className="p-1 btn-grey"
+            onClick={() => {
+              if (formPage === 'create') {
+                addLine('incomeCategories');
+              } else {
+                toggleModal();
+              }
+            }}
+          >
             <PlusIcon className="h-5 w-5" />
           </button>
         </section>

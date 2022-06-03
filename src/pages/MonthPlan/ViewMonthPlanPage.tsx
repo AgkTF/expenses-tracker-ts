@@ -141,7 +141,7 @@ const ViewMonthPlanPage = (props: Props) => {
                   incomeCategories={values.incomeCategories}
                 />
 
-                <MonthPlanForm push={push} />
+                <MonthPlanForm push={push} formPage="view" />
 
                 <div className="mt-5 pb-6 mx-auto flex items-center justify-center gap-x-16">
                   <Button

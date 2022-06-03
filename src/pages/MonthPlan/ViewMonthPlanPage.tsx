@@ -44,7 +44,9 @@ const ViewMonthPlanPage = (props: Props) => {
       isEmpty(monthPlan?.incomeCategories)
     ) {
       console.log(' ㊙️ ');
-      navigate('/create-month-plan');
+      navigate('/create-month-plan', {
+        replace: true,
+      });
     }
   }, [isSuccess, monthPlan, navigate]);
 

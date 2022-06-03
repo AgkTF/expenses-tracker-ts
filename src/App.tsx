@@ -25,10 +25,10 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/month-summary" />} />
+          <Route path="/" element={<Navigate to="/month-summary/:month" />} />
 
           <Route path="/" element={<PageLayout />}>
-            <Route path="month-summary" element={<MonthSummaryPage />} />
+            <Route path="month-summary/:month" element={<MonthSummaryPage />} />
             <Route path="create-month-plan" element={<CreateMonthPlanPage />} />
             <Route path="view-month-plan" element={<ViewMonthPlanPage />} />
             <Route

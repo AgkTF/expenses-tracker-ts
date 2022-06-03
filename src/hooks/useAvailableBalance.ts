@@ -3,11 +3,19 @@
 import { supabase } from 'supabaseClient';
 import { definitions } from 'types/supabase';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
+import startOfMonth from 'date-fns/startOfMonth';
+import endOfMonth from 'date-fns/endOfMonth';
 
-const fetchAvailableBalance = async () => {
+const fetchAvailableBalance = async (date: Date) => {
+  const isoDate = date.toISOString();
+
   const { data, error } = await supabase
     .from<definitions['balance']>('balance')
     .select('id, new_balance, created_at')
+    .gte('created_at', startOfMonth(parseISO(isoDate)).toISOString())
+    .lte('created_at', endOfMonth(parseISO(isoDate)).toISOString())
     .order('created_at', { ascending: false })
     .limit(1)
     .single();
@@ -51,6 +59,10 @@ export function useAddBalanceRecord() {
   );
 }
 
-export function useAvailableBalance() {
-  return useQuery('available_balance', () => fetchAvailableBalance());
+export function useAvailableBalance(date = new Date()) {
+  const formatted = format(date, 'LLL');
+
+  return useQuery(['available_balance', formatted], () =>
+    fetchAvailableBalance(date)
+  );
 }

@@ -10,12 +10,28 @@ import useMonthTrans from 'hooks/useMonthTrans';
 import useIncomeDetails from 'hooks/useIncomeDetails';
 import { useAvailableBalance } from 'hooks/useAvailableBalance';
 import { isEmpty } from 'lodash';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import format from 'date-fns/format';
 
 type Props = {};
 
 const testDate = new Date();
 
 const MonthSummaryPage = (props: Props) => {
+  const { month } = useParams();
+  // const [currentMonth, setCurrentMonth] = useState('');
+
+  // useEffect(() => {
+  //   if (month) {
+  //     setCurrentMonth(month);
+  //   } else {
+  //     setCurrentMonth(format(new Date(), 'yyyy-LL-dd'));
+  //   }
+  // }, [month]);
+
+  console.log({ month });
+
   const {
     isLoading: isExpensesLoading,
     isError: isExpensesError,
@@ -42,7 +58,7 @@ const MonthSummaryPage = (props: Props) => {
     isError: isBalanceError,
     error: balanceError,
     data: availableBalance,
-  } = useAvailableBalance();
+  } = useAvailableBalance(month ? new Date(month) : new Date());
 
   return (
     <>

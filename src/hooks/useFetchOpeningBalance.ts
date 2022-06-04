@@ -9,7 +9,7 @@ const fetchOpeningBalance = async (date: Date) => {
   const isoDate = date.toISOString();
 
   const { data, error } = await supabase
-    .from<definitions['money_category']>('money_category')
+    .from<definitions['month_category']>('month_category')
     .select('planned_amount')
     .eq('type', '3')
     .gte('created_at', startOfMonth(parseISO(isoDate)).toISOString())

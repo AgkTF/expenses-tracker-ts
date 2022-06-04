@@ -21,7 +21,7 @@ const CreateMonthPlanPage = (props: Props) => {
 
   const addBalanceRecordMutation = useAddBalanceRecord();
 
-  const onSuccessHandler = (data: definitions['money_category'][]) => {
+  const onSuccessHandler = (data: definitions['month_category'][]) => {
     toast.success('Plan created successfully');
     const openingBalanceTrans = data.find(trans => trans.type === 3);
     addBalanceRecordMutation.mutate({

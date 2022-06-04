@@ -1,5 +1,5 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/solid';
-import { InputField } from 'components/form';
+import { InputField, SelectField } from 'components/form';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { upperFirst } from 'lodash';
@@ -9,6 +9,7 @@ import { useDeleteCategory } from 'hooks/useMonthPlan';
 import toast from 'react-hot-toast';
 import { NewCategoryModal } from 'components/UIElements';
 import { useState } from 'react';
+import { useCategories } from 'hooks/useUserSettings';
 
 type Props = {
   push: (...args: any[]) => any;
@@ -24,11 +25,19 @@ const onErrorHandler = () => {
 };
 
 function MonthPlanForm({ push, formPage }: Props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const {
+    data,
+    isError,
+    error,
+    isLoading: isCategoriesLoading,
+  } = useCategories();
+
   const deleteCategoryMutation = useDeleteCategory(
     onSuccessHandler,
     onErrorHandler
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(prevState => !prevState);
@@ -73,7 +82,7 @@ function MonthPlanForm({ push, formPage }: Props) {
               key={line}
               className="px-8 flex items-start justify-between gap-x-4"
             >
-              <Field
+              {/* <Field
                 name={`${line}.name`}
                 render={({ input, meta }) => (
                   <InputField
@@ -85,6 +94,22 @@ function MonthPlanForm({ push, formPage }: Props) {
                   />
                 )}
                 parse={value => value && upperFirst(value)}
+                validate={required}
+              /> */}
+
+              <Field
+                name={`${line}.category_id`}
+                render={({ input, meta }) => (
+                  <SelectField
+                    input={input}
+                    meta={meta}
+                    containerClasses="mb-4"
+                    firstOption="Select category"
+                    options={data}
+                    displayNameProperty="description"
+                    isLoading={isCategoriesLoading}
+                  />
+                )}
                 validate={required}
               />
 
@@ -159,7 +184,7 @@ function MonthPlanForm({ push, formPage }: Props) {
               key={line}
               className="px-8 flex items-start justify-between gap-x-4"
             >
-              <Field
+              {/* <Field
                 name={`${line}.name`}
                 render={({ input, meta }) => (
                   <InputField
@@ -171,6 +196,22 @@ function MonthPlanForm({ push, formPage }: Props) {
                   />
                 )}
                 parse={value => value && upperFirst(value)}
+                validate={required}
+              /> */}
+
+              <Field
+                name={`${line}.category_id`}
+                render={({ input, meta }) => (
+                  <SelectField
+                    input={input}
+                    meta={meta}
+                    containerClasses="mb-4"
+                    firstOption="Select category"
+                    options={data}
+                    displayNameProperty="description"
+                    isLoading={isCategoriesLoading}
+                  />
+                )}
                 validate={required}
               />
 

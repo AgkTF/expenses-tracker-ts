@@ -303,6 +303,102 @@ export interface paths {
       };
     };
   };
+  "/category": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.category.id"];
+          created_at?: parameters["rowFilter.category.created_at"];
+          description?: parameters["rowFilter.category.description"];
+          type?: parameters["rowFilter.category.type"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["category"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** category */
+          category?: definitions["category"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.category.id"];
+          created_at?: parameters["rowFilter.category.created_at"];
+          description?: parameters["rowFilter.category.description"];
+          type?: parameters["rowFilter.category.type"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.category.id"];
+          created_at?: parameters["rowFilter.category.created_at"];
+          description?: parameters["rowFilter.category.description"];
+          type?: parameters["rowFilter.category.type"];
+        };
+        body: {
+          /** category */
+          category?: definitions["category"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/category_type": {
     get: {
       parameters: {
@@ -396,15 +492,15 @@ export interface paths {
       };
     };
   };
-  "/money_category": {
+  "/month_category": {
     get: {
       parameters: {
         query: {
-          type?: parameters["rowFilter.money_category.type"];
-          name?: parameters["rowFilter.money_category.name"];
-          planned_amount?: parameters["rowFilter.money_category.planned_amount"];
-          created_at?: parameters["rowFilter.money_category.created_at"];
-          id?: parameters["rowFilter.money_category.id"];
+          type?: parameters["rowFilter.month_category.type"];
+          planned_amount?: parameters["rowFilter.month_category.planned_amount"];
+          created_at?: parameters["rowFilter.month_category.created_at"];
+          id?: parameters["rowFilter.month_category.id"];
+          category_id?: parameters["rowFilter.month_category.category_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -426,7 +522,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          schema: definitions["money_category"][];
+          schema: definitions["month_category"][];
         };
         /** Partial Content */
         206: unknown;
@@ -435,8 +531,8 @@ export interface paths {
     post: {
       parameters: {
         body: {
-          /** money_category */
-          money_category?: definitions["money_category"];
+          /** month_category */
+          month_category?: definitions["month_category"];
         };
         query: {
           /** Filtering Columns */
@@ -455,11 +551,11 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          type?: parameters["rowFilter.money_category.type"];
-          name?: parameters["rowFilter.money_category.name"];
-          planned_amount?: parameters["rowFilter.money_category.planned_amount"];
-          created_at?: parameters["rowFilter.money_category.created_at"];
-          id?: parameters["rowFilter.money_category.id"];
+          type?: parameters["rowFilter.month_category.type"];
+          planned_amount?: parameters["rowFilter.month_category.planned_amount"];
+          created_at?: parameters["rowFilter.month_category.created_at"];
+          id?: parameters["rowFilter.month_category.id"];
+          category_id?: parameters["rowFilter.month_category.category_id"];
         };
         header: {
           /** Preference */
@@ -474,15 +570,114 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          type?: parameters["rowFilter.money_category.type"];
-          name?: parameters["rowFilter.money_category.name"];
-          planned_amount?: parameters["rowFilter.money_category.planned_amount"];
-          created_at?: parameters["rowFilter.money_category.created_at"];
-          id?: parameters["rowFilter.money_category.id"];
+          type?: parameters["rowFilter.month_category.type"];
+          planned_amount?: parameters["rowFilter.month_category.planned_amount"];
+          created_at?: parameters["rowFilter.month_category.created_at"];
+          id?: parameters["rowFilter.month_category.id"];
+          category_id?: parameters["rowFilter.month_category.category_id"];
         };
         body: {
-          /** money_category */
-          money_category?: definitions["money_category"];
+          /** month_category */
+          month_category?: definitions["month_category"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
+  "/month_category_duplicate": {
+    get: {
+      parameters: {
+        query: {
+          type?: parameters["rowFilter.month_category_duplicate.type"];
+          name?: parameters["rowFilter.month_category_duplicate.name"];
+          planned_amount?: parameters["rowFilter.month_category_duplicate.planned_amount"];
+          created_at?: parameters["rowFilter.month_category_duplicate.created_at"];
+          id?: parameters["rowFilter.month_category_duplicate.id"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["month_category_duplicate"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** month_category_duplicate */
+          month_category_duplicate?: definitions["month_category_duplicate"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          type?: parameters["rowFilter.month_category_duplicate.type"];
+          name?: parameters["rowFilter.month_category_duplicate.name"];
+          planned_amount?: parameters["rowFilter.month_category_duplicate.planned_amount"];
+          created_at?: parameters["rowFilter.month_category_duplicate.created_at"];
+          id?: parameters["rowFilter.month_category_duplicate.id"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          type?: parameters["rowFilter.month_category_duplicate.type"];
+          name?: parameters["rowFilter.month_category_duplicate.name"];
+          planned_amount?: parameters["rowFilter.month_category_duplicate.planned_amount"];
+          created_at?: parameters["rowFilter.month_category_duplicate.created_at"];
+          id?: parameters["rowFilter.month_category_duplicate.id"];
+        };
+        body: {
+          /** month_category_duplicate */
+          month_category_duplicate?: definitions["month_category_duplicate"];
         };
         header: {
           /** Preference */
@@ -501,13 +696,13 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.transaction.id"];
           amount?: parameters["rowFilter.transaction.amount"];
-          category_id?: parameters["rowFilter.transaction.category_id"];
           card_id?: parameters["rowFilter.transaction.card_id"];
           is_deleted?: parameters["rowFilter.transaction.is_deleted"];
           created_at?: parameters["rowFilter.transaction.created_at"];
           date?: parameters["rowFilter.transaction.date"];
           description?: parameters["rowFilter.transaction.description"];
           trans_type?: parameters["rowFilter.transaction.trans_type"];
+          category_id?: parameters["rowFilter.transaction.category_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -560,13 +755,13 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.transaction.id"];
           amount?: parameters["rowFilter.transaction.amount"];
-          category_id?: parameters["rowFilter.transaction.category_id"];
           card_id?: parameters["rowFilter.transaction.card_id"];
           is_deleted?: parameters["rowFilter.transaction.is_deleted"];
           created_at?: parameters["rowFilter.transaction.created_at"];
           date?: parameters["rowFilter.transaction.date"];
           description?: parameters["rowFilter.transaction.description"];
           trans_type?: parameters["rowFilter.transaction.trans_type"];
+          category_id?: parameters["rowFilter.transaction.category_id"];
         };
         header: {
           /** Preference */
@@ -583,17 +778,128 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.transaction.id"];
           amount?: parameters["rowFilter.transaction.amount"];
-          category_id?: parameters["rowFilter.transaction.category_id"];
           card_id?: parameters["rowFilter.transaction.card_id"];
           is_deleted?: parameters["rowFilter.transaction.is_deleted"];
           created_at?: parameters["rowFilter.transaction.created_at"];
           date?: parameters["rowFilter.transaction.date"];
           description?: parameters["rowFilter.transaction.description"];
           trans_type?: parameters["rowFilter.transaction.trans_type"];
+          category_id?: parameters["rowFilter.transaction.category_id"];
         };
         body: {
           /** transaction */
           transaction?: definitions["transaction"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
+  "/transaction_duplicate": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.transaction_duplicate.id"];
+          amount?: parameters["rowFilter.transaction_duplicate.amount"];
+          category_id?: parameters["rowFilter.transaction_duplicate.category_id"];
+          card_id?: parameters["rowFilter.transaction_duplicate.card_id"];
+          is_deleted?: parameters["rowFilter.transaction_duplicate.is_deleted"];
+          created_at?: parameters["rowFilter.transaction_duplicate.created_at"];
+          date?: parameters["rowFilter.transaction_duplicate.date"];
+          description?: parameters["rowFilter.transaction_duplicate.description"];
+          trans_type?: parameters["rowFilter.transaction_duplicate.trans_type"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["transaction_duplicate"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** transaction_duplicate */
+          transaction_duplicate?: definitions["transaction_duplicate"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.transaction_duplicate.id"];
+          amount?: parameters["rowFilter.transaction_duplicate.amount"];
+          category_id?: parameters["rowFilter.transaction_duplicate.category_id"];
+          card_id?: parameters["rowFilter.transaction_duplicate.card_id"];
+          is_deleted?: parameters["rowFilter.transaction_duplicate.is_deleted"];
+          created_at?: parameters["rowFilter.transaction_duplicate.created_at"];
+          date?: parameters["rowFilter.transaction_duplicate.date"];
+          description?: parameters["rowFilter.transaction_duplicate.description"];
+          trans_type?: parameters["rowFilter.transaction_duplicate.trans_type"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.transaction_duplicate.id"];
+          amount?: parameters["rowFilter.transaction_duplicate.amount"];
+          category_id?: parameters["rowFilter.transaction_duplicate.category_id"];
+          card_id?: parameters["rowFilter.transaction_duplicate.card_id"];
+          is_deleted?: parameters["rowFilter.transaction_duplicate.is_deleted"];
+          created_at?: parameters["rowFilter.transaction_duplicate.created_at"];
+          date?: parameters["rowFilter.transaction_duplicate.date"];
+          description?: parameters["rowFilter.transaction_duplicate.description"];
+          trans_type?: parameters["rowFilter.transaction_duplicate.trans_type"];
+        };
+        body: {
+          /** transaction_duplicate */
+          transaction_duplicate?: definitions["transaction_duplicate"];
         };
         header: {
           /** Preference */
@@ -672,6 +978,28 @@ export interface definitions {
      */
     created_at?: string;
   };
+  /** @description All the categories the user adds from the user settings page. */
+  category: {
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
+    created_at?: string;
+    /** Format: character varying */
+    description: string;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `category_type.id`.<fk table='category_type' column='id'/>
+     */
+    type: number;
+  };
   category_type: {
     /**
      * Format: bigint
@@ -687,7 +1015,34 @@ export interface definitions {
      */
     created_at?: string;
   };
-  money_category: {
+  month_category: {
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `category_type.id`.<fk table='category_type' column='id'/>
+     */
+    type?: number;
+    /** Format: double precision */
+    planned_amount?: number;
+    /**
+     * Format: timestamp with time zone
+     * @default (now() AT TIME ZONE 'utc'::text)
+     */
+    created_at?: string;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `category.id`.<fk table='category' column='id'/>
+     */
+    category_id: number;
+  };
+  month_category_duplicate: {
     /**
      * Format: bigint
      * @description Note:
@@ -722,8 +1077,43 @@ export interface definitions {
     /**
      * Format: bigint
      * @description Note:
-     * This is a Foreign Key to `money_category.id`.<fk table='money_category' column='id'/>
+     * This is a Foreign Key to `card.id`.<fk table='card' column='id'/>
      */
+    card_id?: number;
+    /** Format: boolean */
+    is_deleted?: boolean;
+    /**
+     * Format: timestamp with time zone
+     * @default (now() AT TIME ZONE 'utc'::text)
+     */
+    created_at?: string;
+    /** Format: timestamp without time zone */
+    date: string;
+    /** Format: character varying */
+    description?: string;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `category_type.id`.<fk table='category_type' column='id'/>
+     */
+    trans_type?: number;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `month_category.id`.<fk table='month_category' column='id'/>
+     */
+    category_id?: number;
+  };
+  transaction_duplicate: {
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /** Format: double precision */
+    amount: number;
+    /** Format: bigint */
     category_id?: number;
     /**
      * Format: bigint
@@ -816,6 +1206,16 @@ export interface parameters {
   "rowFilter.card_type.name": string;
   /** Format: timestamp with time zone */
   "rowFilter.card_type.created_at": string;
+  /** @description category */
+  "body.category": definitions["category"];
+  /** Format: bigint */
+  "rowFilter.category.id": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.category.created_at": string;
+  /** Format: character varying */
+  "rowFilter.category.description": string;
+  /** Format: bigint */
+  "rowFilter.category.type": string;
   /** @description category_type */
   "body.category_type": definitions["category_type"];
   /** Format: bigint */
@@ -824,26 +1224,36 @@ export interface parameters {
   "rowFilter.category_type.name": string;
   /** Format: timestamp with time zone */
   "rowFilter.category_type.created_at": string;
-  /** @description money_category */
-  "body.money_category": definitions["money_category"];
+  /** @description month_category */
+  "body.month_category": definitions["month_category"];
   /** Format: bigint */
-  "rowFilter.money_category.type": string;
-  /** Format: character varying */
-  "rowFilter.money_category.name": string;
+  "rowFilter.month_category.type": string;
   /** Format: double precision */
-  "rowFilter.money_category.planned_amount": string;
+  "rowFilter.month_category.planned_amount": string;
   /** Format: timestamp with time zone */
-  "rowFilter.money_category.created_at": string;
+  "rowFilter.month_category.created_at": string;
   /** Format: bigint */
-  "rowFilter.money_category.id": string;
+  "rowFilter.month_category.id": string;
+  /** Format: bigint */
+  "rowFilter.month_category.category_id": string;
+  /** @description month_category_duplicate */
+  "body.month_category_duplicate": definitions["month_category_duplicate"];
+  /** Format: bigint */
+  "rowFilter.month_category_duplicate.type": string;
+  /** Format: character varying */
+  "rowFilter.month_category_duplicate.name": string;
+  /** Format: double precision */
+  "rowFilter.month_category_duplicate.planned_amount": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.month_category_duplicate.created_at": string;
+  /** Format: bigint */
+  "rowFilter.month_category_duplicate.id": string;
   /** @description transaction */
   "body.transaction": definitions["transaction"];
   /** Format: bigint */
   "rowFilter.transaction.id": string;
   /** Format: double precision */
   "rowFilter.transaction.amount": string;
-  /** Format: bigint */
-  "rowFilter.transaction.category_id": string;
   /** Format: bigint */
   "rowFilter.transaction.card_id": string;
   /** Format: boolean */
@@ -856,6 +1266,28 @@ export interface parameters {
   "rowFilter.transaction.description": string;
   /** Format: bigint */
   "rowFilter.transaction.trans_type": string;
+  /** Format: bigint */
+  "rowFilter.transaction.category_id": string;
+  /** @description transaction_duplicate */
+  "body.transaction_duplicate": definitions["transaction_duplicate"];
+  /** Format: bigint */
+  "rowFilter.transaction_duplicate.id": string;
+  /** Format: double precision */
+  "rowFilter.transaction_duplicate.amount": string;
+  /** Format: bigint */
+  "rowFilter.transaction_duplicate.category_id": string;
+  /** Format: bigint */
+  "rowFilter.transaction_duplicate.card_id": string;
+  /** Format: boolean */
+  "rowFilter.transaction_duplicate.is_deleted": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.transaction_duplicate.created_at": string;
+  /** Format: timestamp without time zone */
+  "rowFilter.transaction_duplicate.date": string;
+  /** Format: character varying */
+  "rowFilter.transaction_duplicate.description": string;
+  /** Format: bigint */
+  "rowFilter.transaction_duplicate.trans_type": string;
 }
 
 export interface operations {}

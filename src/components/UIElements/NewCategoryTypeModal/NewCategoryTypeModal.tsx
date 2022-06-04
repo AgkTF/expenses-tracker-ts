@@ -6,10 +6,10 @@ import Button from '../Button/Button';
 import { definitions } from 'types/supabase';
 import toast from 'react-hot-toast';
 import useCategoryTypes from 'hooks/useCategoryTypes';
-import numberFormatter from 'utils/helpers/numbers.helpers';
 import { required } from 'utils/helpers/validation.helpers';
 import { useQueryClient } from 'react-query';
-import { useAddCategory } from 'hooks/useMonthPlan';
+import { useAddCategory } from 'hooks/useUserSettings';
+import { upperFirst } from 'lodash';
 
 Modal.setAppElement('#root');
 
@@ -18,19 +18,17 @@ type Props = {
   toggleModal: () => void;
 };
 
-const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
+const onErrorHandler = () => {
+  toast.error('Failed to add new category type!');
+};
+
+const NewCategoryTypeModal = ({ isOpen, toggleModal }: Props) => {
   const queryClient = useQueryClient();
 
-  const onErrorHandler = () => {
-    toast.error('Failed to add new category!');
-  };
-
   const onSuccessHandler = () => {
-    toast.success('Category added successfully!');
+    toast.success('Category type added successfully!');
     toggleModal();
-    // * we should invalidate only the plan of this month not all the plans like we're doing below.
-    // * we'll take care of this later, though.
-    queryClient.invalidateQueries(['month_plan']);
+    queryClient.invalidateQueries(['user-settings', 'categories']);
   };
 
   const {
@@ -41,7 +39,7 @@ const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
   } = useCategoryTypes();
 
   const addCategoryMutation = useAddCategory(onSuccessHandler, onErrorHandler);
-  const onSubmit = (values: Partial<definitions['month_category']>): void => {
+  const onSubmit = (values: Partial<definitions['category']>): void => {
     addCategoryMutation.mutate(values);
   };
 
@@ -54,7 +52,7 @@ const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
     >
       <div className="mb-5 w-full flex items-center justify-between text-slate-600">
         <p className="font-semibold text-base">Add new category</p>
-        <button onClick={() => toggleModal()}>
+        <button onClick={toggleModal}>
           <XIcon className="h-4 w-4" />
         </button>
       </div>
@@ -63,6 +61,22 @@ const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
+            <Field
+              name="description"
+              render={({ input, meta }) => (
+                <InputField
+                  input={input}
+                  meta={meta}
+                  type="text"
+                  containerClasses="mb-2"
+                  label="Category Name"
+                  placeholder="Category Name"
+                  rhs="length"
+                  inputLength="50"
+                />
+              )}
+              parse={value => value && upperFirst(value)}
+            />
             <Field
               name="type"
               render={({ input, meta }) => (
@@ -78,42 +92,6 @@ const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
                 />
               )}
               parse={value => +value}
-              validate={required}
-            />
-
-            <Field
-              name="name"
-              render={({ input, meta }) => (
-                <InputField
-                  input={input}
-                  meta={meta}
-                  type="text"
-                  containerClasses="mb-2"
-                  label="Category Name"
-                  placeholder="Category Name"
-                  rhs="length"
-                  inputLength="50"
-                />
-              )}
-            />
-
-            <Field
-              name="planned_amount"
-              render={({ input, meta }) => (
-                <InputField
-                  input={input}
-                  meta={meta}
-                  type="text"
-                  containerClasses="mb-2"
-                  label="Planned Amount"
-                  placeholder="Planned Amount"
-                  rhs="currency"
-                />
-              )}
-              format={value =>
-                value && !isNaN(value) ? numberFormatter(+value) : value
-              }
-              parse={value => value && +value.replaceAll(',', '')}
               validate={required}
             />
 
@@ -140,4 +118,4 @@ const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
   );
 };
 
-export default NewCategoryModal;
+export default NewCategoryTypeModal;

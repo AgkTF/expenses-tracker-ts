@@ -13,6 +13,7 @@ import BarChart from './BarChart/BarChart';
 import ResultsContainer from './ResultsContainer/ResultsContainer';
 import EmptyContainer from './EmptyContainer/EmptyContainer';
 import MonthSwitcher from './MonthSwitcher/MonthSwitcher';
+import NewCategoryTypeModal from './NewCategoryTypeModal/NewCategoryTypeModal';
 
 export {
   MonthIcon,
@@ -30,4 +31,5 @@ export {
   ResultsContainer,
   EmptyContainer,
   MonthSwitcher,
+  NewCategoryTypeModal,
 };

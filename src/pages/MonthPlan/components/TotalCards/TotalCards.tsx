@@ -3,11 +3,11 @@ import { definitions } from 'types/supabase';
 import { useStore } from 'store/useStore';
 
 type Props = {
-  expensesCategories: definitions['money_category'][];
-  incomeCategories: definitions['money_category'][];
+  expensesCategories: definitions['month_category'][];
+  incomeCategories: definitions['month_category'][];
 };
 
-function sumOfCategories(categoriesArray: definitions['money_category'][]) {
+function sumOfCategories(categoriesArray: definitions['month_category'][]) {
   return categoriesArray
     .map(category => {
       let amountToReturn: number | undefined;

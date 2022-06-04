@@ -114,7 +114,7 @@ const DailyBreakdownPage = (props: Props) => {
                   <TransCard
                     key={trans.id}
                     amount={trans.amount || 0}
-                    categoryName={trans.money_category.name || 'Category'}
+                    categoryName={trans.category.description || 'Category'}
                     date={trans.date ? new Date(trans.date) : new Date()}
                     description={trans.description || `Transaction ${trans.id}`}
                     categoryId={trans.category_id || 0}
@@ -145,7 +145,7 @@ const DailyBreakdownPage = (props: Props) => {
                     <TransCard
                       key={trans.id}
                       amount={trans.amount || 0}
-                      categoryName={trans.money_category.name || 'Category'}
+                      categoryName={trans.category.description || 'Category'}
                       date={trans.date ? new Date(trans.date) : new Date()}
                       description={
                         trans.description || `Transaction ${trans.id}`
@@ -177,7 +177,7 @@ const DailyBreakdownPage = (props: Props) => {
                     <TransCard
                       key={trans.id}
                       amount={trans.amount || 0}
-                      categoryName={trans.money_category.name || 'Category'}
+                      categoryName={trans.category.description || 'Category'}
                       date={trans.date ? new Date(trans.date) : new Date()}
                       description={
                         trans.description || `Transaction ${trans.id}`

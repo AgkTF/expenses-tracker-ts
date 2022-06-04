@@ -5,12 +5,12 @@ import { AddTransactionModal } from 'components/UIElements';
 import BottomNavMenu from './BottomNavMenu/BottomNavMenu';
 import format from 'date-fns/format';
 
+const todaysDate = format(new Date(), 'yyyy-LL-dd');
 type Props = {};
 
 const BottomNavbar = (props: Props) => {
   const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const todaysDate = format(new Date(), 'yyyy-LL-dd');
 
   const toggleModal = () => {
     setIsModalOpen(prevState => !prevState);

@@ -10,14 +10,14 @@ const fetchDayTransactions = async (date: Date) => {
   const { data, error } = await supabase
     .from<
       definitions['transaction'] & {
-        money_category: Partial<definitions['money_category']>;
+        category: Partial<definitions['category']>;
       }
     >('transaction')
     .select(
       `
     *,
-    money_category (
-      name
+    category (
+      description
     )
     `
     )

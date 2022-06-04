@@ -14,19 +14,16 @@ const fetchExpensesDetails = async (date: Date) => {
 
   const { data: expenses, error } = await supabase
     .from<
-      definitions['money_category'] & {
-        transaction: definitions['transaction'][];
+      definitions['month_category'] & {
+        category: definitions['category'] & {
+          transaction: definitions['transaction'][];
+        };
       }
-    >('money_category')
+    >('month_category')
     .select(
-      `id,
-       name,
-       planned_amount, 
-       transaction (
-        category_id,
-        amount,
-        date
-      )
+      `
+        *,
+        category(*, transaction(*))
     `
     )
     .eq('type', '1')
@@ -46,13 +43,15 @@ const fetchExpensesDetails = async (date: Date) => {
     .reduce((a, b) => a + b, 0);
 
   const categories = expenses.map(entry => ({
-    id: entry.id,
-    name: entry.name,
+    id: entry.category.id,
+    name: entry.category.description,
     plannedAmount: entry.planned_amount,
-    transCount: entry.transaction.length,
-    totalSpent: calculateTotalSpent(entry.transaction),
+    transCount: entry.category.transaction.length,
+    totalSpent: calculateTotalSpent(entry.category.transaction),
     percentage: entry.planned_amount
-      ? (calculateTotalSpent(entry.transaction) / entry.planned_amount) * 100
+      ? (calculateTotalSpent(entry.category.transaction) /
+          entry.planned_amount) *
+        100
       : 0,
   }));
 

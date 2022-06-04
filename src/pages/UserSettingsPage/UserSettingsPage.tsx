@@ -26,7 +26,7 @@ const UserSettingsPage = (props: Props) => {
       </div>
 
       <section className="px-4 mt-8">
-        <Tabs.Root className="flex flex-col w-full">
+        <Tabs.Root className="flex flex-col w-full" defaultValue="categories">
           <Tabs.List
             className="shrink-0 flex border border-x-0 border-t-0 border-b-slate-300"
             aria-label="Add your settings"

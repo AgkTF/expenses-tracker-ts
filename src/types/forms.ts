@@ -6,3 +6,7 @@ export interface IMonthPlanForm {
   expensesCategories: definitions['money_category'][];
   incomeCategories: definitions['money_category'][];
 }
+
+export interface ICategoriesSettings {
+  categories: Partial<definitions['category']>[];
+}

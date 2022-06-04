@@ -303,6 +303,102 @@ export interface paths {
       };
     };
   };
+  "/category": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.category.id"];
+          created_at?: parameters["rowFilter.category.created_at"];
+          description?: parameters["rowFilter.category.description"];
+          type?: parameters["rowFilter.category.type"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["category"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** category */
+          category?: definitions["category"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.category.id"];
+          created_at?: parameters["rowFilter.category.created_at"];
+          description?: parameters["rowFilter.category.description"];
+          type?: parameters["rowFilter.category.type"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.category.id"];
+          created_at?: parameters["rowFilter.category.created_at"];
+          description?: parameters["rowFilter.category.description"];
+          type?: parameters["rowFilter.category.type"];
+        };
+        body: {
+          /** category */
+          category?: definitions["category"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/category_type": {
     get: {
       parameters: {
@@ -672,6 +768,28 @@ export interface definitions {
      */
     created_at?: string;
   };
+  /** @description All the categories the user adds from the user settings page. */
+  category: {
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
+    created_at?: string;
+    /** Format: character varying */
+    description: string;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `category_type.id`.<fk table='category_type' column='id'/>
+     */
+    type: number;
+  };
   category_type: {
     /**
      * Format: bigint
@@ -816,6 +934,16 @@ export interface parameters {
   "rowFilter.card_type.name": string;
   /** Format: timestamp with time zone */
   "rowFilter.card_type.created_at": string;
+  /** @description category */
+  "body.category": definitions["category"];
+  /** Format: bigint */
+  "rowFilter.category.id": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.category.created_at": string;
+  /** Format: character varying */
+  "rowFilter.category.description": string;
+  /** Format: bigint */
+  "rowFilter.category.type": string;
   /** @description category_type */
   "body.category_type": definitions["category_type"];
   /** Format: bigint */

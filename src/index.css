@@ -64,7 +64,7 @@
   }
 
   .styled-trigger {
-    @apply p-5 h-11 flex-1 flex items-center justify-center text-slate-400 hover:text-slate-600 select-none bg-white;
+    @apply p-4 h-11 flex-1 flex items-center justify-center text-sm text-slate-400 hover:text-slate-600 select-none bg-white;
   }
   .styled-trigger[data-state='active'] {
     @apply text-slate-600 font-semibold;

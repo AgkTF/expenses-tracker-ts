@@ -7,7 +7,9 @@ import { definitions } from 'types/supabase';
 import toast from 'react-hot-toast';
 import useCategoryTypes from 'hooks/useCategoryTypes';
 import { required } from 'utils/helpers/validation.helpers';
+import { useQueryClient } from 'react-query';
 import { useAddCategoryType } from 'hooks/useUserSettings';
+import { upperFirst } from 'lodash';
 
 Modal.setAppElement('#root');
 
@@ -21,9 +23,12 @@ const onErrorHandler = () => {
 };
 
 const NewCategoryTypeModal = ({ isOpen, toggleModal }: Props) => {
+  const queryClient = useQueryClient();
+
   const onSuccessHandler = () => {
     toast.success('Category type added successfully!');
     toggleModal();
+    queryClient.invalidateQueries(['user-settings', 'categories']);
   };
 
   const {
@@ -73,6 +78,7 @@ const NewCategoryTypeModal = ({ isOpen, toggleModal }: Props) => {
                   inputLength="50"
                 />
               )}
+              parse={value => value && upperFirst(value)}
             />
             <Field
               name="type"

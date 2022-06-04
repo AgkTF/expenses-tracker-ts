@@ -1,7 +1,8 @@
 import { ICategoriesSettings } from 'types/forms';
 import { supabase } from 'supabaseClient';
 import { definitions } from 'types/supabase';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import toast from 'react-hot-toast';
 
 const addCategories = async (values: ICategoriesSettings) => {
   const { categories } = values;
@@ -54,6 +55,23 @@ const fetchCategories = async () => {
 
   if (!data) {
     throw new Error('No categories found!');
+  }
+
+  return data;
+};
+
+const deleteCategory = async (id: number) => {
+  const { data, error } = await supabase
+    .from<definitions['category']>('category')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (!data) {
+    throw new Error('No category found for this id!');
   }
 
   return data;
@@ -116,4 +134,19 @@ export function useUpdateCategories(
 
 export function useCategories() {
   return useQuery(['user-settings', 'categories'], () => fetchCategories());
+}
+
+export function useDeleteCategory() {
+  const queryClient = useQueryClient();
+
+  return useMutation((id: number) => deleteCategory(id), {
+    onSuccess: data => {
+      console.log(data);
+      queryClient.invalidateQueries(['user-settings', 'categories']);
+    },
+    onError: error => {
+      console.log(error);
+      toast.error('Failed to delete category type!');
+    },
+  });
 }

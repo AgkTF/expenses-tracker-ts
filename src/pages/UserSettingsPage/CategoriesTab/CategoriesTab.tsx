@@ -1,8 +1,4 @@
-import {
-  Button,
-  NewCategoryModal,
-  NewCategoryTypeModal,
-} from 'components/UIElements';
+import { Button, NewCategoryTypeModal } from 'components/UIElements';
 import arrayMutators from 'final-form-arrays';
 import { Field, Form } from 'react-final-form';
 import toast from 'react-hot-toast';
@@ -15,7 +11,12 @@ import { FieldArray } from 'react-final-form-arrays';
 import useCategoryTypes from 'hooks/useCategoryTypes';
 import { MinusIcon, PlusIcon } from '@heroicons/react/solid';
 import { ICategoriesSettings } from 'types/forms';
-import { useAddCategories } from 'hooks/useUserSettings';
+import {
+  useAddCategories,
+  useUpdateCategories,
+  useCategories,
+  useDeleteCategory,
+} from 'hooks/useUserSettings';
 
 type Props = {};
 
@@ -40,10 +41,19 @@ const CategoriesTab = (props: Props) => {
     data: typesData,
   } = useCategoryTypes();
 
-  const { mutate, isLoading } = useAddCategories(
+  const { mutate, isLoading } = useUpdateCategories(
     onSuccessHandler,
     onErrorHandler
   );
+
+  const useDeleteCategoryMutation = useDeleteCategory();
+
+  const {
+    data,
+    isError,
+    error,
+    isLoading: isCategoriesLoading,
+  } = useCategories();
 
   const onSubmit = (values: ICategoriesSettings) => {
     console.log(values);
@@ -57,13 +67,7 @@ const CategoriesTab = (props: Props) => {
         onSubmit={onSubmit}
         mutators={{ ...arrayMutators }}
         validateOnBlur={true}
-        initialValues={{
-          categories: [
-            {
-              description: '',
-            },
-          ],
-        }}
+        initialValues={!isCategoriesLoading && data ? { categories: data } : {}}
         render={({
           handleSubmit,
           form: {
@@ -141,7 +145,10 @@ const CategoriesTab = (props: Props) => {
                         <button
                           type="button"
                           className="p-1 btn-grey"
-                          onClick={() => fields.remove(index)}
+                          onClick={() => {
+                            const currentLine = fields.value[index];
+                            useDeleteCategoryMutation.mutate(currentLine.id);
+                          }}
                         >
                           <MinusIcon className="h-5 w-5" />
                         </button>

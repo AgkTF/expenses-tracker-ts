@@ -33,12 +33,12 @@ const MonthSummaryPage = (props: Props) => {
     data: incomeData,
   } = useIncomeDetails(testDate);
 
-  const {
-    isLoading: isMonthTransLoading,
-    isError: isMonthTransError,
-    error: monthTransError,
-    data: monthTrans,
-  } = useMonthTrans(testDate);
+  // const {
+  //   isLoading: isMonthTransLoading,
+  //   isError: isMonthTransError,
+  //   error: monthTransError,
+  //   data: monthTrans,
+  // } = useMonthTrans(testDate);
 
   const {
     isLoading: isBalanceLoading,
@@ -56,7 +56,7 @@ const MonthSummaryPage = (props: Props) => {
             Month Summary
           </h1>
         </section>
-
+        {/* 
         <div className="mt-8">
           {availableBalance && expensesData && monthTrans && (
             <BalanceCard
@@ -68,7 +68,7 @@ const MonthSummaryPage = (props: Props) => {
               }
             />
           )}
-        </div>
+        </div> */}
 
         <h2 className="mt-9 font-semibold text-xl text-slate-600 text-center">
           My Budget

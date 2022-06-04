@@ -16,17 +16,14 @@ const fetchExpensesDetails = async (date: Date) => {
     .from<
       definitions['month_category'] & {
         transaction: definitions['transaction'][];
+        category: definitions['category'];
       }
     >('month_category')
     .select(
-      `id,
-       name,
-       planned_amount, 
-       transaction (
-        category_id,
-        amount,
-        date
-      )
+      `
+        *,
+        category(*),
+        transaction(*)
     `
     )
     .eq('type', '1')
@@ -47,7 +44,7 @@ const fetchExpensesDetails = async (date: Date) => {
 
   const categories = expenses.map(entry => ({
     id: entry.id,
-    name: entry.name,
+    name: entry.category.description,
     plannedAmount: entry.planned_amount,
     transCount: entry.transaction.length,
     totalSpent: calculateTotalSpent(entry.transaction),

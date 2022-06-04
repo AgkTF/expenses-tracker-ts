@@ -113,20 +113,20 @@ export function useAddCategoryType(
   );
 }
 
-export function useUpdateCategories(
-  onSuccessHandler: () => void,
-  onErrorHandler: () => void
-) {
+export function useUpdateCategories() {
+  const queryClient = useQueryClient();
+
   return useMutation(
     (values: ICategoriesSettings) => updateCategories(values),
     {
       onSuccess: data => {
         console.log(data);
-        onSuccessHandler();
+        toast.success('Categories updated successfully');
+        queryClient.invalidateQueries(['user-settings', 'categories']);
       },
       onError: error => {
         console.log(error);
-        onErrorHandler();
+        toast.error('Failed to update categories!');
       },
     }
   );

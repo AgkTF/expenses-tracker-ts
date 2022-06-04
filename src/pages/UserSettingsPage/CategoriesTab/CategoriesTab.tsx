@@ -1,32 +1,21 @@
 import { Button, NewCategoryTypeModal } from 'components/UIElements';
 import arrayMutators from 'final-form-arrays';
 import { Field, Form } from 'react-final-form';
-import toast from 'react-hot-toast';
 import { InputField, SelectField } from 'components/form';
 import { required } from 'utils/helpers/validation.helpers';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { isEmpty, upperFirst } from 'lodash';
+import { useState } from 'react';
+import { upperFirst } from 'lodash';
 import { FieldArray } from 'react-final-form-arrays';
 import useCategoryTypes from 'hooks/useCategoryTypes';
 import { MinusIcon, PlusIcon } from '@heroicons/react/solid';
 import { ICategoriesSettings } from 'types/forms';
 import {
-  useAddCategories,
   useUpdateCategories,
   useCategories,
   useDeleteCategory,
 } from 'hooks/useUserSettings';
 
 type Props = {};
-
-const onErrorHandler = () => {
-  toast.error('Failed to add categories!');
-};
-
-const onSuccessHandler = () => {
-  toast.success('Categories added successfully');
-};
 
 const CategoriesTab = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,10 +30,7 @@ const CategoriesTab = (props: Props) => {
     data: typesData,
   } = useCategoryTypes();
 
-  const { mutate, isLoading } = useUpdateCategories(
-    onSuccessHandler,
-    onErrorHandler
-  );
+  const { mutate, isLoading } = useUpdateCategories();
 
   const useDeleteCategoryMutation = useDeleteCategory();
 

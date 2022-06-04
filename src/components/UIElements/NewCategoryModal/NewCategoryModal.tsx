@@ -41,7 +41,7 @@ const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
   } = useCategoryTypes();
 
   const addCategoryMutation = useAddCategory(onSuccessHandler, onErrorHandler);
-  const onSubmit = (values: Partial<definitions['money_category']>): void => {
+  const onSubmit = (values: Partial<definitions['month_category']>): void => {
     addCategoryMutation.mutate(values);
   };
 

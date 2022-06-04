@@ -492,15 +492,15 @@ export interface paths {
       };
     };
   };
-  "/money_category": {
+  "/month_category": {
     get: {
       parameters: {
         query: {
-          type?: parameters["rowFilter.money_category.type"];
-          name?: parameters["rowFilter.money_category.name"];
-          planned_amount?: parameters["rowFilter.money_category.planned_amount"];
-          created_at?: parameters["rowFilter.money_category.created_at"];
-          id?: parameters["rowFilter.money_category.id"];
+          type?: parameters["rowFilter.month_category.type"];
+          name?: parameters["rowFilter.month_category.name"];
+          planned_amount?: parameters["rowFilter.month_category.planned_amount"];
+          created_at?: parameters["rowFilter.month_category.created_at"];
+          id?: parameters["rowFilter.month_category.id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -522,7 +522,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          schema: definitions["money_category"][];
+          schema: definitions["month_category"][];
         };
         /** Partial Content */
         206: unknown;
@@ -531,8 +531,8 @@ export interface paths {
     post: {
       parameters: {
         body: {
-          /** money_category */
-          money_category?: definitions["money_category"];
+          /** month_category */
+          month_category?: definitions["month_category"];
         };
         query: {
           /** Filtering Columns */
@@ -551,11 +551,11 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          type?: parameters["rowFilter.money_category.type"];
-          name?: parameters["rowFilter.money_category.name"];
-          planned_amount?: parameters["rowFilter.money_category.planned_amount"];
-          created_at?: parameters["rowFilter.money_category.created_at"];
-          id?: parameters["rowFilter.money_category.id"];
+          type?: parameters["rowFilter.month_category.type"];
+          name?: parameters["rowFilter.month_category.name"];
+          planned_amount?: parameters["rowFilter.month_category.planned_amount"];
+          created_at?: parameters["rowFilter.month_category.created_at"];
+          id?: parameters["rowFilter.month_category.id"];
         };
         header: {
           /** Preference */
@@ -570,15 +570,15 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          type?: parameters["rowFilter.money_category.type"];
-          name?: parameters["rowFilter.money_category.name"];
-          planned_amount?: parameters["rowFilter.money_category.planned_amount"];
-          created_at?: parameters["rowFilter.money_category.created_at"];
-          id?: parameters["rowFilter.money_category.id"];
+          type?: parameters["rowFilter.month_category.type"];
+          name?: parameters["rowFilter.month_category.name"];
+          planned_amount?: parameters["rowFilter.month_category.planned_amount"];
+          created_at?: parameters["rowFilter.month_category.created_at"];
+          id?: parameters["rowFilter.month_category.id"];
         };
         body: {
-          /** money_category */
-          money_category?: definitions["money_category"];
+          /** month_category */
+          month_category?: definitions["month_category"];
         };
         header: {
           /** Preference */
@@ -805,7 +805,7 @@ export interface definitions {
      */
     created_at?: string;
   };
-  money_category: {
+  month_category: {
     /**
      * Format: bigint
      * @description Note:
@@ -840,7 +840,7 @@ export interface definitions {
     /**
      * Format: bigint
      * @description Note:
-     * This is a Foreign Key to `money_category.id`.<fk table='money_category' column='id'/>
+     * This is a Foreign Key to `month_category.id`.<fk table='month_category' column='id'/>
      */
     category_id?: number;
     /**
@@ -952,18 +952,18 @@ export interface parameters {
   "rowFilter.category_type.name": string;
   /** Format: timestamp with time zone */
   "rowFilter.category_type.created_at": string;
-  /** @description money_category */
-  "body.money_category": definitions["money_category"];
+  /** @description month_category */
+  "body.month_category": definitions["month_category"];
   /** Format: bigint */
-  "rowFilter.money_category.type": string;
+  "rowFilter.month_category.type": string;
   /** Format: character varying */
-  "rowFilter.money_category.name": string;
+  "rowFilter.month_category.name": string;
   /** Format: double precision */
-  "rowFilter.money_category.planned_amount": string;
+  "rowFilter.month_category.planned_amount": string;
   /** Format: timestamp with time zone */
-  "rowFilter.money_category.created_at": string;
+  "rowFilter.month_category.created_at": string;
   /** Format: bigint */
-  "rowFilter.money_category.id": string;
+  "rowFilter.month_category.id": string;
   /** @description transaction */
   "body.transaction": definitions["transaction"];
   /** Format: bigint */

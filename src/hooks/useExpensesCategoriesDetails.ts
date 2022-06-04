@@ -14,10 +14,10 @@ const fetchExpensesDetails = async (date: Date) => {
 
   const { data: expenses, error } = await supabase
     .from<
-      definitions['money_category'] & {
+      definitions['month_category'] & {
         transaction: definitions['transaction'][];
       }
-    >('money_category')
+    >('month_category')
     .select(
       `id,
        name,

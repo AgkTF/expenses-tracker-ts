@@ -65,7 +65,7 @@ const createMonthPlan = async (values: IMonthPlanForm) => {
   console.log({ valuesToInsert });
 
   const { data, error } = await supabase
-    .from<definitions['money_category']>('money_category')
+    .from<definitions['month_category']>('month_category')
     .insert(valuesToInsert);
 
   if (error) {
@@ -81,7 +81,7 @@ const fetchMonthPlan = async (
   const isoDate = date.toISOString();
 
   const { data, error } = await supabase
-    .from<definitions['money_category']>('money_category')
+    .from<definitions['month_category']>('month_category')
     .select()
     .gte('created_at', startOfMonth(parseISO(isoDate)).toISOString())
     .lte('created_at', endOfMonth(parseISO(isoDate)).toISOString());
@@ -124,7 +124,7 @@ const updateMonthPlan = async ({ newValues, oldValues }: Params) => {
   // });
 
   const { data, error } = await supabase
-    .from<definitions['money_category']>('money_category')
+    .from<definitions['month_category']>('month_category')
     .upsert(valuesToInsert);
 
   if (error) {
@@ -136,7 +136,7 @@ const updateMonthPlan = async ({ newValues, oldValues }: Params) => {
 
 const deleteCategory = async (id: number) => {
   const { data, error } = await supabase
-    .from<definitions['money_category']>('money_category')
+    .from<definitions['month_category']>('month_category')
     .delete()
     .eq('id', id);
 
@@ -147,9 +147,9 @@ const deleteCategory = async (id: number) => {
   return data;
 };
 
-const addCategory = async (values: Partial<definitions['money_category']>) => {
+const addCategory = async (values: Partial<definitions['month_category']>) => {
   const { data, error } = await supabase
-    .from<definitions['money_category']>('money_category')
+    .from<definitions['month_category']>('month_category')
     .insert([values]);
 
   if (error) {
@@ -161,7 +161,7 @@ const addCategory = async (values: Partial<definitions['money_category']>) => {
 
 // ---------- hooks🪝---------- //
 export default function useMonthPlan(
-  onSuccessHandler: (data: definitions['money_category'][]) => void,
+  onSuccessHandler: (data: definitions['month_category'][]) => void,
   onErrorHandler: () => void
 ) {
   return useMutation(
@@ -222,7 +222,7 @@ export function useAddCategory(
   onErrorHandler: () => void
 ) {
   return useMutation(
-    (values: Partial<definitions['money_category']>) => addCategory(values),
+    (values: Partial<definitions['month_category']>) => addCategory(values),
     {
       onSuccess: data => {
         console.log(data);

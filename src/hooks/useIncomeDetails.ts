@@ -15,21 +15,20 @@ const fetchIncomeDetails = async (date: Date) => {
   const { data, error } = await supabase
     .from<
       definitions['month_category'] & {
-        transaction: definitions['transaction'][];
-        category: definitions['category'];
+        category: definitions['category'] & {
+          transaction: definitions['transaction'][];
+        };
       }
     >('month_category')
     .select(
       `
         *,
-        category(*),
-        transaction(*)
+        category(*, transaction(*))
     `
     )
     .eq('type', '2')
     .gte('created_at', startOfMonth(parseISO(isoDate)).toISOString())
     .lte('created_at', endOfMonth(parseISO(isoDate)).toISOString());
-
   if (error) {
     throw new Error(error.message);
   }
@@ -43,10 +42,10 @@ const fetchIncomeDetails = async (date: Date) => {
     .reduce((a, b) => a + b, 0);
 
   const categories = data.map(entry => ({
-    id: entry.id,
+    id: entry.category.id,
     name: entry.category.description,
     budget: entry.planned_amount,
-    totalCollected: calculateTotalIncome(entry.transaction),
+    totalCollected: calculateTotalIncome(entry.category.transaction),
   }));
 
   return { totalIncome, categories };

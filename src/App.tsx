@@ -47,8 +47,8 @@ function App() {
               path="daily-breakdown/:day"
               element={<DailyBreakdownPage />}
             />
+            <Route path="user-settings" element={<UserSettingsPage />} />
           </Route>
-          <Route path="user-settings" element={<UserSettingsPage />} />
         </Routes>
       </BrowserRouter>
 

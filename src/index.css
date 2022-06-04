@@ -62,4 +62,12 @@
   .btn-grey {
     @apply rounded-md flex items-center justify-center font-semibold text-sm bg-gray-100 text-gray-500 shadow focus:outline-none focus:ring-2 ring-gray-300;
   }
+
+  .styled-trigger {
+    @apply p-5 h-11 flex-1 flex items-center justify-center text-slate-400 hover:text-slate-600 select-none bg-white;
+  }
+  .styled-trigger[data-state='active'] {
+    @apply text-slate-600 font-semibold;
+    box-shadow: inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor;
+  }
 }

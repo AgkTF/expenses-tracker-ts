@@ -22,7 +22,6 @@ const BottomNavMenu = ({ setIsNavMenuOpen }: Props) => {
       </Link>
 
       <hr className="my-2 text-gray-400" />
-
       <div className="space-y-2">
         <Link
           to={`/month-breakdown/${todaysDate}`}

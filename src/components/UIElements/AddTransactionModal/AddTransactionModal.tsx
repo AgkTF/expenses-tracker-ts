@@ -16,6 +16,7 @@ import {
 import numberFormatter from 'utils/helpers/numbers.helpers';
 import { required } from 'utils/helpers/validation.helpers';
 import { useQueryClient } from 'react-query';
+import format from 'date-fns/format';
 
 Modal.setAppElement('#root');
 
@@ -41,7 +42,11 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
   const onSuccessHandler = (data: definitions['transaction'][]) => {
     const { id, amount, trans_type, category_id } = data[0];
     toast.success('Transaction added successfully');
-    queryClient.invalidateQueries(['category_trans', `${category_id}`]);
+    queryClient.invalidateQueries([
+      'category_trans',
+      format(testDate, 'LLLL'),
+      `${category_id}`,
+    ]);
     toggleModal();
 
     if (availableBalance && availableBalance.new_balance && amount) {

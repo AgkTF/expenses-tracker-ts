@@ -66,7 +66,7 @@ const MonthBreakdown = (props: Props) => {
                 <TransCard
                   key={trans.id}
                   amount={trans.amount || 0}
-                  categoryName={trans.month_category.name || 'Category'}
+                  categoryName={trans.category.description || 'Category'}
                   date={trans.date ? new Date(trans.date) : new Date()}
                   description={trans.description || `Transaction ${trans.id}`}
                   categoryId={trans.category_id || 0}
@@ -94,7 +94,7 @@ const MonthBreakdown = (props: Props) => {
                 <TransCard
                   key={trans.id}
                   amount={trans.amount || 0}
-                  categoryName={trans.month_category.name || 'Category'}
+                  categoryName={trans.category.description || 'Category'}
                   date={trans.date ? new Date(trans.date) : new Date()}
                   description={trans.description || `Transaction ${trans.id}`}
                   categoryId={trans.category_id || 0}

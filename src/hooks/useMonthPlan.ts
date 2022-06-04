@@ -19,7 +19,7 @@ function categoriesCreator(values: IMonthPlanForm) {
   const expensesArray = expensesCategories.map(entry => ({
     id: entry.id,
     type: 1,
-    name: entry.name,
+    category_id: entry.category_id,
     planned_amount: entry.planned_amount,
     created_at: entry.created_at,
   }));
@@ -27,7 +27,7 @@ function categoriesCreator(values: IMonthPlanForm) {
   const incomeArray = incomeCategories.map(entry => ({
     id: entry.id,
     type: 2,
-    name: entry.name,
+    category_id: entry.category_id,
     planned_amount: entry.planned_amount,
     created_at: entry.created_at,
   }));
@@ -42,13 +42,13 @@ const createMonthPlan = async (values: IMonthPlanForm) => {
 
   const expensesArray = expensesCategories.map(entry => ({
     type: 1,
-    name: entry.name,
+    category_id: entry.category_id,
     planned_amount: entry.planned_amount,
   }));
 
   const incomeArray = incomeCategories.map(entry => ({
     type: 2,
-    name: entry.name,
+    category_id: entry.category_id,
     planned_amount: entry.planned_amount,
   }));
 
@@ -57,7 +57,7 @@ const createMonthPlan = async (values: IMonthPlanForm) => {
     ...incomeArray,
     {
       type: 3,
-      name: 'Opening Balance',
+      category_id: 17,
       planned_amount: openingBalance,
     },
   ];

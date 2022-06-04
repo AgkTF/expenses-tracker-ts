@@ -18,7 +18,7 @@ const addCategories = async (values: ICategoriesSettings) => {
   return data;
 };
 
-const addCategoryType = async (values: Partial<definitions['category']>) => {
+const addCategory = async (values: Partial<definitions['category']>) => {
   const { data, error } = await supabase
     .from<definitions['category']>('category')
     .insert([values]);
@@ -94,12 +94,12 @@ export function useAddCategories(
   });
 }
 
-export function useAddCategoryType(
+export function useAddCategory(
   onSuccessHandler: () => void,
   onErrorHandler: () => void
 ) {
   return useMutation(
-    (values: Partial<definitions['category']>) => addCategoryType(values),
+    (values: Partial<definitions['category']>) => addCategory(values),
     {
       onSuccess: data => {
         console.log(data);

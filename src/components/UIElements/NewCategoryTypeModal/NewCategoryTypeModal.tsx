@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import useCategoryTypes from 'hooks/useCategoryTypes';
 import { required } from 'utils/helpers/validation.helpers';
 import { useQueryClient } from 'react-query';
-import { useAddCategoryType } from 'hooks/useUserSettings';
+import { useAddCategory } from 'hooks/useUserSettings';
 import { upperFirst } from 'lodash';
 
 Modal.setAppElement('#root');
@@ -38,12 +38,9 @@ const NewCategoryTypeModal = ({ isOpen, toggleModal }: Props) => {
     data: typesData,
   } = useCategoryTypes();
 
-  const addCategoryTypeMutation = useAddCategoryType(
-    onSuccessHandler,
-    onErrorHandler
-  );
+  const addCategoryMutation = useAddCategory(onSuccessHandler, onErrorHandler);
   const onSubmit = (values: Partial<definitions['category']>): void => {
-    addCategoryTypeMutation.mutate(values);
+    addCategoryMutation.mutate(values);
   };
 
   return (
@@ -110,8 +107,8 @@ const NewCategoryTypeModal = ({ isOpen, toggleModal }: Props) => {
                 type="submit"
                 label="Save"
                 className="bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px]"
-                isDisabled={addCategoryTypeMutation.isLoading}
-                isLoading={addCategoryTypeMutation.isLoading}
+                isDisabled={addCategoryMutation.isLoading}
+                isLoading={addCategoryMutation.isLoading}
               />
             </div>
           </form>

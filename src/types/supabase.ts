@@ -497,10 +497,10 @@ export interface paths {
       parameters: {
         query: {
           type?: parameters["rowFilter.month_category.type"];
-          name?: parameters["rowFilter.month_category.name"];
           planned_amount?: parameters["rowFilter.month_category.planned_amount"];
           created_at?: parameters["rowFilter.month_category.created_at"];
           id?: parameters["rowFilter.month_category.id"];
+          category_id?: parameters["rowFilter.month_category.category_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -552,10 +552,10 @@ export interface paths {
       parameters: {
         query: {
           type?: parameters["rowFilter.month_category.type"];
-          name?: parameters["rowFilter.month_category.name"];
           planned_amount?: parameters["rowFilter.month_category.planned_amount"];
           created_at?: parameters["rowFilter.month_category.created_at"];
           id?: parameters["rowFilter.month_category.id"];
+          category_id?: parameters["rowFilter.month_category.category_id"];
         };
         header: {
           /** Preference */
@@ -571,14 +571,113 @@ export interface paths {
       parameters: {
         query: {
           type?: parameters["rowFilter.month_category.type"];
-          name?: parameters["rowFilter.month_category.name"];
           planned_amount?: parameters["rowFilter.month_category.planned_amount"];
           created_at?: parameters["rowFilter.month_category.created_at"];
           id?: parameters["rowFilter.month_category.id"];
+          category_id?: parameters["rowFilter.month_category.category_id"];
         };
         body: {
           /** month_category */
           month_category?: definitions["month_category"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
+  "/month_category_duplicate": {
+    get: {
+      parameters: {
+        query: {
+          type?: parameters["rowFilter.month_category_duplicate.type"];
+          name?: parameters["rowFilter.month_category_duplicate.name"];
+          planned_amount?: parameters["rowFilter.month_category_duplicate.planned_amount"];
+          created_at?: parameters["rowFilter.month_category_duplicate.created_at"];
+          id?: parameters["rowFilter.month_category_duplicate.id"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["month_category_duplicate"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** month_category_duplicate */
+          month_category_duplicate?: definitions["month_category_duplicate"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          type?: parameters["rowFilter.month_category_duplicate.type"];
+          name?: parameters["rowFilter.month_category_duplicate.name"];
+          planned_amount?: parameters["rowFilter.month_category_duplicate.planned_amount"];
+          created_at?: parameters["rowFilter.month_category_duplicate.created_at"];
+          id?: parameters["rowFilter.month_category_duplicate.id"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          type?: parameters["rowFilter.month_category_duplicate.type"];
+          name?: parameters["rowFilter.month_category_duplicate.name"];
+          planned_amount?: parameters["rowFilter.month_category_duplicate.planned_amount"];
+          created_at?: parameters["rowFilter.month_category_duplicate.created_at"];
+          id?: parameters["rowFilter.month_category_duplicate.id"];
+        };
+        body: {
+          /** month_category_duplicate */
+          month_category_duplicate?: definitions["month_category_duplicate"];
         };
         header: {
           /** Preference */
@@ -812,6 +911,33 @@ export interface definitions {
      * This is a Foreign Key to `category_type.id`.<fk table='category_type' column='id'/>
      */
     type?: number;
+    /** Format: double precision */
+    planned_amount?: number;
+    /**
+     * Format: timestamp with time zone
+     * @default (now() AT TIME ZONE 'utc'::text)
+     */
+    created_at?: string;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `category.id`.<fk table='category' column='id'/>
+     */
+    category_id?: number;
+  };
+  month_category_duplicate: {
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Foreign Key to `category_type.id`.<fk table='category_type' column='id'/>
+     */
+    type?: number;
     /** Format: character varying */
     name?: string;
     /** Format: double precision */
@@ -956,14 +1082,26 @@ export interface parameters {
   "body.month_category": definitions["month_category"];
   /** Format: bigint */
   "rowFilter.month_category.type": string;
-  /** Format: character varying */
-  "rowFilter.month_category.name": string;
   /** Format: double precision */
   "rowFilter.month_category.planned_amount": string;
   /** Format: timestamp with time zone */
   "rowFilter.month_category.created_at": string;
   /** Format: bigint */
   "rowFilter.month_category.id": string;
+  /** Format: bigint */
+  "rowFilter.month_category.category_id": string;
+  /** @description month_category_duplicate */
+  "body.month_category_duplicate": definitions["month_category_duplicate"];
+  /** Format: bigint */
+  "rowFilter.month_category_duplicate.type": string;
+  /** Format: character varying */
+  "rowFilter.month_category_duplicate.name": string;
+  /** Format: double precision */
+  "rowFilter.month_category_duplicate.planned_amount": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.month_category_duplicate.created_at": string;
+  /** Format: bigint */
+  "rowFilter.month_category_duplicate.id": string;
   /** @description transaction */
   "body.transaction": definitions["transaction"];
   /** Format: bigint */

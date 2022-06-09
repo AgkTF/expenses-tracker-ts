@@ -1,9 +1,10 @@
-import { DayIcon } from 'components/UIElements';
+import { AddTransactionModal, DayIcon } from 'components/UIElements';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { useStore } from 'store/useStore';
 import { Link } from 'react-router-dom';
 import CN from 'classnames';
 import format from 'date-fns/format';
+import { useState } from 'react';
 
 type Props = {
   date: Date;
@@ -28,32 +29,46 @@ const TransCard = ({
     'text-green-600': transType === 2,
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => {
+    setIsModalOpen(prevState => !prevState);
+  };
+
   return (
-    <div className="px-3 py-4 w-full bg-gray-100 flex items-center justify-between gap-x-5 rounded-xl shadow">
-      <div className="flex items-center gap-x-3">
-        <div>
-          <DayIcon date={date} />
-        </div>
+    <>
+      <div
+        className="px-3 py-4 w-full bg-gray-100 flex items-center justify-between gap-x-5 rounded-xl shadow cursor-pointer"
+        onClick={toggleModal}
+      >
+        <div className="flex items-center gap-x-3">
+          <div>
+            <DayIcon date={date} />
+          </div>
 
-        <div>
-          <p className="text-slate-500 font-medium text-base">{description}</p>
-
-          <Link
-            to={`/categories/${encodeURIComponent(
-              categoryName
-            )}/${categoryId}/${format(date, 'yyyy-LL-dd')}`}
-          >
-            <p className="px-1 mt-1 w-fit bg-white text-slate-400 font-light text-xs shadow rounded text-center">
-              {categoryName}
+          <div>
+            <p className="text-slate-500 font-medium text-base">
+              {description}
             </p>
-          </Link>
+
+            <Link
+              to={`/categories/${encodeURIComponent(
+                categoryName
+              )}/${categoryId}/${format(date, 'yyyy-LL-dd')}`}
+            >
+              <p className="px-1 mt-1 w-fit bg-white text-slate-400 font-light text-xs shadow rounded text-center">
+                {categoryName}
+              </p>
+            </Link>
+          </div>
+        </div>
+
+        <div className={moneyClasses}>
+          {moneyFormatter(amount, defaultCurrency)}
         </div>
       </div>
 
-      <div className={moneyClasses}>
-        {moneyFormatter(amount, defaultCurrency)}
-      </div>
-    </div>
+      <AddTransactionModal toggleModal={toggleModal} isOpen={isModalOpen} />
+    </>
   );
 };
 

@@ -53,7 +53,9 @@ const CategoriesTab = (props: Props) => {
         onSubmit={onSubmit}
         mutators={{ ...arrayMutators }}
         validateOnBlur={true}
-        initialValues={!isCategoriesLoading && data ? { categories: data } : {}}
+        initialValues={
+          !isCategoriesLoading && data ? { categories: data.allCategories } : {}
+        }
         render={({
           handleSubmit,
           form: {

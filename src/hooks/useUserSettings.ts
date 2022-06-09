@@ -57,7 +57,10 @@ const fetchCategories = async () => {
     throw new Error('No categories found!');
   }
 
-  return data;
+  const expCategories = data.filter(c => c.type === 1);
+  const incCategories = data.filter(c => c.type === 2);
+
+  return { allCategories: data, expCategories, incCategories };
 };
 
 const deleteCategory = async (id: number) => {

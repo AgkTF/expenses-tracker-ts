@@ -105,7 +105,7 @@ function MonthPlanForm({ push, formPage }: Props) {
                     meta={meta}
                     containerClasses="mb-4"
                     firstOption="Select category"
-                    options={data}
+                    options={data?.expCategories}
                     displayNameProperty="description"
                     isLoading={isCategoriesLoading}
                   />
@@ -207,7 +207,7 @@ function MonthPlanForm({ push, formPage }: Props) {
                     meta={meta}
                     containerClasses="mb-4"
                     firstOption="Select category"
-                    options={data}
+                    options={data?.incCategories}
                     displayNameProperty="description"
                     isLoading={isCategoriesLoading}
                   />

@@ -10,6 +10,9 @@ import numberFormatter from 'utils/helpers/numbers.helpers';
 import { required } from 'utils/helpers/validation.helpers';
 import { useQueryClient } from 'react-query';
 import { useAddCategory } from 'hooks/useMonthPlan';
+import useExpensesCategoriesDetails from 'hooks/useExpensesCategoriesDetails';
+import useIncomeDetails from 'hooks/useIncomeDetails';
+import { useCategories } from 'hooks/useUserSettings';
 
 Modal.setAppElement('#root');
 
@@ -18,8 +21,17 @@ type Props = {
   toggleModal: () => void;
 };
 
+const testDate = new Date();
+
 const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
   const queryClient = useQueryClient();
+
+  const {
+    data,
+    isError,
+    error,
+    isLoading: isCategoriesLoading,
+  } = useCategories();
 
   const onErrorHandler = () => {
     toast.error('Failed to add new category!');
@@ -81,7 +93,7 @@ const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
               validate={required}
             />
 
-            <Field
+            {/* <Field
               name="name"
               render={({ input, meta }) => (
                 <InputField
@@ -95,7 +107,45 @@ const NewCategoryModal = ({ isOpen, toggleModal }: Props) => {
                   inputLength="50"
                 />
               )}
-            />
+            /> */}
+
+            {values.type && values.type === 1 && (
+              <Field
+                name="category_id"
+                render={({ input, meta }) => (
+                  <SelectField
+                    input={input}
+                    meta={meta}
+                    containerClasses="mb-2"
+                    label="Expense Category"
+                    firstOption="Select category"
+                    options={data?.expCategories}
+                    displayNameProperty="description"
+                    isLoading={isCategoriesLoading}
+                  />
+                )}
+                validate={required}
+              />
+            )}
+
+            {values.type && values.type === 2 && (
+              <Field
+                name="category_id"
+                render={({ input, meta }) => (
+                  <SelectField
+                    input={input}
+                    meta={meta}
+                    containerClasses="mb-2"
+                    label="Income Category"
+                    firstOption="Select category"
+                    options={data?.incCategories}
+                    displayNameProperty="description"
+                    isLoading={isCategoriesLoading}
+                  />
+                )}
+                validate={required}
+              />
+            )}
 
             <Field
               name="planned_amount"

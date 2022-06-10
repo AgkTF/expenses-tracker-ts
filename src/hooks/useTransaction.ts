@@ -1,3 +1,5 @@
+// TODO: make the useAddTransaction a named-export instead of default one.
+
 import { supabase } from 'supabaseClient';
 import { definitions } from 'types/supabase';
 import { useMutation } from 'react-query';

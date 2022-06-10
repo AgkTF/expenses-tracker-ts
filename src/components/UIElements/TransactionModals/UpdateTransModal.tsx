@@ -1,6 +1,6 @@
 import { XIcon } from '@heroicons/react/solid';
 import format from 'date-fns/format';
-import useAddTransaction from 'hooks/useAddTransaction';
+import useAddTransaction from 'hooks/useTransaction';
 import {
   useAddBalanceRecord,
   useAvailableBalance,
@@ -21,16 +21,13 @@ type Props = {
   toggleModal: () => void;
 };
 
-const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
+const onErrorHandler = () => {
+  toast.error('Failed to add transaction');
+};
+
+const UpdateTransModal = ({ isOpen, toggleModal }: Props) => {
   const addBalanceRecordMutation = useAddBalanceRecord();
   const queryClient = useQueryClient();
-
-  const {
-    isLoading: isBalanceLoading,
-    isError: isBalanceError,
-    error: balanceError,
-    data: availableBalance,
-  } = useAvailableBalance();
 
   const onSuccessHandler = (data: definitions['transaction'][]) => {
     const { id, amount, trans_type, category_id } = data[0];
@@ -42,26 +39,27 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
     ]);
     toggleModal();
 
-    if (availableBalance && availableBalance.new_balance && amount) {
-      addBalanceRecordMutation.mutate({
-        trans_id: id,
-        old_balance: availableBalance.new_balance,
-        new_balance:
-          trans_type === 1
-            ? availableBalance.new_balance - amount
-            : availableBalance.new_balance + amount,
-      });
-    }
+    // if (availableBalance && availableBalance.new_balance && amount) {
+    //   addBalanceRecordMutation.mutate({
+    //     trans_id: id,
+    //     old_balance: availableBalance.new_balance,
+    //     new_balance:
+    //       trans_type === 1
+    //         ? availableBalance.new_balance - amount
+    //         : availableBalance.new_balance + amount,
+    //   });
+    // }
   };
 
-  const onErrorHandler = () => {
-    toast.error('Failed to add transaction');
-  };
-
-  const addTransMutation = useAddTransaction(onSuccessHandler, onErrorHandler);
+  const {
+    isLoading: isBalanceLoading,
+    isError: isBalanceError,
+    error: balanceError,
+    data: availableBalance,
+  } = useAvailableBalance();
 
   const onSubmit = (values: definitions['transaction']): void => {
-    addTransMutation.mutate(values);
+    // addTransMutation.mutate(values);
   };
 
   return (
@@ -72,7 +70,7 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
       contentLabel="Add new transaction Modal"
     >
       <div className="mb-5 w-full flex items-center justify-between text-slate-600">
-        <p className="font-semibold text-base">Add new transaction</p>
+        <p className="font-semibold text-base">Edit transaction</p>
         <button onClick={() => toggleModal()}>
           <XIcon className="h-4 w-4" />
         </button>
@@ -80,13 +78,13 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
 
       <Form
         onSubmit={onSubmit}
-        initialValues={{ amount: '' }}
+        initialValues={}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
             <TransactionForm
               toggleModal={toggleModal}
               values={values}
-              isLoading={addTransMutation.isLoading}
+              // isLoading={addTransMutation.isLoading}
             />
           </form>
         )}
@@ -95,4 +93,4 @@ const AddTransactionModal = ({ isOpen, toggleModal }: Props) => {
   );
 };
 
-export default AddTransactionModal;
+export default UpdateTransModal;

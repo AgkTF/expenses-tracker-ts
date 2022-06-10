@@ -14,9 +14,15 @@ type Props = {
   toggleModal: () => void;
   isLoading: boolean;
   values: definitions['transaction'];
+  pristine?: boolean;
 };
 
-const TransactionForm = ({ toggleModal, isLoading, values }: Props) => {
+const TransactionForm = ({
+  toggleModal,
+  isLoading,
+  values,
+  pristine,
+}: Props) => {
   const {
     isLoading: isExpensesLoading,
     isError: isExpensesError,
@@ -165,7 +171,7 @@ const TransactionForm = ({ toggleModal, isLoading, values }: Props) => {
           type="submit"
           label="Save"
           className="bg-green-500 font-semibold text-gray-50 text-sm rounded-md tracking-wide py-1 px-6 flex justify-center min-w-[84px]"
-          isDisabled={isLoading}
+          isDisabled={isLoading || pristine}
           isLoading={isLoading}
         />
       </div>

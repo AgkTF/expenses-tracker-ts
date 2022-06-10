@@ -71,7 +71,7 @@ export function useUpdateTrans(
     (values: definitions['transaction']) => updateTransaction(values),
     {
       onSuccess: data => {
-        console.log(data);
+        console.log({ dataFromHook: data });
         onSuccessHandler(data);
       },
       onError: error => {

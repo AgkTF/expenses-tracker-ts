@@ -23,6 +23,15 @@ type Props = {
 };
 
 const UpdateTransModal = ({ isOpen, transId, toggleModal }: Props) => {
+  const queryClient = useQueryClient();
+  const {
+    isLoading,
+    isError,
+    error,
+    data: transactions,
+    isSuccess,
+  } = useFetchTrans(transId);
+
   const onSuccessHandler = (data: definitions['transaction'][]) => {
     const { id, amount, trans_type, category_id } = data[0];
     toast.success('Transaction added successfully');
@@ -31,23 +40,24 @@ const UpdateTransModal = ({ isOpen, transId, toggleModal }: Props) => {
       format(testDate, 'LLLL'),
       `${category_id}`,
     ]);
+    queryClient.invalidateQueries(['trans', id]);
     toggleModal();
 
-    // if (availableBalance && availableBalance.new_balance && amount) {
-    //   addBalanceRecordMutation.mutate({
-    //     trans_id: id,
-    //     old_balance: availableBalance.new_balance,
-    //     new_balance:
-    //       trans_type === 1
-    //         ? availableBalance.new_balance - amount
-    //         : availableBalance.new_balance + amount,
-    //   });
-    // }
+    if (availableBalance && availableBalance.new_balance && amount) {
+      const oldAmount = transactions ? transactions[0].amount : 0;
+      const diff = amount - oldAmount;
+      addBalanceRecordMutation.mutate({
+        trans_id: id,
+        old_balance: availableBalance.new_balance,
+        new_balance:
+          trans_type === 1
+            ? availableBalance.new_balance - diff
+            : availableBalance.new_balance + diff,
+      });
+    }
   };
   const addBalanceRecordMutation = useAddBalanceRecord();
   const updateTransMutation = useUpdateTrans(onSuccessHandler);
-  const { isLoading, isError, error, data, isSuccess } = useFetchTrans(transId);
-  const queryClient = useQueryClient();
 
   const {
     isLoading: isBalanceLoading,
@@ -57,6 +67,7 @@ const UpdateTransModal = ({ isOpen, transId, toggleModal }: Props) => {
   } = useAvailableBalance();
 
   const onSubmit = (values: definitions['transaction']): void => {
+    // console.log(values);
     updateTransMutation.mutate(values);
   };
 
@@ -76,13 +87,16 @@ const UpdateTransModal = ({ isOpen, transId, toggleModal }: Props) => {
 
       <Form
         onSubmit={onSubmit}
-        initialValues={!isLoading && isSuccess && data ? data[0] : {}}
+        initialValues={
+          !isLoading && isSuccess && transactions ? transactions[0] : {}
+        }
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
             <TransactionForm
               toggleModal={toggleModal}
               values={values}
               isLoading={updateTransMutation.isLoading}
+              pristine={pristine}
             />
           </form>
         )}

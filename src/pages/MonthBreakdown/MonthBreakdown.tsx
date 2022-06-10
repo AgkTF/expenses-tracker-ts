@@ -65,6 +65,7 @@ const MonthBreakdown = (props: Props) => {
               {data?.expenseTransactions.map(trans => (
                 <TransCard
                   key={trans.id}
+                  id={trans.id}
                   amount={trans.amount || 0}
                   categoryName={trans.category.description || 'Category'}
                   date={trans.date ? new Date(trans.date) : new Date()}
@@ -93,6 +94,7 @@ const MonthBreakdown = (props: Props) => {
               {data?.incomeTransactions.map(trans => (
                 <TransCard
                   key={trans.id}
+                  id={trans.id}
                   amount={trans.amount || 0}
                   categoryName={trans.category.description || 'Category'}
                   date={trans.date ? new Date(trans.date) : new Date()}

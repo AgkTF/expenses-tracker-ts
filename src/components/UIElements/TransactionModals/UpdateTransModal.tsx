@@ -1,6 +1,6 @@
 import { XIcon } from '@heroicons/react/solid';
 import format from 'date-fns/format';
-import useAddTransaction from 'hooks/useTransaction';
+import { useUpdateTrans, useFetchTrans } from 'hooks/useTransaction';
 import {
   useAddBalanceRecord,
   useAvailableBalance,
@@ -18,17 +18,11 @@ const testDate = new Date();
 
 type Props = {
   isOpen: boolean;
+  transId: number;
   toggleModal: () => void;
 };
 
-const onErrorHandler = () => {
-  toast.error('Failed to add transaction');
-};
-
-const UpdateTransModal = ({ isOpen, toggleModal }: Props) => {
-  const addBalanceRecordMutation = useAddBalanceRecord();
-  const queryClient = useQueryClient();
-
+const UpdateTransModal = ({ isOpen, transId, toggleModal }: Props) => {
   const onSuccessHandler = (data: definitions['transaction'][]) => {
     const { id, amount, trans_type, category_id } = data[0];
     toast.success('Transaction added successfully');
@@ -50,6 +44,10 @@ const UpdateTransModal = ({ isOpen, toggleModal }: Props) => {
     //   });
     // }
   };
+  const addBalanceRecordMutation = useAddBalanceRecord();
+  const updateTransMutation = useUpdateTrans(onSuccessHandler);
+  const { isLoading, isError, error, data, isSuccess } = useFetchTrans(transId);
+  const queryClient = useQueryClient();
 
   const {
     isLoading: isBalanceLoading,
@@ -59,7 +57,7 @@ const UpdateTransModal = ({ isOpen, toggleModal }: Props) => {
   } = useAvailableBalance();
 
   const onSubmit = (values: definitions['transaction']): void => {
-    // addTransMutation.mutate(values);
+    updateTransMutation.mutate(values);
   };
 
   return (
@@ -78,13 +76,13 @@ const UpdateTransModal = ({ isOpen, toggleModal }: Props) => {
 
       <Form
         onSubmit={onSubmit}
-        initialValues={}
+        initialValues={!isLoading && isSuccess && data ? data[0] : {}}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
             <TransactionForm
               toggleModal={toggleModal}
               values={values}
-              // isLoading={addTransMutation.isLoading}
+              isLoading={updateTransMutation.isLoading}
             />
           </form>
         )}

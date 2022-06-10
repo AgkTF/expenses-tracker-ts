@@ -72,6 +72,7 @@ const CategoryPage = (props: Props) => {
             {data?.allTransactions?.map(trans => (
               <TransCard
                 key={trans.id}
+                id={trans.id}
                 amount={trans.amount || 0}
                 categoryName={categoryName || 'Category'}
                 date={trans.date ? new Date(trans.date) : new Date()}

@@ -14,6 +14,7 @@ import ResultsContainer from './ResultsContainer/ResultsContainer';
 import EmptyContainer from './EmptyContainer/EmptyContainer';
 import MonthSwitcher from './MonthSwitcher/MonthSwitcher';
 import NewCategoryTypeModal from './NewCategoryTypeModal/NewCategoryTypeModal';
+import UpdateTransModal from './TransactionModals/UpdateTransModal';
 
 export {
   MonthIcon,
@@ -32,4 +33,5 @@ export {
   EmptyContainer,
   MonthSwitcher,
   NewCategoryTypeModal,
+  UpdateTransModal,
 };

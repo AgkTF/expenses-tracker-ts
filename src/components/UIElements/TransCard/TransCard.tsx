@@ -1,4 +1,4 @@
-import { AddTransactionModal, DayIcon } from 'components/UIElements';
+import { DayIcon, UpdateTransModal } from 'components/UIElements';
 import { moneyFormatter } from 'utils/helpers/numbers.helpers';
 import { useStore } from 'store/useStore';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import format from 'date-fns/format';
 import { useState } from 'react';
 
 type Props = {
+  id: number;
   date: Date;
   description: string;
   categoryName: string;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 const TransCard = ({
+  id,
   date,
   description,
   categoryName,
@@ -67,7 +69,11 @@ const TransCard = ({
         </div>
       </div>
 
-      <AddTransactionModal toggleModal={toggleModal} isOpen={isModalOpen} />
+      <UpdateTransModal
+        transId={id}
+        toggleModal={toggleModal}
+        isOpen={isModalOpen}
+      />
     </>
   );
 };

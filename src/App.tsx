@@ -12,6 +12,7 @@ import MonthBreakdown from 'pages/MonthBreakdown/MonthBreakdown';
 import DailyBreakdownPage from 'pages/DailyBreakdown/DailyBreakdownPage';
 import format from 'date-fns/format';
 import UserSettingsPage from 'pages/UserSettingsPage/UserSettingsPage';
+import SwipePage from 'pages/Swipe/SwipePage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,6 +49,8 @@ function App() {
               element={<DailyBreakdownPage />}
             />
             <Route path="user-settings" element={<UserSettingsPage />} />
+
+            <Route path="swipe" element={<SwipePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

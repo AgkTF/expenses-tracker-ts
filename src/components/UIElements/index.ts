@@ -15,6 +15,7 @@ import EmptyContainer from './EmptyContainer/EmptyContainer';
 import MonthSwitcher from './MonthSwitcher/MonthSwitcher';
 import NewCategoryTypeModal from './NewCategoryTypeModal/NewCategoryTypeModal';
 import UpdateTransModal from './TransactionModals/UpdateTransModal';
+import SwipeableTransCard from './SwipeableTransCard/SwipeableTransCard';
 
 export {
   MonthIcon,
@@ -34,4 +35,5 @@ export {
   MonthSwitcher,
   NewCategoryTypeModal,
   UpdateTransModal,
+  SwipeableTransCard,
 };

@@ -18,20 +18,26 @@ export default function SwipeableTransCard() {
     }
   }, []);
 
-  const [{ x }, api] = useSpring(() => ({
+  const [{ x, background, trashOpacity, penOpacity }, api] = useSpring(() => ({
     x: 0,
+    background: '#fff',
+    trashOpacity: 1,
+    penOpacity: 1,
   }));
 
   const bind = useGesture(
     {
-      onDrag: ({ down, dragging, movement: [mx] }) =>
+      onDrag: ({ down, movement: [mx] }) =>
         api.start({
           x: down ? mx : 0,
+          background: mx > 0 ? '#ef4444' : '#0ea5e9',
+          trashOpacity: mx > 0 ? 1 : 0,
+          penOpacity: mx < 0 ? 1 : 0,
         }),
       onDragEnd: ({ movement: [mx] }) => {
-        if (mx > 0 && mx > 0.75 * cardW) {
+        if (mx > 0 && mx > 0.6 * cardW) {
           console.log(mx, 'delete');
-        } else if (mx < 0 && mx < 0.75 * cardW) {
+        } else if (mx < 0 && mx < 0.6 * cardW) {
           console.log(mx, 'edit');
         }
       },
@@ -53,15 +59,26 @@ export default function SwipeableTransCard() {
           ref={divRef}
         ></animated.div>
 
-        <div className="absolute top-20 left-0 h-[76px] w-full bg-rose-100 flex items-center justify-between rounded-xl shadow overflow-hidden">
-          <div className="px-4 h-full w-1/2 bg-red-500 flex items-center justify-start">
+        <animated.div
+          className="absolute px-4 top-0 left-0 h-[76px] w-full flex items-center justify-between rounded-xl shadow overflow-hidden"
+          style={{ background }}
+        >
+          <animated.div
+            style={{
+              opacity: trashOpacity,
+            }}
+          >
             <TrashIcon className="w-6 h-6 text-white" />
-          </div>
+          </animated.div>
 
-          <div className="px-4 h-full w-1/2 bg-sky-500 flex items-center justify-end">
+          <animated.div
+            style={{
+              opacity: penOpacity,
+            }}
+          >
             <PencilIcon className="w-6 h-6 text-white" />
-          </div>
-        </div>
+          </animated.div>
+        </animated.div>
       </div>
     </>
   );

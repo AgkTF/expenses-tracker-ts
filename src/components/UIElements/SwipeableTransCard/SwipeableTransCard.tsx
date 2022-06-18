@@ -1,9 +1,39 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import { useSpring, animated } from '@react-spring/web';
-import { useDrag, useGesture } from '@use-gesture/react';
+import { useGesture } from '@use-gesture/react';
 import { useEffect, useRef, useState } from 'react';
+import { DayIcon, UpdateTransModal } from 'components/UIElements';
+import { moneyFormatter } from 'utils/helpers/numbers.helpers';
+import { useStore } from 'store/useStore';
+import { Link } from 'react-router-dom';
+import CN from 'classnames';
+import format from 'date-fns/format';
 
-export default function SwipeableTransCard() {
+type Props = {
+  id: number;
+  date: Date;
+  description: string;
+  categoryName: string;
+  amount: number;
+  categoryId: number;
+  transType: number;
+};
+
+export default function SwipeableTransCard({
+  id,
+  date,
+  description,
+  categoryName,
+  amount,
+  categoryId,
+  transType,
+}: Props) {
+  const defaultCurrency = useStore(state => state.currency);
+  const moneyClasses = CN('font-semibold text-xl', {
+    'text-red-500': transType === 1,
+    'text-green-600': transType === 2,
+  });
+
   const divRef = useRef<HTMLDivElement>(null);
   const [cardW, setCardW] = useState(0);
 
@@ -57,8 +87,39 @@ export default function SwipeableTransCard() {
           {...bind()}
           style={{ x }}
           ref={divRef}
-        ></animated.div>
+        >
+          <div className="flex items-center gap-x-3">
+            <div>
+              <DayIcon date={date} />
+            </div>
 
+            <div>
+              <p className="text-slate-500 font-medium text-base">
+                {description}
+              </p>
+
+              <p className="px-1 mt-1 w-fit bg-white text-slate-400 font-light text-xs shadow rounded text-center">
+                {categoryName}
+              </p>
+
+              <Link
+                to={`/categories/${encodeURIComponent(
+                  categoryName
+                )}/${categoryId}/${format(date, 'yyyy-LL-dd')}`}
+              >
+                <p className="px-1 mt-1 w-fit bg-white text-slate-400 font-light text-xs shadow rounded text-center">
+                  {categoryName}
+                </p>
+              </Link>
+            </div>
+          </div>
+
+          <div className={moneyClasses}>
+            {moneyFormatter(amount, defaultCurrency)}
+          </div>
+        </animated.div>
+
+        {/* // * The icons below */}
         <animated.div
           className="absolute px-4 top-0 left-0 h-[76px] w-full flex items-center justify-between rounded-xl shadow overflow-hidden"
           style={{ background }}

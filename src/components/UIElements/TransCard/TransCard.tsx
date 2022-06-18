@@ -56,7 +56,7 @@ const TransCard = ({
               {categoryName}
             </p>
 
-            {/* <Link
+            <Link
               to={`/categories/${encodeURIComponent(
                 categoryName
               )}/${categoryId}/${format(date, 'yyyy-LL-dd')}`}
@@ -64,7 +64,7 @@ const TransCard = ({
               <p className="px-1 mt-1 w-fit bg-white text-slate-400 font-light text-xs shadow rounded text-center">
                 {categoryName}
               </p>
-            </Link> */}
+            </Link>
           </div>
         </div>
 
